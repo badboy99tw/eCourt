@@ -1,10 +1,7 @@
-var http = require('http');
-var fs = require('fs');
+var util = require('util'),
+    connect = require('connect'),
+    port = 5566;
 
-http.createServer(function(req, res){
-    fs.readFile('index.html',function (err, data){
-        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
-        res.write(data);
-        res.end();
-    });
-}).listen(7788);
+connect.createServer(connect.static(__dirname)).listen(port);
+util.puts('Listening on ' + port + '...');
+util.puts('Press Ctrl + C to stop.');
