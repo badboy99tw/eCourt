@@ -1,5 +1,5 @@
 var util = require('util'),
-    connect = require('connect'),
+    connect = require('connect');
 
 var port = process.env.PORT || 5566;
 
