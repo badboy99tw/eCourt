@@ -1,23 +1,34 @@
+
+/**
+ * Module dependencies.
+ */
+
 var express = require('express');
-var fs = require('fs');
+var routes = require('./routes');
+var http = require('http');
+var path = require('path');
 
-var port = process.env.PORT || 5566;
+var app = express();
 
-app = express();
-app.use("/assets", express.static(__dirname + '/assets'));
-app.listen(port);
+// all environments
+app.set('port', process.env.PORT || 5566);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/*', function(req, res){
-    var filePath = 'index.html'
-    var encode = 'utf-8';
+// development only
+if ('development' == app.get('env')) {
+    app.use(express.errorHandler());
+}
 
-    res.writeHead(200, {"Content-Type":"text/html; charset=utf-8"});
+app.get('/', routes.index);
 
-    fs.readFile(filePath, encode, function(err, file){
-        res.write(file);
-        res.end();
-    });
+http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+    console.log('Press Ctrl + C to stop.');
 });
-
-console.log('Listening on ' + port + '...');
-console.log('Press Ctrl + C to stop.');
