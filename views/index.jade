@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  div.alert
+    strong 快訊！
+    劉正紅又要拆房子了！！！
+  div.page-header
+    h1 美麗灣事件
+      small 相關判決列表
+  h2 美麗灣事件-聲請停止執行（一審）
+  h3 官司進度
+  ol
+    li
+      a 一審
+    li
+      a 二審
+    li
+      a 三審
+  div.panel
+    div.panel-heading
+      div.panel-title 判決本文
+    div.panel-body
+      p 我是本文
+  h3 相關法律
+  ul
+    li
+      h4 法律一
+      p 我是法律一的內容
+  h3 相關律師
+  ul
+    each type, lawer in {'法官A':'label-info', '法官B':'label-warning', '律師A':'label-success', '律師B':'label-default', '律師C':'label-danger'}
+      li
+        a(href="")
+          - var classes = ['label', type]
+          span(class=classes)= lawer
