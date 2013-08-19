@@ -19,8 +19,9 @@ db.serialize(function() {
         var stmt = db.prepare("INSERT INTO categories VALUES (?)");
 
         //Insert random data
-        for (var i = 0; i < 10; i++) {
-            stmt.run(ns.word());
+        var categories = ['食品安全', '自然災害', '環境污染', '生態公害', '司法改革', '再生能源', '基本人權', '文化保護', '勞資爭議', '土地正義'];
+        for (var i = 0; i < categories.length; i++) {
+            stmt.run(categories[i]);
         }
 
         stmt.finalize();

@@ -20,9 +20,9 @@ html
       div.row
         div.col-md-2
           div.nav.nav-pills.nav-stacked
-            each type in ['食品安全', '自然災害', '環境污染', '生態公害', '司法改革', '再生能源', '基本人權', '文化保護', '勞資爭議', '土地正義']
+            - each type in types
               li
-                a(href="")= type
+                a(href="")= type.name
                   span.badge 23
 
         div.col-md-10
