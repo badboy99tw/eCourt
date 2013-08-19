@@ -1,8 +1,2 @@
-
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
-  res.render('index', { title: 'eCourt' });
-};
+exports.home = require('./home.js');
+exports.api = require('./api');

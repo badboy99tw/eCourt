@@ -1,15 +1,17 @@
 {
-    "name": "eCourt",
-    "version": "0.0.1",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "express": "3.3.x",
-        "jade": "*"
-    },
-    "engines": {
-        "node": "0.10.x",
-        "npm": "1.2.x"
-    }
+  "name": "eCourt",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.3.x",
+    "jade": "*",
+    "sqlite3": "~2.1.15",
+    "Nonsense": "~0.1.2"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  }
 }
