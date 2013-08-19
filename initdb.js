@@ -1,5 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
-var randstr = require("./randstr");
+var rand = require("./rand");
 var fs = require("fs");
 
 var dbFile = "test.db";
@@ -19,7 +19,7 @@ db.serialize(function() {
 
         //Insert random data
         for (var i = 0; i < 10; i++) {
-            stmt.run(randstr(4));
+            stmt.run(rand.randstr(4));
         }
 
         stmt.finalize();
