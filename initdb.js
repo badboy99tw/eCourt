@@ -1,5 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
-var Nonsense = require("Nonsense");
+var randstr = require("./randstr");
 var fs = require("fs");
 
 var dbFile = "test.db";
@@ -11,7 +11,6 @@ if(!exists) {
 }
 
 var db = new sqlite3.Database(dbFile);
-var ns = new Nonsense();
 
 db.serialize(function() {
     if(!exists) {
@@ -19,9 +18,8 @@ db.serialize(function() {
         var stmt = db.prepare("INSERT INTO categories VALUES (?)");
 
         //Insert random data
-        var categories = ['食品安全', '自然災害', '環境污染', '生態公害', '司法改革', '再生能源', '基本人權', '文化保護', '勞資爭議', '土地正義'];
-        for (var i = 0; i < categories.length; i++) {
-            stmt.run(categories[i]);
+        for (var i = 0; i < 10; i++) {
+            stmt.run(randstr(4));
         }
 
         stmt.finalize();
