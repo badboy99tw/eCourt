@@ -28,6 +28,8 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.home);
 app.get('/api/categories', routes.api.categories);
+app.get('/api/groups', routes.api.groups);
+app.get('/api/lawsuits', routes.api.lawsuits);
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
