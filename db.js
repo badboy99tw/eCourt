@@ -32,48 +32,82 @@ var Group = sequelize.define('group', {
     address: Sequelize.TEXT 
 });
 
+Group.hasMany(Lawsuit, {joinTableName: 'groups_lawsuits'});
+Lawsuit.hasMany(Group, {joinTableName: 'groups_lawsuits'});
+
+Category.hasMany(Lawsuit, {joinTableName: 'categories_lawsuits'});
+Lawsuit.hasMany(Category, {joinTableName: 'categories_lawsuits'});
+
+Category.hasMany(Group, {joinTableName: 'categories_groups'});
+Group.hasMany(Category, {joinTableName: 'categories_groups'});
+
 // initialize database
-async.series([
-    function(callback){
-        Lawsuit.sync({force: true}).on('success', function(){
-            callback(null);
-        });
-    },
-    function(callback){
-        Category.sync({force: true}).on('success', function(){
-            callback(null);
-        });
-    },
-    function(callback){
-        Group.sync({force: true}).on('success', function(){
-            callback(null);
-        });
-    }
-], function(callback){
-    // create fake data
-    async.times(20, function(callback){
-        Lawsuit.create({ 
-            title: (rand.randstr(6) + '(判決名稱)'),
-            court: (rand.randstr(6) + '(法院名稱)'),
-            type: rand.randstr(2),
-            year: rand.randint(1911, 2013),
-            word: rand.randstr(1),
-            num: rand.randint(1, 3000),
-            content: rand.randstr(10)
-        });
+var init = function(callback){
+    async.series([
+        function(callback){
+            Lawsuit.sync({force: true}).on('success', function(){
+                callback(null);
+            });
+        },
+        function(callback){
+            Category.sync({force: true}).on('success', function(){
+                callback(null);
+            });
+        },
+        function(callback){
+            Group.sync({force: true}).on('success', function(){
+                callback(null);
+            });
+        }
+    ], 
+    function(err, result){
+        if(callback){
+            callback(err);
+        }
     });
+}
 
-    async.times(10, function(callback){
-        Category.create({ 
-            title: (rand.randstr(4) + '(類別)') 
-        });
+var createTestData = function(callback){
+    async.series([
+        function(callback){
+            async.times(20, function(){
+                Lawsuit.create({ 
+                    title: (rand.randstr(6) + '(判決名稱)'),
+                    court: (rand.randstr(6) + '(法院名稱)'),
+                    type: rand.randstr(2),
+                    year: rand.randint(1911, 2013),
+                    word: rand.randstr(1),
+                    num: rand.randint(1, 3000),
+                    content: rand.randstr(1000)
+                });
+            }, callback(null));
+        },
+        function(callback){
+            async.times(10, function(){
+                Category.create({ 
+                    title: (rand.randstr(4) + '(類別)') 
+                }).success(function(category){
+                    console.log(category.title);
+                });
+            }, callback(null));
+        },
+        function(callback){
+            async.times(10, function(callback){
+                Group.create({ 
+                    title: (rand.randstr(4) + '(團體名稱)') 
+                });
+            }, callback(null));
+        }
+    ], 
+    function(err, result){
+        if(callback){
+            callback(err);
+        }
     });
+}
 
-    async.times(10, function(callback){
-        Group.create({ 
-            title: (rand.randstr(4) + '(團體名稱)') 
-        });
-    });
+init(function(){
+    createTestData();
 });
 
 // exports
