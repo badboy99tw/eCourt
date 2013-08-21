@@ -12,6 +12,7 @@ var sequelize = new Sequelize('database', null, null, {
 // define schema
 var Lawsuit = sequelize.define('lawsuit', {
     id: { type: Sequelize.INTEGER, primaryKey: true },
+    title: Sequelize.TEXT,
     court: Sequelize.TEXT,
     type: Sequelize.TEXT,
     year: Sequelize.INTEGER,
@@ -35,12 +36,13 @@ var Group = sequelize.define('group', {
 Lawsuit.sync({force: true}).success(function(){
     for(var i = 0; i < 20; i++){
         Lawsuit.create({ 
-            court: (rand.randstr(6) + '法院'),
+            title: (rand.randstr(6) + '(判決名稱)'),
+            court: (rand.randstr(6) + '(法院名稱)'),
             type: rand.randstr(2),
             year: rand.randint(1911, 2013),
             word: rand.randstr(1),
             num: rand.randint(1, 3000),
-            content: rand.randstr(30)
+            content: rand.randstr(1000)
         });
     }
 });
@@ -48,7 +50,7 @@ Lawsuit.sync({force: true}).success(function(){
 Category.sync({force: true}).success(function(){
     for(var i = 0; i < 10; i++){
         Category.create({ 
-            title: (rand.randstr(3) + '類') 
+            title: (rand.randstr(4) + '(類別)') 
         });
     }
 });
@@ -56,7 +58,7 @@ Category.sync({force: true}).success(function(){
 Group.sync({force: true}).success(function(){
     for(var i = 0; i < 10; i++){
         Group.create({ 
-            title: (rand.randstr(4) + '團體') 
+            title: (rand.randstr(4) + '(團體名稱)') 
         });
     }
 });
