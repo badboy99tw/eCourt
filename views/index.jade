@@ -7,7 +7,7 @@ block content
   div.page-header
     h1 美麗灣事件
       small 相關判決列表
-  h2 美麗灣事件-聲請停止執行（一審）
+  h2= lawsuit.title
   h3 官司進度
   ol
     li
@@ -20,7 +20,7 @@ block content
     div.panel-heading
       div.panel-title 判決本文
     div.panel-body
-      p 我是本文
+      p= lawsuit.content
   h3 相關法律
   ul
     li

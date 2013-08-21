@@ -1,11 +1,12 @@
-var initdb = require("../initdb.js");
-
-var db = initdb.db;
+var db = require("../db.js");
 
 module.exports = function(req, res){
-    db.all("SELECT * FROM categories", function(err, rows) {
-        console.log('home.js is called');
-        console.log(rows);
-        res.render('index', { title: 'eCourt', types: rows });
+    db.Category.findAll().success(function(categories) {
+        db.Lawsuit.find(1).success(function(lawsuit){
+            res.render('index', { 
+                title: 'eCourt', 
+                categories: categories,
+                lawsuit: lawsuit });
+        });
     });
 };
