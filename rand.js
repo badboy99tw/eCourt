@@ -17,7 +17,7 @@ var randstr = function(length){
         var randIndex = randint(0, words.length);
         result += words[randIndex];
     }
-    console.log(result);
+    //console.log(result);
     return result;
 };
 
