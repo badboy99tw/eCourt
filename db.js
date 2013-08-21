@@ -33,8 +33,25 @@ var Group = sequelize.define('group', {
 });
 
 // initialize database
-Lawsuit.sync({force: true}).success(function(){
-    for(var i = 0; i < 20; i++){
+async.series([
+    function(callback){
+        Lawsuit.sync({force: true}).on('success', function(){
+            callback(null);
+        });
+    },
+    function(callback){
+        Category.sync({force: true}).on('success', function(){
+            callback(null);
+        });
+    },
+    function(callback){
+        Group.sync({force: true}).on('success', function(){
+            callback(null);
+        });
+    }
+], function(callback){
+    // create fake data
+    async.times(20, function(callback){
         Lawsuit.create({ 
             title: (rand.randstr(6) + '(判決名稱)'),
             court: (rand.randstr(6) + '(法院名稱)'),
@@ -42,25 +59,21 @@ Lawsuit.sync({force: true}).success(function(){
             year: rand.randint(1911, 2013),
             word: rand.randstr(1),
             num: rand.randint(1, 3000),
-            content: rand.randstr(1000)
+            content: rand.randstr(10)
         });
-    }
-});
+    });
 
-Category.sync({force: true}).success(function(){
-    for(var i = 0; i < 10; i++){
+    async.times(10, function(callback){
         Category.create({ 
             title: (rand.randstr(4) + '(類別)') 
         });
-    }
-});
+    });
 
-Group.sync({force: true}).success(function(){
-    for(var i = 0; i < 10; i++){
+    async.times(10, function(callback){
         Group.create({ 
             title: (rand.randstr(4) + '(團體名稱)') 
         });
-    }
+    });
 });
 
 // exports
