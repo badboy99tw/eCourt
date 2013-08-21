@@ -1,7 +1,15 @@
 var async = require('async');
+var url = require('url');
 var db = require("../db.js");
 
 module.exports = function(req, res){
+    var queryData = url.parse(req.url, true).query;
+    var id = queryData.id;
+    if(!queryData.id){
+        id = 1;
+    }
+    console.log(queryData);
+
     async.series({
         categories: function(callback){
             db.Category.findAll().success(function(categories){
@@ -9,14 +17,17 @@ module.exports = function(req, res){
             });
         },
         category: function(callback){
-            db.Category.find(1).success(function(category){
+            db.Category.find(id).success(function(category){
                 callback(null, category);
             });
         },
-        lawsuit: function(callback){
-            db.Lawsuit.find(1).success(function(lawsuit){
-                callback(null, lawsuit);
-            });
+        lawsuits: function(callback){
+            db.Category.find(id).success(function(category){
+                category.getLawsuits().success(function(lawsuits){
+                    console.log(lawsuits);
+                    callback(null, lawsuits);
+                });
+            }); 
         }
     },
     function(err, results){
@@ -24,7 +35,7 @@ module.exports = function(req, res){
             title: 'eCourt', 
             categories: results.categories,
             category: results.category,
-            lawsuit: results.lawsuit
+            lawsuits: results.lawsuits
         });
     });
 };
