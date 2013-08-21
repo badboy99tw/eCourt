@@ -2,7 +2,7 @@ var sqlite3 = require("sqlite3").verbose();
 var Nonsense = require("Nonsense");
 var fs = require("fs");
 
-var dbFile = "test.db";
+var dbFile = "/tmp/test.db";
 var exists = fs.existsSync(dbFile);
 
 if(!exists) {
