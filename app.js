@@ -26,7 +26,8 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', routes.home);
+app.get('/', routes.lawsuit);
+app.get('/category/*', routes.category);
 app.get('/api/categories', routes.api.categories);
 app.get('/api/groups', routes.api.groups);
 app.get('/api/lawsuits', routes.api.lawsuits);

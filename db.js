@@ -43,6 +43,7 @@ Group.hasMany(Category, {joinTableName: 'categories_groups'});
 
 // initialize database
 var init = function(callback){
+    console.log('init is called');
     async.series([
         function(callback){
             Lawsuit.sync({force: true}).on('success', function(){
@@ -61,6 +62,7 @@ var init = function(callback){
         }
     ], 
     function(err, result){
+        console.log('init is done');
         if(callback){
             callback(err);
         }
@@ -68,9 +70,10 @@ var init = function(callback){
 }
 
 var createTestData = function(callback){
+    console.log('createTestData is called');
     async.series([
         function(callback){
-            async.times(20, function(){
+            async.times(20, function(n, next){
                 Lawsuit.create({ 
                     title: (rand.randstr(6) + '(判決名稱)'),
                     court: (rand.randstr(6) + '(法院名稱)'),
@@ -79,35 +82,90 @@ var createTestData = function(callback){
                     word: rand.randstr(1),
                     num: rand.randint(1, 3000),
                     content: rand.randstr(1000)
+                }).success(function(lawsuit){
+                    next(null);
                 });
-            }, callback(null));
+            }, function(err){
+                callback(err);
+            });
         },
         function(callback){
-            async.times(10, function(){
+            async.times(10, function(n, next){
                 Category.create({ 
                     title: (rand.randstr(4) + '(類別)') 
                 }).success(function(category){
-                    console.log(category.title);
+                    next(null);
                 });
-            }, callback(null));
+            }, function(err){
+                callback(err);
+            });
         },
         function(callback){
-            async.times(10, function(callback){
+            async.times(10, function(n, next){
                 Group.create({ 
                     title: (rand.randstr(4) + '(團體名稱)') 
+                }).on('success', function(group){
+                    next(null);
                 });
-            }, callback(null));
+            }, function(err){
+                callback(err);
+            });
         }
     ], 
     function(err, result){
+        console.log('createTestData is done');
         if(callback){
             callback(err);
         }
     });
 }
 
-init(function(){
-    createTestData();
+var createTestRelation = function(callback){
+    console.log('createTestRelation is called');
+    async.series([
+        function(callback){
+            // find all categories
+            Category.findAll().success(function(categories){
+                // for each category
+                console.log('for each category');
+                console.log(categories.length);
+                async.each(categories, function(category, callback){
+                    // create five lawsuit relations
+                    console.log('create five lawsuit relations');
+                    async.times(5, function(n, next){
+                        Lawsuit.find(rand.randint(1, 10)).success(function(lawsuit){
+                            next(null, lawsuit);
+                        }).error(function(err){
+                            next(err);
+                        });
+                    }, function(err, lawsuits){
+                        category.setLawsuits(lawsuits).success(function(){
+                            callback(null);
+                        }).error(function(err){
+                            callback(err);
+                        });
+                    });
+                }, function(err){
+                    callback(err);
+                });
+            });
+        }
+    ], 
+    function(err, result){
+        console.log('createTestRelation is done');
+        if(err){
+            console.log(err);
+        }
+        if(callback){
+            callback(err);
+        }
+    });
+}
+
+init(function(err){
+    createTestData(function(err){
+        createTestRelation();
+    });
 });
 
 // exports

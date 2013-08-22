@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div.page-header
+    h1= category.title
+  each lawsuit in lawsuits
+    h2= lawsuit.title
+    div.panel
+      div.panel-heading
+        div.panel-title 判決本文
+      div.panel-body
+        p= lawsuit.content
