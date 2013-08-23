@@ -1,6 +1,19 @@
 var async = require('async');
 var url = require('url');
-var db = require("../db.js");
+var http = require('http');
+
+var url2json = function(url, callback){
+    http.get(url, function(res){
+        var data = '';
+        res.on('data', function(chunk){
+            data += chunk;
+        });
+        res.on('end', function(){
+            var json = JSON.parse(data);
+            callback(json);
+        });
+    });
+}
 
 module.exports = function(req, res){
     var queryData = url.parse(req.url, true).query;
@@ -8,26 +21,26 @@ module.exports = function(req, res){
     if(!queryData.id){
         id = 1;
     }
-    console.log(queryData);
+    var host = 'http://' + req.headers.host;
 
     async.series({
         categories: function(callback){
-            db.Category.findAll().success(function(categories){
+            var url = host + '/api/categories';
+            url2json(url, function(categories){
                 callback(null, categories);
             });
         },
         category: function(callback){
-            db.Category.find(id).success(function(category){
+            var url = host + '/api/category/' + id;
+            url2json(url, function(category){
                 callback(null, category);
             });
         },
         lawsuits: function(callback){
-            db.Category.find(id).success(function(category){
-                category.getLawsuits().success(function(lawsuits){
-                    console.log(lawsuits);
-                    callback(null, lawsuits);
-                });
-            }); 
+            var url = host + '/api/category/' + id + '/lawsuits';
+            url2json(url, function(lawsuits){
+                callback(null, lawsuits);
+            });
         }
     },
     function(err, results){
