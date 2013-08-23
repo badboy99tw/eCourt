@@ -3,10 +3,12 @@ extends layout
 block content
   div.page-header
     h1= category.title
+  #lawsuits.panel-group
   each lawsuit in lawsuits
-    h2= lawsuit.title
-    div.panel
+    div.panel.panel-default
       div.panel-heading
-        div.panel-title 判決本文
-      div.panel-body
-        p= lawsuit.content
+        h2.panel-title
+          a.accordion-toggle(data-toggle='collapse', data-parent='#lawsuits', href='#'+lawsuit.id)= lawsuit.title
+      #div.panel-collapse.collapse(id=lawsuit.id)
+        div.panel-body
+          p= lawsuit.content

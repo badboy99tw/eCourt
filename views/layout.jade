@@ -12,10 +12,6 @@ html
       nav.navbar.navbar-fixed-top(role="navigation")
         h1.navbar-text 土地正義
         h2.navbar-text 美麗灣事件
-        ul.nav.navbar-nav
-          each support in ['團體', '判決', '法律', '行動']
-            li
-              a(href="")= support
 
       div.row
         div.col-md-2
@@ -26,6 +22,10 @@ html
                   span.badge 23
 
         div.col-md-10
+          ul.nav.nav-tabs
+            each support in ['團體', '判決', '法律', '行動']
+              li
+                a(href="", data-toggle="tab")= support
           block content
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
