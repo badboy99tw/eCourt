@@ -5,7 +5,7 @@ var rand = require('./rand.js');
 // connect to db
 var sequelize = new Sequelize('database', null, null, {
     dialect: 'sqlite',
-    storage: './test.db',
+    storage: '/tmp/test.db',
     language: 'en'
 });
 
