@@ -149,6 +149,33 @@ var createTestRelation = function(callback){
                     callback(err);
                 });
             });
+        },
+        function(callback){
+            // find all group
+            Group.findAll().success(function(groups){
+                // for each category
+                console.log('for each category');
+                console.log(groups.length);
+                async.each(groups, function(group, callback){
+                    // create five lawsuit relations
+                    console.log('create five lawsuit relations');
+                    async.times(5, function(n, next){
+                        Lawsuit.find(rand.randint(1, 10)).success(function(lawsuit){
+                            next(null, lawsuit);
+                        }).error(function(err){
+                            next(err);
+                        });
+                    }, function(err, lawsuits){
+                        group.setLawsuits(lawsuits).success(function(){
+                            callback(null);
+                        }).error(function(err){
+                            callback(err);
+                        });
+                    });
+                }, function(err){
+                    callback(err);
+                });
+            });
         }
     ], 
     function(err, result){
