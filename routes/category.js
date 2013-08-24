@@ -21,23 +21,23 @@ module.exports = function(req, res){
     if(!queryData.id){
         id = 1;
     }
-    console.log(queryData);
+    var host = 'http://' + req.headers.host;
 
     async.series({
         categories: function(callback){
-            var url = 'http://localhost:5566/api/categories';
+            var url = host + '/api/categories';
             url2json(url, function(categories){
                 callback(null, categories);
             });
         },
         category: function(callback){
-            var url = 'http://localhost:5566/api/category/' + id;
+            var url = host + '/api/category/' + id;
             url2json(url, function(category){
                 callback(null, category);
             });
         },
         lawsuits: function(callback){
-            var url = 'http://localhost:5566/api/category/' + id + '/lawsuits';
+            var url = host + '/api/category/' + id + '/lawsuits';
             url2json(url, function(lawsuits){
                 callback(null, lawsuits);
             });
