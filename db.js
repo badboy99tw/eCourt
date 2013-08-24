@@ -184,6 +184,11 @@ var createTestRelations = function(callback){
             createTestRelationBetween(Group, Lawsuit, 5, 1, NUM_LAWSUITS, function(err){
                 callback(err);
             });
+        },
+        function(callback){
+            createTestRelationBetween(Category, Group, 5, 1, NUM_GROUPS, function(err){
+                callback(err);
+            });
         }
     ], 
     function(err){
