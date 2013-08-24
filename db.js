@@ -1,11 +1,20 @@
 var async = require('async');
 var Sequelize = require('sequelize');
+var S = require('string');
 var rand = require('./rand.js');
+var fs = require('fs');
+
+var TEST_DB = '/tmp/test.db';
+
+fs.unlink(TEST_DB, function(err){
+    if (err) throw err;
+    console.log('successfully deleted ' + TEST_DB);
+});
 
 // connect to db
 var sequelize = new Sequelize('database', null, null, {
     dialect: 'sqlite',
-    storage: '/tmp/test.db',
+    storage: TEST_DB,
     language: 'en'
 });
 
@@ -69,11 +78,15 @@ var init = function(callback){
     });
 }
 
+var NUM_LAWSUITS = 20;
+var NUM_GROUPS = 10;
+var NUM_CATEGORIES = 10;
+
 var createTestData = function(callback){
     console.log('createTestData is called');
     async.series([
         function(callback){
-            async.times(20, function(n, next){
+            async.times(NUM_LAWSUITS, function(n, next){
                 Lawsuit.create({ 
                     title: (rand.randstr(6) + '(判決名稱)'),
                     court: (rand.randstr(6) + '(法院名稱)'),
@@ -90,7 +103,7 @@ var createTestData = function(callback){
             });
         },
         function(callback){
-            async.times(10, function(n, next){
+            async.times(NUM_CATEGORIES, function(n, next){
                 Category.create({ 
                     title: (rand.randstr(4) + '(類別)') 
                 }).success(function(category){
@@ -101,7 +114,7 @@ var createTestData = function(callback){
             });
         },
         function(callback){
-            async.times(10, function(n, next){
+            async.times(NUM_GROUPS, function(n, next){
                 Group.create({ 
                     title: (rand.randstr(4) + '(團體名稱)') 
                 }).on('success', function(group){
@@ -120,65 +133,60 @@ var createTestData = function(callback){
     });
 }
 
-var createTestRelation = function(callback){
-    console.log('createTestRelation is called');
-    async.series([
-        function(callback){
-            // find all categories
-            Category.findAll().success(function(categories){
-                // for each category
-                console.log('for each category');
-                console.log(categories.length);
-                async.each(categories, function(category, callback){
-                    // create five lawsuit relations
-                    console.log('create five lawsuit relations');
-                    async.times(5, function(n, next){
-                        Lawsuit.find(rand.randint(1, 10)).success(function(lawsuit){
-                            next(null, lawsuit);
+var catpialize = function(string){
+    return S(string).capitalize().s
+}
+
+var createTestRelationBetween = function(Parent, Child, time, rand_min, rand_max, callback){
+    Parent.findAll().success(function(parents){
+        async.each(parents, function(parent, callback){
+            async.timesSeries(time, function(n, next){
+                var rand_id = rand.randint(rand_min, rand_max);
+                Child.find(rand_id).success(function(child){
+                    console.log('---> find ' + child.id);
+                    parent['has' + catpialize(Child.name)](child).success(function(result){
+                        if(result == true){
+                            next(null);
+                            return;
+                        }
+                        console.log('---> not has ' + child.id);
+                        parent['add' + catpialize(Child.name)](child).success(function(){
+                            console.log('---> set ' + child.id);
+                            next(null);
                         }).error(function(err){
-                            next(err);
+                            console.log(err);
+                            next(null);
                         });
-                    }, function(err, lawsuits){
-                        category.setLawsuits(lawsuits).success(function(){
-                            callback(null);
-                        }).error(function(err){
-                            callback(err);
-                        });
+                    }).error(function(err){
+                        console.log(err);
+                        next(null);
                     });
-                }, function(err){
-                    callback(err);
                 });
+            }, function(err){ // error handle of async.times
+                callback(err);
+            });
+        }, function(err){ // error handle of async.each
+            callback(err);
+        });
+    }).error(function(err){ // error handle of Parent.findall
+        callback(err);
+    });
+}
+
+var createTestRelations = function(callback){
+    async.parallel([
+        function(callback){
+            createTestRelationBetween(Category, Lawsuit, 5, 1, NUM_LAWSUITS, function(err){
+                callback(err);
             });
         },
         function(callback){
-            // find all group
-            Group.findAll().success(function(groups){
-                // for each category
-                console.log('for each category');
-                console.log(groups.length);
-                async.each(groups, function(group, callback){
-                    // create five lawsuit relations
-                    console.log('create five lawsuit relations');
-                    async.times(5, function(n, next){
-                        Lawsuit.find(rand.randint(1, 10)).success(function(lawsuit){
-                            next(null, lawsuit);
-                        }).error(function(err){
-                            next(err);
-                        });
-                    }, function(err, lawsuits){
-                        group.setLawsuits(lawsuits).success(function(){
-                            callback(null);
-                        }).error(function(err){
-                            callback(err);
-                        });
-                    });
-                }, function(err){
-                    callback(err);
-                });
+            createTestRelationBetween(Group, Lawsuit, 5, 1, NUM_LAWSUITS, function(err){
+                callback(err);
             });
         }
     ], 
-    function(err, result){
+    function(err){
         console.log('createTestRelation is done');
         if(err){
             console.log(err);
@@ -191,7 +199,7 @@ var createTestRelation = function(callback){
 
 init(function(err){
     createTestData(function(err){
-        createTestRelation();
+        createTestRelations();
     });
 });
 
