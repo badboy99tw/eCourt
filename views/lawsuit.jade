@@ -21,8 +21,7 @@ block content
       h2.panel-title
         a.accordion-toggle(data-toggle='collapse', data-parent='#lawsuits', href='#'+lawsuit.id)= lawsuit.title
     #div.panel-collapse.collapse(id=lawsuit.id)
-      div.panel-body
-        p= lawsuit.content
+      div.panel-body!= lawsuit.content
   h3 相關法律
   ul
     li
