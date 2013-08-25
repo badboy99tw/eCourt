@@ -1,13 +1,7 @@
 var async = require('async');
-var url = require('url');
 var tools = require('../lib/tools');
 
 module.exports = function(req, res){
-    var queryData = url.parse(req.url, true).query;
-    var id = queryData.id;
-    if(!queryData.id){
-        id = 1;
-    }
     var host = 'http://' + req.headers.host;
 
     async.series({
@@ -18,13 +12,13 @@ module.exports = function(req, res){
             });
         },
         category: function(callback){
-            var url = host + '/api/category/' + id;
+            var url = host + '/api/category/' + req.params.category_id;
             tools.url2json(url, function(category){
                 callback(null, category);
             });
         },
         lawsuits: function(callback){
-            var url = host + '/api/category/' + id + '/lawsuits';
+            var url = host + '/api/category/' + req.params.category_id + '/lawsuits';
             tools.url2json(url, function(lawsuits){
                 callback(null, lawsuits);
             });
