@@ -36,7 +36,9 @@ app.get('/api/category/:category_id', routes.api.category);
 app.get('/api/groups', routes.api.groups);
 app.get('/api/group/:group_id/lawsuits', routes.api.group_lawsuits);
 app.get('/api/lawsuits', routes.api.lawsuits);
-app.get('/api/lawsuit/:lawsuit_id', routes.api.lawsuit);
+app.get('/api/lawsuit/:lawsuit_id', routes.api.lawsuit.get);
+
+app.post('/api/lawsuit', routes.api.lawsuit.post);
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
