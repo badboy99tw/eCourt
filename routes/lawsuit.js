@@ -9,7 +9,7 @@ module.exports = function(req, res){
             });
         },
         lawsuit: function(callback){
-            db.Lawsuit.find(1).success(function(lawsuit){
+            db.Lawsuit.find(req.params.lawsuit_id).success(function(lawsuit){
                 callback(null, lawsuit);
             });
         }

@@ -16,11 +16,13 @@ block content
       a 二審
     li
       a 三審
-  div.panel
+  div.panel.panel-default
     div.panel-heading
-      div.panel-title 判決本文
-    div.panel-body
-      p= lawsuit.content
+      h2.panel-title
+        a.accordion-toggle(data-toggle='collapse', data-parent='#lawsuits', href='#'+lawsuit.id)= lawsuit.title
+    #div.panel-collapse.collapse(id=lawsuit.id)
+      div.panel-body
+        p= lawsuit.content
   h3 相關法律
   ul
     li
