@@ -25,7 +25,7 @@ module.exports = function(req, res){
         }
     },
     function(err, results){
-        res.render('category', { 
+        res.render('category_lawsuits', { 
             title: 'eCourt', 
             categories: results.categories,
             category: results.category,
