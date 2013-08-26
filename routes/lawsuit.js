@@ -1,15 +1,19 @@
 var async = require('async');
-var db = require("../db.js");
+var tools = require("../lib/tools.js");
 
 module.exports = function(req, res){
+    var host = 'http://' + req.headers.host;
+
     async.series({
         categories: function(callback){
-            db.Category.findAll().success(function(categories){
+            var url = host + '/api/categories';
+            tools.url2json(url, function(categories){
                 callback(null, categories);
             });
         },
         lawsuit: function(callback){
-            db.Lawsuit.find(req.params.lawsuit_id).success(function(lawsuit){
+            var url = host + '/api/lawsuit/' + req.params.lawsuit_id;
+            tools.url2json(url, function(lawsuit){
                 callback(null, lawsuit);
             });
         }
