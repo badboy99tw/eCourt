@@ -102,6 +102,21 @@ describe('APIs', function () {
                     done();
                 });
         });
+
+        it('should get event information by event title', function (done) {
+            supertest(url)
+                .get('/api/events/' + event_.title)
+                .end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    res.should.have.status(200);
+                    res.body.id.should.equal(1);
+                    res.body.title.should.equal(event_.title);
+                    res.body.url.should.equal(event_.url);
+                    done();
+                });
+        });
     });
     describe('About Groups', function () {});
     describe('About Causes', function () {});
