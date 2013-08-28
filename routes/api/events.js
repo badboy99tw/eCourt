@@ -1,8 +1,27 @@
 var db = require("../../db.js");
 
-exports.get = function(req, res){
-    res.statusCode = 404;
+exports.get = function (req, res) {
+    res.statusCode = 99;
     res.end();
+}
+
+exports.getEventByTitle = function (req, res) {
+    db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
+        if (event_ === null){
+            res.statusCode = 400;
+            res.send('Error 400: Not found.');
+            res.end();
+        } else {
+            res.statusCode = 200;
+            console.log(event_)
+            res.json(event_);
+            res.end();
+        }
+    }).error(function (err){
+        res.statusCode = 500;
+        res.send('Error 500: Query DB error.');
+        res.end();
+    });
 };
 
 exports.createEvent = function(req, res){
