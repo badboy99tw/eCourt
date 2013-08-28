@@ -1,3 +1,4 @@
+var async = require('async');
 var Sequelize = require('sequelize');
 
 var TEST_DB = '/tmp/test.db';
@@ -14,20 +15,17 @@ var Category = sequelize.define('categories', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING
 });
-Category.sync();
 
 var Cause = sequelize.define('causes', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING
 });
-Cause.sync();
 
 var Event = sequelize.define('events', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
     url: Sequelize.TEXT
 });
-Event.sync();
 
 var Group = sequelize.define('groups', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -35,14 +33,12 @@ var Group = sequelize.define('groups', {
     intro: Sequelize.TEXT,
     url: Sequelize.TEXT
 });
-Group.sync();
 
 var Law = sequelize.define('laws', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
     article: Sequelize.TEXT
 });
-Law.sync();
 
 var Lawsuit = sequelize.define('lawsuits', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -50,14 +46,58 @@ var Lawsuit = sequelize.define('lawsuits', {
     date: Sequelize.DATE,
     article: Sequelize.TEXT,
 });
-Lawsuit.sync();
 
 var Proceeding = sequelize.define('proceedings', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
     order: Sequelize.INTEGER
 });
-Proceeding.sync();
+
+function syncAll (options, callback) {
+    async.parallel([
+        function (callback) {
+            Category.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Cause.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Event.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Group.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Law.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Lawsuit.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
+            Proceeding.sync(options).done(function () {
+                callback(null);
+            });
+        }
+    ], function (err, results) {
+        if (callback) {
+            callback();
+        }
+    });
+};
+
+syncAll();
 
 // Associations
 
@@ -92,3 +132,4 @@ exports.Group = Group;
 exports.Law = Law;
 exports.Lawsuit = Lawsuit;
 exports.Proceeding = Proceeding;
+exports.syncAll = syncAll;
