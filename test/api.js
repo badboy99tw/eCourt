@@ -16,13 +16,12 @@ describe('APIs', function () {
         });
     });
 
-    describe('About Categories', function () {
-        var title = '宇宙正義'
-        it('should create a new category successfully', function (done) {
-            var category = {
-                title: title
-            };
+    var category = {
+        title: '宇宙正義'
+    };
 
+    describe('About Categories', function () {
+        it('should create a new category successfully', function (done) {
             supertest(url)
                 .post('/api/categories')
                 .send(category)
@@ -31,16 +30,12 @@ describe('APIs', function () {
                         throw err;
                     }
                     res.should.have.status(200);
-                    res.body.title.should.equal(title);
+                    res.body.title.should.equal(category.title);
                     done();
                 });
         });
 
         it('should return error while trying to create duplicate category', function (done) {
-            var category = {
-                title: title
-            };
-
             supertest(url)
                 .post('/api/categories')
                 .send(category)
