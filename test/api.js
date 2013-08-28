@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var db = require('../db.js');
 
-describe('CategoryAPIs', function () {
+describe('APIs', function () {
     var url = 'http://localhost:5566';
 
     before(function (done) {
@@ -16,7 +16,7 @@ describe('CategoryAPIs', function () {
         });
     });
 
-    describe('Create Category', function () {
+    describe('About Categories', function () {
         var title = '宇宙正義'
         it('should create a new category successfully', function (done) {
             var category = {
@@ -52,9 +52,7 @@ describe('CategoryAPIs', function () {
                     done();
                 });
         });
-    });
 
-    describe('List Categories', function () {
         it('should get category list', function (done) {
             supertest(url)
                 .get('/api/categories')
@@ -62,11 +60,52 @@ describe('CategoryAPIs', function () {
                     if (err) {
                         throw err;
                     }
-                    //console.log(res);
                     res.should.have.status(200);
                     res.body.should.have.length(1);
                     done();
                 });
         });
     });
+
+    describe('About Events', function () {
+
+        var event_ = {
+            title: '美麗灣事件',
+            url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
+        }
+
+        it('should create event successfully if title is unique', function (done) {
+            supertest(url)
+                .post('/api/events')
+                .send(event_)
+                .end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    res.should.have.status(200);
+                    res.body.id.should.equal(1);
+                    res.body.title.should.equal(event_.title);
+                    res.body.url.should.equal(event_.url);
+                    done();
+                });
+        });
+
+        it('should return error while trying to create duplicate event', function (done) {
+            supertest(url)
+                .post('/api/events')
+                .send(event_)
+                .end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    res.should.have.status(400);
+                    done();
+                });
+        });
+    });
+    describe('About Groups', function () {});
+    describe('About Causes', function () {});
+    describe('About Lawsuits', function () {});
+    describe('About Proceedings', function () {});
+    describe('About Laws', function () {});
 });
