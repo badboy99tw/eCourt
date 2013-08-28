@@ -1,12 +1,11 @@
-
-/**
- * Module dependencies.
- */
+/*jslint node: true */
+'use strict';
 
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+
+var routes = require('./routes');
 
 var app = express();
 
@@ -22,27 +21,52 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
     app.use(express.errorHandler());
 }
 
+// Views
 app.get('/', routes.home);
 app.get('/lawsuit/:lawsuit_id', routes.lawsuit);
 app.get('/category/:category_id/lawsuits', routes.category_lawsuits);
-app.get('/api/categories', routes.api.categories);
-app.get('/api/category/:category_id/lawsuits', routes.api.category_lawsuits);
-app.get('/api/category/:category_id/groups', routes.api.category_groups);
-app.get('/api/category/:category_id', routes.api.category);
-app.get('/api/groups', routes.api.groups);
-app.get('/api/group/:group_id/lawsuits', routes.api.group_lawsuits);
-app.get('/api/group/:group_id', routes.api.group.get);
-app.get('/api/lawsuits', routes.api.lawsuits);
-app.get('/api/lawsuit/:lawsuit_id', routes.api.lawsuit.get);
 
-app.post('/api/lawsuit', routes.api.lawsuit.post);
-app.post('/api/group', routes.api.group.post);
+// APIs
+// categories
+app.get('/api/categories', routes.api.categories.get);
+app.get('/api/events/:eventId/categories', routes.api.categories.get);
 
-http.createServer(app).listen(app.get('port'), function(){
+// causes
+app.get('/api/causes/:causeId', routes.api.causes.get);
+app.get('/api/categories/:categoryId/causes', routes.api.causes.get);
+app.get('/api/events/:eventId/causes', routes.api.causes.get);
+app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.get);
+
+// events
+app.get('/api/events/:eventId', routes.api.events.get);
+app.get('/api/categories/:categoryId/events', routes.api.events.get);
+app.get('/api/causes/:causeId/events', routes.api.events.get);
+app.get('/api/groups/:groupId/events', routes.api.events.get);
+
+// groups
+app.get('/api/groups/:groupId', routes.api.groups.get);
+app.get('/api/categories/:categoryId/groups', routes.api.groups.get);
+app.get('/api/events/:eventId/groups', routes.api.groups.get);
+
+// laws
+app.get('/api/laws/:lawId', routes.api.laws.get);
+app.get('/api/categories/:categoryId/laws', routes.api.laws.get);
+app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.get);
+
+// lawsuits
+app.get('/api/lawsuits/:lawsuitId', routes.api.lawsuits.get);
+app.get('/api/causes/:causeId/lawsuits', routes.api.lawsuits.get);
+app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.get);
+
+// proceedings
+app.get('/api/proceedings', routes.api.proceedings.get);
+app.get('/api/lawsuits/:lawsuitId/proceedings', routes.api.proceedings.get);
+
+http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
     console.log('Press Ctrl + C to stop.');
 });
