@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var db = require('../db.js');
 
-describe('Routing', function () {
+describe('CategoryAPIs', function () {
     var url = 'http://localhost:5566';
 
     before(function (done) {
@@ -16,9 +16,9 @@ describe('Routing', function () {
         });
     });
 
-    describe('Category', function () {
+    describe('Create Category', function () {
         var title = '宇宙正義'
-        it('should create a category called ' + title, function (done) {
+        it('should create a new category successfully', function (done) {
             var category = {
                 title: title
             };
@@ -52,7 +52,9 @@ describe('Routing', function () {
                     done();
                 });
         });
+    });
 
+    describe('List Categories', function () {
         it('should get category list', function (done) {
             supertest(url)
                 .get('/api/categories')
