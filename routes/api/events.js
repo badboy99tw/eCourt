@@ -48,3 +48,13 @@ exports.createEvent = function(req, res){
         }
     });
 };
+
+exports.addEventToCategory = function (req, res) {
+    db.Event.find({ where: {title: req.params.eventId}}).success(function (event_) {
+        db.Category.find({ where: {title: req.params.categoryId}}).success(function (category) {
+            category.addEvent(event_);
+            res.statusCode = 201;
+            res.end();
+        });
+    });
+}

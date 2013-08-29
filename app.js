@@ -48,6 +48,7 @@ app.get('/api/categories/:categoryId/events', routes.api.events.get);
 app.get('/api/causes/:causeId/events', routes.api.events.get);
 app.get('/api/groups/:groupId/events', routes.api.events.get);
 app.post('/api/events', routes.api.events.createEvent);
+app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
 
 // groups
 app.get('/api/groups/:groupId', routes.api.groups.get);
