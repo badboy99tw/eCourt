@@ -1,4 +1,4 @@
-var db = require("../../db.js");
+var db = require('../../db.js');
 
 exports.get = function (req, res) {
     res.statusCode = 99;

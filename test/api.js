@@ -41,7 +41,7 @@ describe('APIs', function () {
     }
 
     var lawsuit = {
-        title: '環境基本法第四條',
+        title: '最高行政法院,行政,101,訴,2266',
         date: '1983-07-06',
         article: '我是判決'
     }
@@ -288,6 +288,20 @@ describe('APIs', function () {
             it('should add a group to a event', function (done) {
                 supertest(url)
                     .post('/api/events/' + event_.title + '/groups/' + group.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
+
+        describe('Between Cause and Lawsuit', function () {
+            it('should add a lawsuit to a cause', function (done) {
+                supertest(url)
+                    .post('/api/events/' + event_.title + '/causes/' + cause.title + '/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
                         if (err) {
                             throw err;
