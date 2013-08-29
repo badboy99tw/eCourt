@@ -46,6 +46,11 @@ describe('APIs', function () {
         article: '我是判決'
     }
 
+    var proceeding = {
+        title: '發回更審',
+        order: 5
+    }
+
     describe('About Create', function () {
         describe('Category', function () {
             it('should create a new category', function (done) {
@@ -222,6 +227,37 @@ describe('APIs', function () {
                 supertest(url)
                     .post('/api/lawsuits')
                     .send(lawsuit)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+
+        describe('Proceeding', function () {
+            it('should create a new proceeding', function (done) {
+                supertest(url)
+                    .post('/api/proceedings')
+                    .send(proceeding)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(proceeding.title);
+                        res.body.order.should.equal(proceeding.order);
+                        done();
+                    });
+            });
+
+            it('should return error trying to create duplicate proceeding', function (done) {
+                supertest(url)
+                    .post('/api/proceedings')
+                    .send(proceeding)
                     .end(function (err, res) {
                         if (err) {
                             throw err;

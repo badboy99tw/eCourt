@@ -71,6 +71,7 @@ app.get('/api/causes/:causeId/lawsuits', routes.api.lawsuits.get);
 app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.get);
 
 // proceedings
+app.post('/api/proceedings', routes.api.proceedings.createProceeding);
 app.get('/api/proceedings', routes.api.proceedings.get);
 app.get('/api/lawsuits/:lawsuitId/proceedings', routes.api.proceedings.get);
 
