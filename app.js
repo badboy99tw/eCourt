@@ -44,12 +44,11 @@ app.get('/api/events/:eventId/causes', routes.api.causes.listCausesOfEvent);
 app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.getCauseOfLawsuit);
 
 // events
-app.get('/api/events/:eventId', routes.api.events.getEvent);
-app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
-app.get('/api/causes/:causeId/events', routes.api.events.get);
-app.get('/api/groups/:groupId/events', routes.api.events.get);
 app.post('/api/events', routes.api.events.createEvent);
 app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
+app.get('/api/events/:eventId', routes.api.events.getEvent);
+app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
+app.get('/api/groups/:groupId/events', routes.api.events.listEventsOfGroup);
 
 // groups
 app.get('/api/groups/:groupId', routes.api.groups.getGroup);

@@ -454,6 +454,19 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should list events of a group.', function (done) {
+                supertest(url)
+                    .get('/api/groups/' + group.title + '/events')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        done();
+                    });
+            });
         });
 
         describe('Group', function () {
