@@ -6,6 +6,14 @@ exports.get = function (req, res) {
     res.end();
 };
 
+exports.getGroup = function (req, res) {
+    db.Group.find({where: {title: req.params.groupId}}).success(function (group) {
+        res.statusCode = 200;
+        res.json(group);
+        res.end();
+    });
+};
+
 exports.addGroupToEvent = function (req, res) {
     async.series({
         group: function (callback) {

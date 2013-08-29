@@ -52,7 +52,7 @@ app.post('/api/events', routes.api.events.createEvent);
 app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
 
 // groups
-app.get('/api/groups/:groupId', routes.api.groups.get);
+app.get('/api/groups/:groupId', routes.api.groups.getGroup);
 app.get('/api/categories/:categoryId/groups', routes.api.groups.get);
 app.get('/api/events/:eventId/groups', routes.api.groups.get);
 app.post('/api/groups', routes.api.groups.createGroup);

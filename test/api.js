@@ -263,5 +263,23 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Group', function () {
+            it('should get a group', function (done) {
+                supertest(url)
+                    .get('/api/groups/' + group.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(group.title);
+                        res.body.intro.should.equal(group.intro);
+                        res.body.url.should.equal(group.url);
+                        done();
+                    });
+            });
+        });
     });
 });
