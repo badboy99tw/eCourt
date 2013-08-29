@@ -5,6 +5,16 @@ exports.get = function (req, res) {
     res.end();
 };
 
+exports.listCausesOfEvent = function (req, res) {
+    db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
+        event_.getCauses().success(function (causes) {
+            res.statusCode = 200;
+            res.json(causes);
+            res.end();
+        });
+    });
+};
+
 exports.getCauseOfEvent = function (req, res) {
     db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
         event_.getCauses({where: {title: req.params.causeId}}).success(function (cause) {

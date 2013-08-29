@@ -181,6 +181,19 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should list causes of a event.', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/causes')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        done();
+                    });
+            });
         });
     });
 
