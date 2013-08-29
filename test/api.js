@@ -35,6 +35,11 @@ describe('APIs', function () {
         url: 'http://ja.wikipedia.org/wiki/宇宙艦隊'
     }
 
+    var law = {
+        title: '環境基本法第四條',
+        article: '基於國家長期利益，經濟、科技及社會發展均應兼顧環境保護。但經濟、科技及社會發展對環境有嚴重不良影響或有危害之虞者，應環境保護優先。'
+    }
+
     describe('About Create', function () {
         describe('Category', function () {
             it('should create a new category', function (done) {
@@ -148,6 +153,37 @@ describe('APIs', function () {
                 supertest(url)
                     .post('/api/groups/')
                     .send(group)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+
+        describe('Law', function () {
+            it('should create a new law', function (done) {
+                supertest(url)
+                    .post('/api/laws')
+                    .send(law)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(law.title);
+                        res.body.article.should.equal(law.article);
+                        done();
+                    });
+            });
+
+            it('should return error trying to create duplicate law', function (done) {
+                supertest(url)
+                    .post('/api/laws')
+                    .send(law)
                     .end(function (err, res) {
                         if (err) {
                             throw err;
