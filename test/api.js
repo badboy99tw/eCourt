@@ -166,6 +166,22 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Cause', function () {
+            it('should get a cause of a event', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/causes/' + cause.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(cause.title);
+                        done();
+                    });
+            });
+        });
     });
 
     describe('About Create Associations', function () {
