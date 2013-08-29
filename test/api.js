@@ -29,6 +29,12 @@ describe('APIs', function () {
         url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
     }
 
+    var group = {
+        title: '宇宙艦隊',
+        intro: '星聯的主力軍隊',
+        url: 'http://ja.wikipedia.org/wiki/宇宙艦隊'
+    }
+
     describe('About Create', function () {
         describe('Category', function () {
             it('should create a new category', function (done) {
@@ -110,6 +116,38 @@ describe('APIs', function () {
                 supertest(url)
                     .post('/api/events/' + event_.title + '/causes')
                     .send(cause)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+
+        describe('Group', function () {
+            it('should create a new group', function (done) {
+                supertest(url)
+                    .post('/api/groups/')
+                    .send(group)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(group.title);
+                        res.body.intro.should.equal(group.intro);
+                        res.body.url.should.equal(group.url);
+                        done();
+                    });
+            });
+
+            it('should return error trying to create duplicate group', function (done) {
+                supertest(url)
+                    .post('/api/groups/')
+                    .send(group)
                     .end(function (err, res) {
                         if (err) {
                             throw err;

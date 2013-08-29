@@ -55,6 +55,7 @@ app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEve
 app.get('/api/groups/:groupId', routes.api.groups.get);
 app.get('/api/categories/:categoryId/groups', routes.api.groups.get);
 app.get('/api/events/:eventId/groups', routes.api.groups.get);
+app.post('/api/groups', routes.api.groups.createGroup);
 
 // laws
 app.get('/api/laws/:lawId', routes.api.laws.get);
