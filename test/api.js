@@ -485,6 +485,19 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should list groups of a category.', function (done) {
+                supertest(url)
+                    .get('/api/categories/' + category.title + '/groups')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        done();
+                    });
+            });
         });
 
         describe('Law', function () {
