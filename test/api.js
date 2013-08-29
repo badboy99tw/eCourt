@@ -426,5 +426,20 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Proceeding', function () {
+            it('should list proceedings', function (done) {
+                supertest(url)
+                    .get('/api/proceedings')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        done();
+                    });
+            });
+        });
     });
 });

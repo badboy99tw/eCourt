@@ -72,7 +72,7 @@ app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.get);
 
 // proceedings
 app.post('/api/proceedings', routes.api.proceedings.createProceeding);
-app.get('/api/proceedings', routes.api.proceedings.get);
+app.get('/api/proceedings', routes.api.proceedings.listProceedings);
 app.get('/api/lawsuits/:lawsuitId/proceedings', routes.api.proceedings.get);
 
 http.createServer(app).listen(app.get('port'), function () {

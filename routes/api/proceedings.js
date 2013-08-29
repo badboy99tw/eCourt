@@ -5,6 +5,14 @@ exports.get = function (req, res) {
     res.end();
 };
 
+exports.listProceedings = function (req, res) {
+    db.Proceeding.findAll().success(function (proceedings) {
+        res.statusCode = 200;
+        res.json(proceedings);
+        res.end();
+    });
+}
+
 exports.createProceeding = function (req, res) {
     db.Proceeding.find({where: {title: req.body.title}}).success(function (proceeding) {
         if (proceeding === null) {
