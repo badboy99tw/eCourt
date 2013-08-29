@@ -153,7 +153,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list events for a category.', function (done) {
+            it('should list events of a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title + '/events')
                     .end(function (err, res) {
