@@ -371,6 +371,35 @@ describe('APIs', function () {
             });
         });
 
+        describe('Cause', function () {
+            it('should get a cause of a event', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/causes/' + cause.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(cause.title);
+                        done();
+                    });
+            });
+
+            it('should list causes of a event.', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/causes')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        done();
+                    });
+            });
+        });
+
         describe('Event', function () {
             it('should get a event', function (done) {
                 supertest(url)
@@ -390,35 +419,6 @@ describe('APIs', function () {
             it('should list events of a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title + '/events')
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.should.have.length(1);
-                        done();
-                    });
-            });
-        });
-
-        describe('Cause', function () {
-            it('should get a cause of a event', function (done) {
-                supertest(url)
-                    .get('/api/events/' + event_.title + '/causes/' + cause.title)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.id.should.equal(1);
-                        res.body.title.should.equal(cause.title);
-                        done();
-                    });
-            });
-
-            it('should list causes of a event.', function (done) {
-                supertest(url)
-                    .get('/api/events/' + event_.title + '/causes')
                     .end(function (err, res) {
                         if (err) {
                             throw err;
