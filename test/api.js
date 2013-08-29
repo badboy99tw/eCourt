@@ -20,6 +20,10 @@ describe('APIs', function () {
         title: '宇宙正義'
     };
 
+    var cause = {
+        title: '申請假執行'
+    }
+
     var event_ = {
         title: '美麗灣事件',
         url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
@@ -76,6 +80,36 @@ describe('APIs', function () {
                 supertest(url)
                     .post('/api/events')
                     .send(event_)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+
+        describe('Cause', function () {
+            it('should create a new cause for a event', function (done) {
+                supertest(url)
+                    .post('/api/events/' + event_.title + '/causes')
+                    .send(cause)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(cause.title);
+                        done();
+                    });
+            });
+
+            it('should return error trying to create duplicate cause for a event', function (done) {
+                supertest(url)
+                    .post('/api/events/' + event_.title + '/causes')
+                    .send(cause)
                     .end(function (err, res) {
                         if (err) {
                             throw err;

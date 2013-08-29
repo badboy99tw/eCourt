@@ -40,6 +40,7 @@ app.post('/api/categories', routes.api.categories.createCategory);
 app.get('/api/events/:eventId/causes/:causeId', routes.api.causes.get);
 app.get('/api/categories/:categoryId/causes', routes.api.causes.get);
 app.get('/api/events/:eventId/causes', routes.api.causes.get);
+app.post('/api/events/:eventId/causes', routes.api.causes.createCauseForEvent);
 app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.get);
 
 // events
