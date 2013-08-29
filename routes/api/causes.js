@@ -1,9 +1,15 @@
 var async = require('async');
 var db = require('../../db.js');
 
-exports.get = function (req, res) {
-    res.statusCode = 99;
-    res.end();
+exports.getCauseOfLawsuit = function (req, res) {
+    console.log(req.params);
+    db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
+        db.Cause.find(lawsuit.causeId).success(function (cause) {
+            res.statusCode = 200;
+            res.json(cause);
+            res.end();
+        });
+    });
 };
 
 exports.addCauseToGroup = function (req, res) {

@@ -40,9 +40,8 @@ app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesO
 app.post('/api/events/:eventId/causes', routes.api.causes.createCauseForEvent);
 app.post('/api/groups/:groupId/causes/:causeId', routes.api.causes.addCauseToGroup);
 app.get('/api/events/:eventId/causes/:causeId', routes.api.causes.getCauseOfEvent);
-app.get('/api/categories/:categoryId/causes', routes.api.causes.get);
 app.get('/api/events/:eventId/causes', routes.api.causes.listCausesOfEvent);
-app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.get);
+app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.getCauseOfLawsuit);
 
 // events
 app.get('/api/events/:eventId', routes.api.events.getEvent);

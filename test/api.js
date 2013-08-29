@@ -411,6 +411,19 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should get cause of a lawsuit.', function (done) {
+                supertest(url)
+                    .get('/api/lawsuits/' + lawsuit.title + '/causes')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(cause.title);
+                        done();
+                    });
+            });
         });
 
         describe('Event', function () {
