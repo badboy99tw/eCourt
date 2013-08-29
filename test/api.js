@@ -325,6 +325,20 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Between Lawsuit and Law', function () {
+            it('should add a law to a lawsuit', function (done) {
+                supertest(url)
+                    .post('/api/lawsuits/' + lawsuit.title + '/laws/' + law.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
     });
 
     describe('About Query', function () {

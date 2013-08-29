@@ -1,8 +1,29 @@
+var async = require('async');
 var db = require('../../db.js');
 
 exports.get = function (req, res) {
     res.statusCode = 99;
     res.end();
+};
+
+exports.addLawToLawsuit = function (req, res) {
+    async.parallel({
+        law: function (callback) {
+            db.Law.find({where: {title: req.params.lawId}}).success(function (law) {
+                callback(null, law);
+            });
+        },
+        lawsuit: function (callback) {
+            db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
+                callback(null, lawsuit);
+            });
+        }
+    }, function (err, results) {
+        results.lawsuit.addLaw(results.law).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });
+    });
 };
 
 exports.getLaw = function (req, res) {
