@@ -408,5 +408,23 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Lawsuit', function () {
+            it('should get a lawsuit', function (done) {
+                supertest(url)
+                    .get('/api/lawsuits/' + lawsuit.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(lawsuit.title);
+                        //res.body.date.should.equal(lawsuit.date);
+                        res.body.article.should.equal(lawsuit.article);
+                        done();
+                    });
+            });
+        });
     });
 });
