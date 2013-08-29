@@ -5,7 +5,7 @@ exports.get = function (req, res) {
     res.end();
 }
 
-exports.getEventByTitle = function (req, res) {
+exports.getEvent = function (req, res) {
     db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
         if (event_ === null){
             res.statusCode = 400;
