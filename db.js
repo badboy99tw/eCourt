@@ -101,11 +101,9 @@ syncAll();
 
 // Associations
 
-// one-to-one
-Lawsuit.hasOne(Proceeding);
-
 // one-to-many
 Cause.hasMany(Lawsuit);
+Proceeding.hasMany(Lawsuit);
 
 // many-to-many
 Category.hasMany(Event, {joinTableName: 'categories_events'});
