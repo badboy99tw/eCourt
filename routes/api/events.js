@@ -13,7 +13,6 @@ exports.getEventByTitle = function (req, res) {
             res.end();
         } else {
             res.statusCode = 200;
-            console.log(event_)
             res.json(event_);
             res.end();
         }
@@ -54,6 +53,16 @@ exports.addEventToCategory = function (req, res) {
         db.Category.find({ where: {title: req.params.categoryId}}).success(function (category) {
             category.addEvent(event_);
             res.statusCode = 201;
+            res.end();
+        });
+    });
+}
+
+exports.listEventsOfCategory = function (req, res) {
+    db.Category.find({ where: {title: req.params.categoryId}}).success(function (category) {
+        category.getEvents().success(function (events) {
+            res.statusCode = 200;
+            res.json(events);
             res.end();
         });
     });

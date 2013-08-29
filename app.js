@@ -44,7 +44,7 @@ app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.get);
 
 // events
 app.get('/api/events/:eventId', routes.api.events.getEventByTitle);
-app.get('/api/categories/:categoryId/events', routes.api.events.get);
+app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
 app.get('/api/causes/:causeId/events', routes.api.events.get);
 app.get('/api/groups/:groupId/events', routes.api.events.get);
 app.post('/api/events', routes.api.events.createEvent);

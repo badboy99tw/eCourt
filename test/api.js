@@ -124,6 +124,19 @@ describe('APIs', function () {
                     done();
                 });
         });
+
+        it('should list events for a category.', function (done) {
+            supertest(url)
+                .get('/api/categories/' + category.title + '/events')
+                .end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    res.should.have.status(200);
+                    res.body.should.have.length(1);
+                    done();
+                });
+        });
     });
     describe('About Groups', function () {});
     describe('About Causes', function () {});
