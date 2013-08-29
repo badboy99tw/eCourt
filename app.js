@@ -32,9 +32,9 @@ app.get('/category/:category_id/lawsuits', routes.category_lawsuits);
 
 // APIs
 // categories
-app.get('/api/categories', routes.api.categories.listCategories);
-app.get('/api/events/:eventId/categories', routes.api.categories.get);
 app.post('/api/categories', routes.api.categories.createCategory);
+app.get('/api/categories', routes.api.categories.listCategories);
+app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesOfEvent);
 
 // causes
 app.post('/api/events/:eventId/causes', routes.api.causes.createCauseForEvent);

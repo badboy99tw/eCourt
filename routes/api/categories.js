@@ -1,8 +1,14 @@
 var db = require("../../db.js");
 
-exports.get = function (req, res) {
-    res.end();
-}
+exports.listCategoriesOfEvent = function (req, res) {
+    db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
+        event_.getCategories().success(function (categories) {
+            res.statusCode = 200;
+            res.json(categories);
+            res.end();
+        });
+    });
+};
 
 exports.listCategories = function (req, res) {
     db.Category.findAll().success(function (categories) {
