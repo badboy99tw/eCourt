@@ -391,5 +391,22 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Law', function () {
+            it('should get a law', function (done) {
+                supertest(url)
+                    .get('/api/laws/' + law.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.title.should.equal(law.title);
+                        res.body.article.should.equal(law.article);
+                        done();
+                    });
+            });
+        });
     });
 });
