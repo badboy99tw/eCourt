@@ -121,6 +121,22 @@ describe('APIs', function () {
         });
     });
 
+    describe('About Create Associations', function () {
+        describe('Between Category and Event', function () {
+            it('should add a event to a category', function (done) {
+                supertest(url)
+                    .post('/api/categories/' + category.title + '/events/' + event_.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
+    });
+
     describe('About Query', function () {
         describe('Category', function () {
             it('should list all categories', function (done) {
@@ -191,22 +207,6 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
-                        done();
-                    });
-            });
-        });
-    });
-
-    describe('About Create Associations', function () {
-        describe('Between Category and Event', function () {
-            it('should add a event to a category', function (done) {
-                supertest(url)
-                    .post('/api/categories/' + category.title + '/events/' + event_.title)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(201);
                         done();
                     });
             });
