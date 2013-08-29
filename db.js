@@ -104,7 +104,6 @@ syncAll();
 // one-to-one
 Lawsuit.hasOne(Proceeding);
 
-
 // one-to-many
 Cause.hasMany(Lawsuit);
 

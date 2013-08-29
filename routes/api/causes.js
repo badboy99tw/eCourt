@@ -1,8 +1,29 @@
+var async = require('async');
 var db = require('../../db.js');
 
 exports.get = function (req, res) {
     res.statusCode = 99;
     res.end();
+};
+
+exports.addCauseToGroup = function (req, res) {
+    async.parallel({
+        group: function (callback) {
+            db.Group.find({where: {title: req.params.groupId}}).success(function (group) {
+                callback(null, group);
+            });
+        },
+        cause: function (callback) {
+            db.Cause.find({where: {title: req.params.causeId}}).success(function (cause) {
+                callback(null, cause);
+            });
+        }
+    }, function (err, results) {
+        results.group.addCause(results.cause).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });
+    });
 };
 
 exports.listCausesOfEvent = function (req, res) {

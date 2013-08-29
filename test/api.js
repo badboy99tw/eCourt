@@ -311,6 +311,20 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Between Group and Cause', function () {
+            it('should add a cause to a group', function (done) {
+                supertest(url)
+                    .post('/api/groups/' + group.title + '/causes/' + cause.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
     });
 
     describe('About Query', function () {
