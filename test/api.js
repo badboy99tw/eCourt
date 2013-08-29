@@ -173,6 +173,20 @@ describe('APIs', function () {
                     });
             });
         });
+
+        describe('Between Event and Group', function () {
+            it('should add a group to a event', function (done) {
+                supertest(url)
+                    .post('/api/events/' + event_.title + '/groups/' + group.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
     });
 
     describe('About Query', function () {

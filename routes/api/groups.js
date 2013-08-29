@@ -1,9 +1,30 @@
+var async = require('async');
 var db = require("../../db.js");
 
 exports.get = function (req, res) {
     res.statusCode = 99;
     res.end();
 };
+
+exports.addGroupToEvent = function (req, res) {
+    async.series({
+        group: function (callback) {
+            db.Group.find({where: {title: req.params.groupId}}).success(function (group) {
+                callback(null, group);
+            });
+        },
+        event_: function (callback) {
+            db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
+                callback(null, event_);
+            });
+        }
+    }, function (err, results) {
+        results.event_.addGroup(results.group).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });    
+    });
+}
 
 exports.createGroup = function (req, res) {
     db.Group.find({where: {title: req.body.title}}).success(function (group) {
