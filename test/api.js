@@ -20,8 +20,8 @@ describe('APIs', function () {
         title: '宇宙正義'
     };
 
-    describe('About Categories', function () {
-        it('should create a new category successfully', function (done) {
+    describe('About Categories APIs', function () {
+        it('should create a new category', function (done) {
             supertest(url)
                 .post('/api/categories')
                 .send(category)
@@ -35,7 +35,7 @@ describe('APIs', function () {
                 });
         });
 
-        it('should return error while trying to create duplicate category', function (done) {
+        it('should return error trying to create duplicate category', function (done) {
             supertest(url)
                 .post('/api/categories')
                 .send(category)
@@ -48,7 +48,7 @@ describe('APIs', function () {
                 });
         });
 
-        it('should get category list', function (done) {
+        it('should list all categories', function (done) {
             supertest(url)
                 .get('/api/categories')
                 .end(function (err, res) {
@@ -62,14 +62,14 @@ describe('APIs', function () {
         });
     });
 
-    describe('About Events', function () {
+    describe('About Events APIs', function () {
 
         var event_ = {
             title: '美麗灣事件',
             url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
         }
 
-        it('should create event successfully if title is unique', function (done) {
+        it('should create a new event', function (done) {
             supertest(url)
                 .post('/api/events')
                 .send(event_)
@@ -85,7 +85,7 @@ describe('APIs', function () {
                 });
         });
 
-        it('should return error while trying to create duplicate event', function (done) {
+        it('should return error trying to create duplicate event', function (done) {
             supertest(url)
                 .post('/api/events')
                 .send(event_)
@@ -98,7 +98,7 @@ describe('APIs', function () {
                 });
         });
 
-        it('should get event information by event title', function (done) {
+        it('should get a event by title', function (done) {
             supertest(url)
                 .get('/api/events/' + event_.title)
                 .end(function (err, res) {
@@ -113,7 +113,7 @@ describe('APIs', function () {
                 });
         });
 
-        it('should return success adding a existent event to a existent category', function (done) {
+        it('should add a event to a category', function (done) {
             supertest(url)
                 .post('/api/categories/' + category.title + '/events/' + event_.title)
                 .end(function (err, res) {
