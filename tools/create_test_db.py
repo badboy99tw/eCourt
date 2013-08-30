@@ -133,15 +133,17 @@ class TestDbCreator(object):
             print api, self.robot.post(api, {})
 
     def associateEventLawsuit(self):
+        events = json.loads(self.robot.get('/api/events'))
         lawsuits = json.loads(self.robot.get('/api/lawsuits'))
         for lawsuit in lawsuits:
-            api = u'/api/events/'.encode('utf-8') + choice(events) + \
-                u'/lawsuits/'.encode('utf-8') + lawsuit['title'].encode('utf-8')
+            api = u'/api/events/' + choice(events)['title'] + \
+                u'/lawsuits/' + lawsuit['title']
+            api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
     def associateGroupLawsuit(self):
-        lawsuits = json.loads(self.robot.get('/api/lawsuits'))
         groups = json.loads(self.robot.get('/api/groups'))
+        lawsuits = json.loads(self.robot.get('/api/lawsuits'))
         for lawsuit in lawsuits:
             api = u'/api/groups/' + choice(groups)['title'] + \
                 u'/lawsuits/' + lawsuit['title']
