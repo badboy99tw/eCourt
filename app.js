@@ -40,6 +40,8 @@ app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesO
 // events
 app.post('/api/events', routes.api.events.createEvent);
 app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
+app.post('/api/groups/:groupId/events/:eventId', routes.api.events.addEventToGroup);
+app.get('/api/events', routes.api.events.listEvents);
 app.get('/api/events/:eventId', routes.api.events.getEvent);
 app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
 app.get('/api/groups/:groupId/events', routes.api.events.listEventsOfGroup);
@@ -47,6 +49,7 @@ app.get('/api/groups/:groupId/events', routes.api.events.listEventsOfGroup);
 // groups
 app.post('/api/groups', routes.api.groups.createGroup);
 app.post('/api/events/:eventId/groups/:groupId', routes.api.groups.addGroupToEvent);
+app.get('/api/groups', routes.api.groups.listGroups);
 app.get('/api/groups/:groupId', routes.api.groups.getGroup);
 app.get('/api/categories/:categoryId/groups', routes.api.groups.listGroupsOfCategory);
 app.get('/api/events/:eventId/groups', routes.api.groups.listGroupsOfEvent);
@@ -54,6 +57,7 @@ app.get('/api/events/:eventId/groups', routes.api.groups.listGroupsOfEvent);
 // laws
 app.post('/api/laws', routes.api.laws.createLaw);
 app.post('/api/lawsuits/:lawsuitId/laws/:lawId', routes.api.laws.addLawToLawsuit);
+app.get('/api/laws', routes.api.laws.listLaws);
 app.get('/api/laws/:lawId', routes.api.laws.getLaw);
 app.get('/api/categories/:categoryId/laws', routes.api.laws.listLawsOfCategory);
 app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.listLawsOfLawsuit);
@@ -62,6 +66,7 @@ app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.listLawsOfLawsuit);
 app.post('/api/lawsuits', routes.api.lawsuits.createLawsuit);
 app.post('/api/events/:eventId/lawsuits/:lawsuitId', routes.api.lawsuits.addLawsuitToEvent);
 app.post('/api/groups/:groupId/lawsuits/:lawsuitId', routes.api.lawsuits.addLawsuitToGroup);
+app.get('/api/lawsuits', routes.api.lawsuits.listLawsuits);
 app.get('/api/lawsuits/:lawsuitId', routes.api.lawsuits.getLawsuit);
 app.get('/api/events/:eventId/lawsuits', routes.api.lawsuits.listLawsuitsOfEvent);
 app.get('/api/groups/:groupId/lawsuits', routes.api.lawsuits.listLawsuitsOfGroup);
