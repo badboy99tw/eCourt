@@ -39,6 +39,7 @@ describe('APIs', function () {
     var lawsuit = {
         title: '最高行政法院,行政,101,訴,2266',
         cause: '申請假扣押',
+        proceeding: '發回更審',
         date: '1983-07-06',
         article: '我是判決'
     }
@@ -185,6 +186,7 @@ describe('APIs', function () {
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(lawsuit.title);
                         res.body.cause.should.equal(lawsuit.cause);
+                        res.body.proceeding.should.equal(lawsuit.proceeding);
                         res.body.date.should.equal(lawsuit.date);
                         res.body.article.should.equal(lawsuit.article);
                         done();
@@ -514,6 +516,7 @@ describe('APIs', function () {
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(lawsuit.title);
                         res.body.cause.should.equal(lawsuit.cause);
+                        res.body.proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body.article.should.equal(lawsuit.article);
                         done();
@@ -531,6 +534,7 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].title.should.equal(lawsuit.title);
                         res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body[0].article.should.equal(lawsuit.article);
                         done();
@@ -548,6 +552,7 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].title.should.equal(lawsuit.title);
                         res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body[0].article.should.equal(lawsuit.article);
                         done();
@@ -565,6 +570,7 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].title.should.equal(lawsuit.title);
                         res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body[0].article.should.equal(lawsuit.article);
                         done();
@@ -582,20 +588,6 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
-                        done();
-                    });
-            });
-
-            it('should get proceeding of a lawsuit', function (done) {
-                supertest(url)
-                    .get('/api/lawsuits/' + lawsuit.title + '/proceedings')
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.title.should.equal(proceeding.title);
-                        res.body.order.should.equal(proceeding.order);
                         done();
                     });
             });
