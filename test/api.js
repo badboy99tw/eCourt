@@ -51,7 +51,7 @@ describe('APIs', function () {
 
     describe('About Create', function () {
         describe('Category', function () {
-            it('should create a new category', function (done) {
+            it('should create a new category.', function (done) {
                 supertest(url)
                     .post('/api/categories')
                     .send(category)
@@ -65,7 +65,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate category', function (done) {
+            it('should return error trying to create duplicate category.', function (done) {
                 supertest(url)
                     .post('/api/categories')
                     .send(category)
@@ -80,7 +80,7 @@ describe('APIs', function () {
         });
 
         describe('Event', function () {
-            it('should create a new event', function (done) {
+            it('should create a new event.', function (done) {
                 supertest(url)
                     .post('/api/events')
                     .send(event_)
@@ -96,7 +96,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate event', function (done) {
+            it('should return error trying to create duplicate event.', function (done) {
                 supertest(url)
                     .post('/api/events')
                     .send(event_)
@@ -111,7 +111,7 @@ describe('APIs', function () {
         });
 
         describe('Group', function () {
-            it('should create a new group', function (done) {
+            it('should create a new group.', function (done) {
                 supertest(url)
                     .post('/api/groups/')
                     .send(group)
@@ -128,7 +128,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate group', function (done) {
+            it('should return error trying to create duplicate group.', function (done) {
                 supertest(url)
                     .post('/api/groups/')
                     .send(group)
@@ -143,7 +143,7 @@ describe('APIs', function () {
         });
 
         describe('Law', function () {
-            it('should create a new law', function (done) {
+            it('should create a new law.', function (done) {
                 supertest(url)
                     .post('/api/laws')
                     .send(law)
@@ -159,7 +159,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate law', function (done) {
+            it('should return error trying to create duplicate law.', function (done) {
                 supertest(url)
                     .post('/api/laws')
                     .send(law)
@@ -174,7 +174,7 @@ describe('APIs', function () {
         });
 
         describe('Lawsuit', function () {
-            it('should create a new lawsuit', function (done) {
+            it('should create a new lawsuit.', function (done) {
                 supertest(url)
                     .post('/api/lawsuits')
                     .send(lawsuit)
@@ -193,7 +193,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate lawsuit', function (done) {
+            it('should return error trying to create duplicate lawsuit.', function (done) {
                 supertest(url)
                     .post('/api/lawsuits')
                     .send(lawsuit)
@@ -208,7 +208,7 @@ describe('APIs', function () {
         });
 
         describe('Proceeding', function () {
-            it('should create a new proceeding', function (done) {
+            it('should create a new proceeding.', function (done) {
                 supertest(url)
                     .post('/api/proceedings')
                     .send(proceeding)
@@ -224,7 +224,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should return error trying to create duplicate proceeding', function (done) {
+            it('should return error trying to create duplicate proceeding.', function (done) {
                 supertest(url)
                     .post('/api/proceedings')
                     .send(proceeding)
@@ -241,7 +241,7 @@ describe('APIs', function () {
 
     describe('About Create Associations', function () {
         describe('Between Category and Event', function () {
-            it('should add a event to a category', function (done) {
+            it('should add a event to a category.', function (done) {
                 supertest(url)
                     .post('/api/categories/' + category.title + '/events/' + event_.title)
                     .end(function (err, res) {
@@ -255,7 +255,7 @@ describe('APIs', function () {
         });
 
         describe('Between Event and Group', function () {
-            it('should add a group to a event', function (done) {
+            it('should add a group to a event.', function (done) {
                 supertest(url)
                     .post('/api/events/' + event_.title + '/groups/' + group.title)
                     .end(function (err, res) {
@@ -269,7 +269,7 @@ describe('APIs', function () {
         });
 
         describe('Between Event and Lawsuit', function () {
-            it('should add a lawsuit to a event', function (done) {
+            it('should add a lawsuit to a event.', function (done) {
                 supertest(url)
                     .post('/api/events/' + event_.title + '/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
@@ -283,7 +283,7 @@ describe('APIs', function () {
         });
 
         describe('Between Group and Lawsuit', function () {
-            it('should add a lawsuit to a group', function (done) {
+            it('should add a lawsuit to a group.', function (done) {
                 supertest(url)
                     .post('/api/groups/' + group.title + '/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
@@ -297,7 +297,7 @@ describe('APIs', function () {
         });
 
         describe('Between Lawsuit and Law', function () {
-            it('should add a law to a lawsuit', function (done) {
+            it('should add a law to a lawsuit.', function (done) {
                 supertest(url)
                     .post('/api/lawsuits/' + lawsuit.title + '/laws/' + law.title)
                     .end(function (err, res) {
@@ -313,7 +313,7 @@ describe('APIs', function () {
 
     describe('About Query', function () {
         describe('Category', function () {
-            it('should get a category', function (done) {
+            it('should get a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title)
                     .end(function (err, res) {
@@ -326,7 +326,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list categories', function (done) {
+            it('should list categories.', function (done) {
                 supertest(url)
                     .get('/api/categories')
                     .end(function (err, res) {
@@ -339,7 +339,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list categories of a event', function (done) {
+            it('should list categories of a event.', function (done) {
                 supertest(url)
                     .get('/api/events/' + event_.title + '/categories')
                     .end(function (err, res) {
@@ -354,7 +354,7 @@ describe('APIs', function () {
         });
 
         describe('Event', function () {
-            it('should get a event', function (done) {
+            it('should get a event.', function (done) {
                 supertest(url)
                     .get('/api/events/' + event_.title)
                     .end(function (err, res) {
@@ -369,7 +369,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list events', function (done) {
+            it('should list events.', function (done) {
                 supertest(url)
                     .get('/api/events')
                     .end(function (err, res) {
@@ -413,7 +413,7 @@ describe('APIs', function () {
         });
 
         describe('Group', function () {
-            it('should get a group', function (done) {
+            it('should get a group.', function (done) {
                 supertest(url)
                     .get('/api/groups/' + group.title)
                     .end(function (err, res) {
@@ -429,7 +429,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list groups', function (done) {
+            it('should list groups.', function (done) {
                 supertest(url)
                     .get('/api/groups')
                     .end(function (err, res) {
@@ -477,7 +477,7 @@ describe('APIs', function () {
         });
 
         describe('Law', function () {
-            it('should get a law', function (done) {
+            it('should get a law.', function (done) {
                 supertest(url)
                     .get('/api/laws/' + law.title)
                     .end(function (err, res) {
@@ -524,7 +524,7 @@ describe('APIs', function () {
         });
 
         describe('Lawsuit', function () {
-            it('should get a lawsuit', function (done) {
+            it('should get a lawsuit.', function (done) {
                 supertest(url)
                     .get('/api/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
@@ -542,7 +542,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list lawsuits', function (done) {
+            it('should list lawsuits.', function (done) {
                 supertest(url)
                     .get('/api/lawsuits')
                     .end(function (err, res) {
@@ -561,7 +561,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list lawsuits of a event', function (done) {
+            it('should list lawsuits of a event.', function (done) {
                 supertest(url)
                     .get('/api/events/' + event_.title + '/lawsuits')
                     .end(function (err, res) {
@@ -579,7 +579,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list lawsuits of a group', function (done) {
+            it('should list lawsuits of a group.', function (done) {
                 supertest(url)
                     .get('/api/groups/' + group.title + '/lawsuits')
                     .end(function (err, res) {
@@ -597,7 +597,7 @@ describe('APIs', function () {
                     });
             });
 
-            it('should list lawsuits of a law', function (done) {
+            it('should list lawsuits of a law.', function (done) {
                 supertest(url)
                     .get('/api/laws/' + law.title + '/lawsuits')
                     .end(function (err, res) {
@@ -617,7 +617,7 @@ describe('APIs', function () {
         });
 
         describe('Proceeding', function () {
-            it('should list proceedings', function (done) {
+            it('should list proceedings.', function (done) {
                 supertest(url)
                     .get('/api/proceedings')
                     .end(function (err, res) {
