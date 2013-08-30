@@ -7,7 +7,6 @@ exports.get = function (req, res) {
 };
 
 exports.addLawsuitToCause = function (req, res) {
-    console.log(req.params);
     async.parallel({
         event_: function (callback) {
             db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {

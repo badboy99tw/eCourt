@@ -2,7 +2,6 @@ var async = require('async');
 var db = require('../../db.js');
 
 exports.getCauseOfLawsuit = function (req, res) {
-    console.log(req.params);
     db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
         db.Cause.find(lawsuit.causeId).success(function (cause) {
             res.statusCode = 200;

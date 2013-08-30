@@ -19,7 +19,6 @@ exports.addProceedingToLawsuit = function (req, res) {
             });
         }
     }, function (err, results) {
-        console.log(results.lawsuit);
         results.proceeding.addLawsuit(results.lawsuit).success(function () {
             res.statusCode = 201;
             res.end();

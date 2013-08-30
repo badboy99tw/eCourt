@@ -27,9 +27,7 @@ exports.listGroupsOfCategory = function (req, res) {
             async.each(events, function (event_, callback){
                 event_.getGroups().success(function (groups) {
                     utils.union(allGroups, groups);
-                    console.log(groups);
-                    console.log(allGroups);
-                    callback(null, groups);
+                    callback(null);
                 });
             }, function (err) {
                 res.statusCode = 200;
