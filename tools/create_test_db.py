@@ -53,10 +53,12 @@ class TestDbCreator(object):
             print self.robot.post(api, category)
 
     def createCauses(self):
+        self.createdCauses = []
         for title in self.causeData:
             cause = {'title': title.encode('utf-8')}
             eventName = self.eventData[random.randint(0, 9)]
             api = (u'/api/events/' + eventName + u'/causes').encode('utf-8')
+            self.createdCauses.append(api + u'/'.encode('utf-8') + cause['title'])
             print self.robot.post(api, cause)
 
     def createEvents(self):
@@ -79,10 +81,12 @@ class TestDbCreator(object):
             print self.robot.post(api, law)
 
     def createLawsuits(self):
+        self.createdLawsuits = []
         for i in xrange(0, 10):
             title = self.courts[random.randint(0, 9)] + u',行政,' + u'%i,' % random.randint(91, 103) + self.words[random.randint(0, 4)] + u',%i' % random.randint(1, 3000)
             lawsuit = {'title': title.encode('utf-8'), 'date': '1983-07-06', 'article': self.lawsuitArticle.encode('utf-8')}
             api = '/api/lawsuits'
+            self.createdLawsuits.append(title.encode('utf-8'))
             print self.robot.post(api, lawsuit)
 
     def createProceedings(self):
@@ -109,6 +113,13 @@ class TestDbCreator(object):
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
+    def associateCauseLawsuit(self):
+        for lawsuit in self.createdLawsuits:
+            index = random.randint(0, len(self.createdCauses)-1)
+            api = self.createdCauses[index] + '/lawsuits/' + lawsuit
+            print api
+            self.robot.post(api, {})
+
     def run(self):
         self.createCategories()
         self.createEvents()
@@ -121,6 +132,7 @@ class TestDbCreator(object):
         # build associations
         self.associateCategoryEvent()
         self.associateEventGroup()
+        self.associateCauseLawsuit()
 
     def close(self):
         self.robot.close()
