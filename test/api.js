@@ -369,6 +369,22 @@ describe('APIs', function () {
                     });
             });
 
+            it('should list events', function (done) {
+                supertest(url)
+                    .get('/api/events')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].id.should.equal(1);
+                        res.body[0].title.should.equal(event_.title);
+                        res.body[0].url.should.equal(event_.url);
+                        done();
+                    });
+            });
+
             it('should list events of a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title + '/events')

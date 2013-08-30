@@ -1,5 +1,13 @@
 var db = require("../../db.js");
 
+exports.listEvents = function (req, res) {
+    db.Event.findAll().success(function (events) {
+        res.statusCode = 200;
+        res.json(events);
+        res.end();
+    });
+}
+
 exports.listEventsOfGroup = function (req, res) {
     db.Group.find({ where: {title: req.params.groupId}}).success(function (group) {
         group.getEvents().success(function (events) {
