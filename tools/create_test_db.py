@@ -3,6 +3,7 @@
 
 import urllib
 import httplib
+import random
 
 class UrlRobot(object):
     def __init__(self, url):
@@ -48,8 +49,9 @@ class TestDbCreator(object):
 
     def createCauses(self):
         for title in self.causeData:
-            category = {'title': title.encode('utf-8')}
-            print self.robot.post('/api/categories', category)
+            cause = {'title': title.encode('utf-8')}
+            eventName = self.eventData[random.randint(0, 9)]
+            print self.robot.post((u'/api/events/' + eventName + u'/causes').encode('utf-8'), cause)
 
     def createEvents(self):
         wikiBase = 'http://zh.wikipedia.org/zh-tw/'
@@ -69,8 +71,8 @@ class TestDbCreator(object):
 
     def run(self):
         self.createCategories()
-        self.createCauses()
         self.createEvents()
+        self.createCauses()
         self.createGroups()
         self.createLaws()
 
