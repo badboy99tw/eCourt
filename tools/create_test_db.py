@@ -150,6 +150,15 @@ class TestDbCreator(object):
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
+    def associateLawLawsuit(self):
+        laws = json.loads(self.robot.get('/api/laws'))
+        lawsuits = json.loads(self.robot.get('/api/lawsuits'))
+        for law in laws:
+            api = u'/api/lawsuits/' + choice(lawsuits)['title'] + \
+                u'/laws/' + law['title']
+            api = api.encode('utf-8')
+            print api, self.robot.post(api, {})
+
     def run(self):
         self.createCategories()
         self.createEvents()
@@ -163,6 +172,7 @@ class TestDbCreator(object):
         self.associateEventGroup()
         self.associateEventLawsuit()
         self.associateGroupLawsuit()
+        self.associateLawLawsuit()
 
     def close(self):
         self.robot.close()
