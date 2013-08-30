@@ -1,6 +1,6 @@
 var async = require('async');
 var db = require('../../db.js');
-var utils = require('../../lib/tools.js');
+var utils = require('../../lib/utils.js');
 
 exports.listGroupsOfEvent = function (req, res) {
     async.parallel({
