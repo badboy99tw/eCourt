@@ -115,9 +115,12 @@ class TestDbCreator(object):
             print self.robot.post(api, proceeding)
 
     def associateCategoryEvent(self):
-        for i in xrange(20):
-            api = u'/api/categories/'.encode('utf-8') + choice(categories) + \
-                u'/events/'.encode('utf-8') + choice(events)
+        events = json.loads(self.robot.get('/api/events'))
+        categories = json.loads(self.robot.get('/api/categories'))
+        for event in events:
+            api = u'/api/categories/' + choice(categories)['title'] + \
+                u'/events/' + event['title']
+            api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
     def associateEventGroup(self):
