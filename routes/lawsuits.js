@@ -12,7 +12,7 @@ exports.showOne = function (req, res) {
             });
         },
         lawsuit: function(callback){
-            var url = host + '/api/lawsuit/' + req.params.lawsuit_id;
+            var url = host + '/api/lawsuits/' + req.params.lawsuitId;
             utils.url2json(url, function(lawsuit){
                 callback(null, lawsuit);
             });
@@ -38,13 +38,13 @@ exports.listAll = function (req, res) {
             });
         },
         category: function(callback){
-            var url = host + '/api/category/' + req.params.category_id;
+            var url = host + '/api/categories/' + req.params.categoryId;
             utils.url2json(url, function(category){
                 callback(null, category);
             });
         },
         lawsuits: function(callback){
-            var url = host + '/api/category/' + req.params.category_id + '/lawsuits';
+            var url = host + '/api/categories/' + req.params.categoryId + '/lawsuits';
             utils.url2json(url, function(lawsuits){
                 callback(null, lawsuits);
             });
