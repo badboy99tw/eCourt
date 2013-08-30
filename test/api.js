@@ -492,6 +492,21 @@ describe('APIs', function () {
                     });
             });
 
+            it('should list laws.', function (done) {
+                supertest(url)
+                    .get('/api/laws')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(law.title);
+                        res.body[0].article.should.equal(law.article);
+                        done();
+                    });
+            });
+
             it('should list laws of a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title + '/laws')
