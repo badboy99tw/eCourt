@@ -1,5 +1,6 @@
 var async = require('async');
 var db = require('../../db.js');
+var utils = require('../../lib/tools.js');
 
 exports.listGroupsOfEvent = function (req, res) {
     async.parallel({
@@ -19,30 +20,13 @@ exports.listGroupsOfEvent = function (req, res) {
     });
 };
 
-function union (array, arrayOut) {
-    for (var itemOutIndex in arrayOut) {
-        var itemOut = arrayOut[itemOutIndex];
-        var isExist = false;
-        for (var itemIndex in array) {
-            var item = array[itemIndex];
-            if (item.id === itemOut.id) {
-                isExist = true;
-            }
-        } 
-        if (isExist === false) {
-            array.push(itemOut);
-        }
-    }
-    return array;
-}
-
 exports.listGroupsOfCategory = function (req, res) {
     db.Category.find({where: {title: req.params.categoryId}}).success(function (category) {
         category.getEvents().success(function (events) {
             var allGroups = new Array();
             async.each(events, function (event_, callback){
                 event_.getGroups().success(function (groups) {
-                    union(allGroups, groups);
+                    utils.union(allGroups, groups);
                     console.log(groups);
                     console.log(allGroups);
                     callback(null, groups);
