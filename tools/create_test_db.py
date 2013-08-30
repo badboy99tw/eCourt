@@ -3,6 +3,7 @@
 
 import urllib
 import httplib
+import json
 from random import choice
 from random import randint
 
@@ -18,6 +19,12 @@ class UrlRobot(object):
         dataEncode = urllib.urlencode(data)
         self.conn.request('POST', api, dataEncode, self.headers)
         return self.conn.getresponse().read()
+
+    def get(self, api):
+        self.conn.request('GET', api, '', self.headers)
+        result = self.conn.getresponse().read()
+        print result
+        return result
 
     def close(self):
         self.conn.close()
@@ -119,6 +126,14 @@ class TestDbCreator(object):
                 u'/groups/'.encode('utf-8') + choice(groups)[0]
             print api, self.robot.post(api, {})
 
+    def associateEventLawsuit(self):
+        api = '/api/lawsuits'
+        lawsuits = json.loads(self.robot.get(api))
+        for lawsuit in lawsuits:
+            api = u'/api/events/'.encode('utf-8') + choice(events) + \
+                u'/lawsuits/'.encode('utf-8') + lawsuit['title'].encode('utf-8')
+            print api, self.robot.post(api, {})
+
     def run(self):
         self.createCategories()
         self.createEvents()
@@ -130,6 +145,7 @@ class TestDbCreator(object):
         # build associations
         self.associateCategoryEvent()
         self.associateEventGroup()
+        self.associateEventLawsuit()
 
     def close(self):
         self.robot.close()
