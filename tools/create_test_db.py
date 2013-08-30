@@ -36,9 +36,16 @@ class TestDbCreator(object):
             category = {'title': title.encode('utf-8')}
             print self.robot.post('/api/categories', category)
 
+    def createEvents(self):
+        wikiBase = 'http://zh.wikipedia.org/zh-tw/'
+        for title in [u'大埔事件', u'廢除死刑', u'核四公投', u'美麗灣度假村爭議', u'洪仲丘事件', u'美麗島事件', u'旺旺中時併購中嘉案', u'胖達人', u'統一布丁', u'2011年台灣塑化劑事件']:
+            event = {'title': title.encode('utf-8'), 'url': (wikiBase + title).encode('utf-8')}
+            print self.robot.post('/api/events', event)
+
     def run(self):
         self.createCategories()
         self.createCauses()
+        self.createEvents()
 
     def close(self):
         self.robot.close()
