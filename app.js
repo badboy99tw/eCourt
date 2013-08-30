@@ -61,6 +61,7 @@ app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.listLawsOfLawsuit);
 // lawsuits
 app.post('/api/lawsuits', routes.api.lawsuits.createLawsuit);
 app.post('/api/events/:eventId/lawsuits/:lawsuitId', routes.api.lawsuits.addLawsuitToEvent);
+app.post('/api/groups/:groupId/lawsuits/:lawsuitId', routes.api.lawsuits.addLawsuitToGroup);
 app.get('/api/lawsuits/:lawsuitId', routes.api.lawsuits.getLawsuit);
 app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.listLawsuitsOfLaw);
 

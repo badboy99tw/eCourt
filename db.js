@@ -105,6 +105,9 @@ Group.hasMany(Event, {joinTableName: 'events_groups'});
 Event.hasMany(Lawsuit, {joinTableName: 'events_lawsuits'});
 Lawsuit.hasMany(Event, {joinTableName: 'events_lawsuits'});
 
+Group.hasMany(Lawsuit, {joinTableName: 'groups_lawsuits'});
+Lawsuit.hasMany(Group, {joinTableName: 'groups_lawsuits'});
+
 Lawsuit.hasMany(Law, {joinTableName: 'lawsuits_laws'});
 Law.hasMany(Lawsuit, {joinTableName: 'lawsuits_laws'});
 

@@ -1,6 +1,26 @@
 var async = require('async');
 var db = require('../../db.js');
 
+exports.addLawsuitToGroup = function (req, res) {
+    async.parallel({
+        group: function (callback) {
+            db.Group.find({where: {title: req.params.groupId}}).success(function (group) {
+                callback(null, group);
+            });
+        },
+        lawsuit: function (callback) {
+            db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
+                callback(null, lawsuit);
+            });
+        }
+    }, function (err, results) {
+        results.group.addLawsuit(results.lawsuit).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });
+    });
+}
+
 exports.addLawsuitToEvent = function (req, res) {
     async.parallel({
         event_: function (callback) {
