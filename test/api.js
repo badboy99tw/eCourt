@@ -588,6 +588,24 @@ describe('APIs', function () {
                     });
             });
 
+            it('should list lawsuits of a category.', function (done) {
+                supertest(url)
+                    .get('/api/categories/' + category.title + '/lawsuits')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(lawsuit.title);
+                        res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
+                        //res.body.date.should.equal(lawsuit.date);
+                        res.body[0].article.should.equal(lawsuit.article);
+                        done();
+                    });
+            });
+
             it('should list lawsuits of a event.', function (done) {
                 supertest(url)
                     .get('/api/events/' + event_.title + '/lawsuits')
