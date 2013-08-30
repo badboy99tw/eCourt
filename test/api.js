@@ -38,7 +38,7 @@ describe('APIs', function () {
 
     var lawsuit = {
         title: '最高行政法院,行政,101,訴,2266',
-        cause: '發回更審',
+        cause: '申請假扣押',
         date: '1983-07-06',
         article: '我是判決'
     }
