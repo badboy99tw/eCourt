@@ -75,8 +75,12 @@ class TestDbCreator(object):
     def createLawsuits(self):
         self.createdLawsuits = []
         for i in xrange(0, 10):
-            title = choice(self.courts) + u',行政,' + u'%i,' % randint(91, 103) + choice(self.words) + u',%i' % randint(1, 3000)
-            lawsuit = {'title': title.encode('utf-8'), 'date': '1983-07-06', 'article': self.lawsuitArticle.encode('utf-8')}
+            title = u'%s,行政,%i,%s,%i' % (choice(self.courts), randint(91, 103), choice(self.words), randint(1, 3000))
+            lawsuit = {'title': title.encode('utf-8'),\
+                       'cause': choice(self.causeData).encode('utf-8'),\
+                       'proceeding': choice(self.proceedings).encode('utf-8'),\
+                       'date': '1983-07-06',\
+                       'article': self.lawsuitArticle.encode('utf-8')}
             api = '/api/lawsuits'
             self.createdLawsuits.append(title.encode('utf-8'))
             print self.robot.post(api, lawsuit)
