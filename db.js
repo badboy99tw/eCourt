@@ -39,6 +39,7 @@ var Lawsuit = sequelize.define('lawsuits', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
     cause: Sequelize.STRING,
+    proceeding: Sequelize.STRING,
     date: Sequelize.DATE,
     article: Sequelize.TEXT,
 });
@@ -91,9 +92,6 @@ function syncAll (options, callback) {
 syncAll();
 
 // Associations
-
-// one-to-many
-Proceeding.hasMany(Lawsuit);
 
 // many-to-many
 Category.hasMany(Event, {joinTableName: 'categories_events'});

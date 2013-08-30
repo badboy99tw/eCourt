@@ -309,20 +309,6 @@ describe('APIs', function () {
                     });
             });
         });
-
-        describe('Between Lawsuit and Proceeding', function () {
-            it('should add a proceeding to a lawsuit', function (done) {
-                supertest(url)
-                    .post('/api/lawsuits/' + lawsuit.title + '/proceedings/' + proceeding.title)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(201);
-                        done();
-                    });
-            });
-        });
     });
 
     describe('About Query', function () {

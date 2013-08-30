@@ -69,9 +69,7 @@ app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.listLawsuitsOfLaw);
 
 // proceedings
 app.post('/api/proceedings', routes.api.proceedings.createProceeding);
-app.post('/api/lawsuits/:lawsuitId/proceedings/:proceedingId', routes.api.proceedings.addProceedingToLawsuit);
 app.get('/api/proceedings', routes.api.proceedings.listProceedings);
-app.get('/api/lawsuits/:lawsuitId/proceedings', routes.api.proceedings.getProceedingOfLawsuit);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
