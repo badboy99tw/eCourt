@@ -1,6 +1,27 @@
 var async = require('async');
 var db = require('../../db.js');
 
+exports.listLawsuitsOfGroup = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Group.find({where: {title: req.params.groupId}})
+                .success(function (group) {
+                    callback(null, group);
+                });
+        },
+        function (group, callback) {
+            group.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
+};
+
 exports.listLawsuitsOfEvent = function (req, res) {
     async.waterfall([
         function (callback) {
