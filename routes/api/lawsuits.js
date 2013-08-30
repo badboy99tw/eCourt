@@ -1,5 +1,38 @@
 var async = require('async');
 var db = require('../../db.js');
+var utils = require('../../lib/utils.js');
+
+exports.listLawsuitsOfCategory = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Category.find({where: {title: req.params.categoryId}})
+                .success(function (category) {
+                    callback(null, category);
+                });
+        },
+        function (category, callback) {
+            category.getEvents()
+                .success(function (events) {
+                    callback(null, events);
+                });
+        },
+        function (events, callback) {
+            var allLawsuits = new Array();
+            async.each(events, function (event_, callback){
+                event_.getLawsuits().success(function (lawsuits) {
+                    utils.union(allLawsuits, lawsuits);
+                    callback(null);
+                });
+            }, function (err) {
+                callback(err, allLawsuits);
+            });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
+};
 
 exports.listLawsuits = function (req, res) {
     async.waterfall([
