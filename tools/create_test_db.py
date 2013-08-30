@@ -45,29 +45,34 @@ class TestDbCreator(object):
     def createCategories(self):
         for title in self.categoryData:
             category = {'title': title.encode('utf-8')}
-            print self.robot.post('/api/categories', category)
+            api = '/api/categories'
+            print self.robot.post(api, category)
 
     def createCauses(self):
         for title in self.causeData:
             cause = {'title': title.encode('utf-8')}
             eventName = self.eventData[random.randint(0, 9)]
-            print self.robot.post((u'/api/events/' + eventName + u'/causes').encode('utf-8'), cause)
+            api = (u'/api/events/' + eventName + u'/causes').encode('utf-8')
+            print self.robot.post(api, cause)
 
     def createEvents(self):
         wikiBase = 'http://zh.wikipedia.org/zh-tw/'
         for title in self.eventData:
             event = {'title': title.encode('utf-8'), 'url': (wikiBase + title).encode('utf-8')}
-            print self.robot.post('/api/events', event)
+            api = '/api/events'
+            print self.robot.post(api, event)
 
     def createGroups(self):
         for title, url in self.groupData:
             group = {'title': title.encode('utf-8'), 'intro':(u'大家好我是' + title).encode('utf-8'), 'url': url}
-            print self.robot.post('/api/groups', group)
+            api = '/api/groups'
+            print self.robot.post(api, group)
 
     def createLaws(self):
         for num in self.lawData:
             law = {'title': (u'環保法第' + num + u'條').encode('utf-8'), 'article':u'依法辦理，謝謝指教，我照法律執行難道臭了嗎？'.encode('utf-8')}
-            print self.robot.post('/api/laws', law) 
+            api = '/api/laws'
+            print self.robot.post(api, law) 
 
     def run(self):
         self.createCategories()
