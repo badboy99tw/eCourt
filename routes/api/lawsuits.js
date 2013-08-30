@@ -1,9 +1,25 @@
 var async = require('async');
 var db = require('../../db.js');
 
-exports.get = function (req, res) {
-    res.statusCode = 99;
-    res.end();
+exports.listLawsuitsOfLaw = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Law.find({where: {title: req.params.lawId}})
+                .success(function (law) {
+                    callback(null, law);
+                });
+        },
+        function (law, callback) {
+            law.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
 };
 
 exports.addLawsuitToCause = function (req, res) {
