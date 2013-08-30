@@ -40,6 +40,7 @@ app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesO
 // events
 app.post('/api/events', routes.api.events.createEvent);
 app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
+app.post('/api/groups/:groupId/events/:eventId', routes.api.events.addEventToGroup);
 app.get('/api/events', routes.api.events.listEvents);
 app.get('/api/events/:eventId', routes.api.events.getEvent);
 app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);

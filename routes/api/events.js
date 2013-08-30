@@ -1,4 +1,31 @@
-var db = require("../../db.js");
+var async = require('async')
+var db = require('../../db.js');
+
+exports.addEventToGroup = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Event.find({where: {title: req.params.eventId}})
+                .success(function (event_) {
+                    callback(null, event_);
+                });
+        },
+        function (event_, callback) {
+            db.Group.find({where: {title: req.params.groupId}})
+                .success(function (group) {
+                    callback(null, event_, group);
+                });
+        },
+        function (event_, group, callback) {
+            group.addEvent(event_)
+                .success(function () {
+                    callback(null);
+                });
+        }
+    ], function (err) {
+        res.statusCode = 201;
+        res.end();
+    });
+}
 
 exports.listEvents = function (req, res) {
     db.Event.findAll().success(function (events) {

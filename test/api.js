@@ -266,6 +266,18 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should add a event to a group.', function (done) {
+                supertest(url)
+                    .post('/api/groups/' + group.title + '/events/' + event_.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
         });
 
         describe('Between Event and Lawsuit', function () {
