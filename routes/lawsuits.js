@@ -19,7 +19,7 @@ exports.showOne = function (req, res) {
         }
     },
     function(err, results){
-        res.render('lawsuit', { 
+        res.render('lawsuits_showOne', { 
             title: 'eCourt', 
             categories: results.categories,
             lawsuit: results.lawsuit
@@ -51,7 +51,7 @@ exports.listAll = function (req, res) {
         }
     },
     function(err, results){
-        res.render('category_lawsuits', { 
+        res.render('lawsuits_listAll', { 
             title: 'eCourt', 
             categories: results.categories,
             category: results.category,
