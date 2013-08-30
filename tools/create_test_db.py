@@ -3,7 +3,8 @@
 
 import urllib
 import httplib
-import random
+from random import choice
+from random import randint
 
 class UrlRobot(object):
     def __init__(self, url):
@@ -56,7 +57,7 @@ class TestDbCreator(object):
         self.createdCauses = []
         for title in self.causeData:
             cause = {'title': title.encode('utf-8')}
-            eventName = self.eventData[random.randint(0, 9)]
+            eventName = choice(self.eventData)
             api = (u'/api/events/' + eventName + u'/causes').encode('utf-8')
             self.createdCauses.append(api + u'/'.encode('utf-8') + cause['title'])
             print self.robot.post(api, cause)
@@ -83,7 +84,7 @@ class TestDbCreator(object):
     def createLawsuits(self):
         self.createdLawsuits = []
         for i in xrange(0, 10):
-            title = self.courts[random.randint(0, 9)] + u',行政,' + u'%i,' % random.randint(91, 103) + self.words[random.randint(0, 4)] + u',%i' % random.randint(1, 3000)
+            title = choice(self.courts) + u',行政,' + u'%i,' % randint(91, 103) + choice(self.words) + u',%i' % randint(1, 3000)
             lawsuit = {'title': title.encode('utf-8'), 'date': '1983-07-06', 'article': self.lawsuitArticle.encode('utf-8')}
             api = '/api/lawsuits'
             self.createdLawsuits.append(title.encode('utf-8'))
@@ -97,26 +98,21 @@ class TestDbCreator(object):
 
     def associateCategoryEvent(self):
         for i in xrange(20):
-            indexCategory = random.randint(0, len(self.categoryData)-1)
-            indexEvent = random.randint(0, len(self.eventData)-1)
-            api = u'/api/categories/' + self.categoryData[indexCategory] + \
-                u'/events/' + self.eventData[indexEvent]
+            api = u'/api/categories/' + choice(self.categoryData) + \
+                u'/events/' + choice(self.eventData)
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
     def associateEventGroup(self):
         for i in xrange(20):
-            indexEvent = random.randint(0, len(self.eventData)-1)
-            indexGroup = random.randint(0, len(self.groupData)-1)
-            api = u'/api/events/' + self.eventData[indexEvent] + \
-                u'/groups/' + self.groupData[indexGroup][0]
+            api = u'/api/events/' + choice(self.eventData) + \
+                u'/groups/' + choice(self.groupData)[0]
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
     def associateCauseLawsuit(self):
         for lawsuit in self.createdLawsuits:
-            index = random.randint(0, len(self.createdCauses)-1)
-            api = self.createdCauses[index] + '/lawsuits/' + lawsuit
+            api = choice(self.createdCauses) + '/lawsuits/' + lawsuit
             print api
             self.robot.post(api, {})
 
