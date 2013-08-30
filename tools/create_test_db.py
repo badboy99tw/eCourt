@@ -42,10 +42,25 @@ class TestDbCreator(object):
             event = {'title': title.encode('utf-8'), 'url': (wikiBase + title).encode('utf-8')}
             print self.robot.post('/api/events', event)
 
+    def createGroups(self):
+        for title, url in [(u'綠色公民行動聯盟', 'http://www.gcaa.org.tw/'),
+            (u'傳播學生鬥陣', 'https://www.facebook.com/scstw1994'),
+            (u'地球公民基金會', 'http://www.cet-taiwan.org/'),
+            (u'苦勞網', 'http://www.coolloud.org.tw/'),
+            (u'台灣綠黨', 'http://www.greenparty.org.tw/'),
+            (u'公民監督國會聯盟', 'http://www.ccw.org.tw/'),
+            (u'蠻野心足', 'http://zh.wildatheart.org.tw/'),
+            (u'台灣公益團體自律聯盟', 'http://www.twnpos.org.tw/'),
+            (u'香港地球之友', 'http://www.foe.org.hk/welcome/gettc.asp'),
+            (u'荒野保護協會', 'https://www.sow.org.tw/')]:
+            group = {'title': title.encode('utf-8'), 'intro':(u'大家好我是' + title).encode('utf-8'), 'url': url}
+            print self.robot.post('/api/groups', group)
+
     def run(self):
         self.createCategories()
         self.createCauses()
         self.createEvents()
+        self.createGroups()
 
     def close(self):
         self.robot.close()
