@@ -34,6 +34,7 @@ app.get('/category/:category_id/lawsuits', routes.category_lawsuits);
 // categories
 app.post('/api/categories', routes.api.categories.createCategory);
 app.get('/api/categories', routes.api.categories.listCategories);
+app.get('/api/categories/:categoryId', routes.api.categories.getCategory);
 app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesOfEvent);
 
 // causes
