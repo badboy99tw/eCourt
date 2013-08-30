@@ -6,6 +6,27 @@ exports.get = function (req, res) {
     res.end();
 };
 
+exports.getProceedingOfLawsuit = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Lawsuit.find({where: {title: req.params.lawsuitId}})
+                .success(function (lawsuit) {
+                    callback(null, lawsuit);
+                });
+        },
+        function (lawsuit, callback) {
+            db.Proceeding.find(lawsuit.proceedingsId)
+                .success(function (proceeding) {
+                    callback(null, proceeding);
+                });
+        }
+    ], function (err, proceeding) {
+        res.statusCode = 200;
+        res.json(proceeding);
+        res.end();
+    });
+};
+
 exports.addProceedingToLawsuit = function (req, res) {
     async.parallel({
         proceeding: function (callback) {

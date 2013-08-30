@@ -610,6 +610,20 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should get proceeding of a lawsuit', function (done) {
+                supertest(url)
+                    .get('/api/lawsuits/' + lawsuit.title + '/proceedings')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(proceeding.title);
+                        res.body.order.should.equal(proceeding.order);
+                        done();
+                    });
+            });
         });
     });
 });
