@@ -91,7 +91,6 @@ class TestDbCreator(object):
             print self.robot.post(api, law)
 
     def createLawsuits(self):
-        self.createdLawsuits = []
         for i in xrange(0, 10):
             title = choice(courts) + u',行政'.encode('utf-8') + (u',%i,' % randint(91, 103)).encode('utf-8') + choice(words) + (u',%i' % randint(1, 3000)).encode('utf-8')
             lawsuit = {'title': title,\
@@ -100,7 +99,6 @@ class TestDbCreator(object):
                        'date': '1983-07-06',\
                        'article': lawsuitArticle}
             api = '/api/lawsuits'
-            self.createdLawsuits.append(title)
             print self.robot.post(api, lawsuit)
 
     def createProceedings(self):
