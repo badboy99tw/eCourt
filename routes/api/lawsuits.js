@@ -1,6 +1,88 @@
 var async = require('async');
 var db = require('../../db.js');
 
+exports.listLawsuitsOfGroup = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Group.find({where: {title: req.params.groupId}})
+                .success(function (group) {
+                    callback(null, group);
+                });
+        },
+        function (group, callback) {
+            group.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
+};
+
+exports.listLawsuitsOfEvent = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Event.find({where: {title: req.params.eventId}})
+                .success(function (event_) {
+                    callback(null, event_);
+                });
+        },
+        function (event_, callback) {
+            event_.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
+};
+
+exports.addLawsuitToGroup = function (req, res) {
+    async.parallel({
+        group: function (callback) {
+            db.Group.find({where: {title: req.params.groupId}}).success(function (group) {
+                callback(null, group);
+            });
+        },
+        lawsuit: function (callback) {
+            db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
+                callback(null, lawsuit);
+            });
+        }
+    }, function (err, results) {
+        results.group.addLawsuit(results.lawsuit).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });
+    });
+}
+
+exports.addLawsuitToEvent = function (req, res) {
+    async.parallel({
+        event_: function (callback) {
+            db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
+                callback(null, event_);
+            });
+        },
+        lawsuit: function (callback) {
+            db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
+                callback(null, lawsuit);
+            });
+        }
+    }, function (err, results) {
+        results.event_.addLawsuit(results.lawsuit).success(function () {
+            res.statusCode = 201;
+            res.end();
+        });
+    });
+}
+
 exports.listLawsuitsOfLaw = function (req, res) {
     async.waterfall([
         function (callback) {
@@ -19,28 +101,6 @@ exports.listLawsuitsOfLaw = function (req, res) {
         res.statusCode = 200;
         res.json(lawsuits);
         res.end();
-    });
-};
-
-exports.addLawsuitToCause = function (req, res) {
-    async.parallel({
-        event_: function (callback) {
-            db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
-                callback(null, event_);
-            });
-        },
-        lawsuit: function (callback) {
-            db.Lawsuit.find({where: {title: req.params.lawsuitId}}).success(function (lawsuit) {
-                callback(null, lawsuit);
-            });
-        }
-    }, function (err, results) {
-        results.event_.getCauses({where: {title: req.params.causeId}}).success(function (causes) {
-            causes[0].addLawsuit(results.lawsuit).success(function () {
-                res.statusCode = 201;
-                res.end();
-            });
-        });
     });
 };
 
