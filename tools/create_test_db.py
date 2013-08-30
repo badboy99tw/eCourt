@@ -100,6 +100,15 @@ class TestDbCreator(object):
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
+    def associateEventGroup(self):
+        for i in xrange(20):
+            indexEvent = random.randint(0, len(self.eventData)-1)
+            indexGroup = random.randint(0, len(self.groupData)-1)
+            api = u'/api/events/' + self.eventData[indexEvent] + \
+                u'/groups/' + self.groupData[indexGroup][0]
+            api = api.encode('utf-8')
+            print api, self.robot.post(api, {})
+
     def run(self):
         self.createCategories()
         self.createEvents()
@@ -111,6 +120,7 @@ class TestDbCreator(object):
 
         # build associations
         self.associateCategoryEvent()
+        self.associateEventGroup()
 
     def close(self):
         self.robot.close()
