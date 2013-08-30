@@ -1,9 +1,22 @@
 var async = require('async');
-var db = require("../../db.js");
+var db = require('../../db.js');
 
-exports.get = function (req, res) {
-    res.statusCode = 99;
-    res.end();
+exports.listGroupsOfEvent = function (req, res) {
+    async.parallel({
+        event_: function (callback) {
+            db.Event.find({where: {title: req.params.eventId}})
+                .success(function (event_) {
+                    callback(null, event_);
+                });
+        }
+    }, function (err, results) {
+        results.event_.getGroups()
+            .success(function (groups) {
+                res.statusCode = 200;
+                res.json(groups);
+                res.end();
+            });
+    });
 };
 
 function union (array, arrayOut) {

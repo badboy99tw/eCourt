@@ -498,6 +498,22 @@ describe('APIs', function () {
                         done();
                     });
             });
+
+            it('should list groups of a event.', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/groups')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(group.title);
+                        res.body[0].intro.should.equal(group.intro);
+                        res.body[0].url.should.equal(group.url);
+                        done();
+                    });
+            });
         });
 
         describe('Law', function () {
