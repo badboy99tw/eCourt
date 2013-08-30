@@ -38,21 +38,9 @@ exports.listLawsOfCategory = function (req, res) {
                 });
         },
         function (events, callback) {
-            var causesAll = [];
-            async.each(events, function (event_, callback) {
-                event_.getCauses()
-                    .success(function (causes) {
-                        causesAll = utils.union(causesAll, causes);
-                        callback(null);
-                    });
-            }, function (err) {
-                callback(null, causesAll);
-            });
-        },
-        function (causes, callback) {
             var lawsuitsAll = [];
-            async.each(causes, function (cause, callback) {
-                cause.getLawsuits()
+            async.each(events, function (event_, callback) {
+                event_.getLawsuits()
                     .success(function (lawsuits) {
                         lawsuitsAll = utils.union(lawsuitsAll, lawsuits);
                         callback(null);

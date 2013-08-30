@@ -20,10 +20,6 @@ describe('APIs', function () {
         title: '宇宙正義'
     };
 
-    var cause = {
-        title: '申請假執行'
-    }
-
     var event_ = {
         title: '美麗灣事件',
         url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
@@ -42,6 +38,8 @@ describe('APIs', function () {
 
     var lawsuit = {
         title: '最高行政法院,行政,101,訴,2266',
+        cause: '申請假扣押',
+        proceeding: '發回更審',
         date: '1983-07-06',
         article: '我是判決'
     }
@@ -102,36 +100,6 @@ describe('APIs', function () {
                 supertest(url)
                     .post('/api/events')
                     .send(event_)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(400);
-                        done();
-                    });
-            });
-        });
-
-        describe('Cause', function () {
-            it('should create a new cause for a event', function (done) {
-                supertest(url)
-                    .post('/api/events/' + event_.title + '/causes')
-                    .send(cause)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.id.should.equal(1);
-                        res.body.title.should.equal(cause.title);
-                        done();
-                    });
-            });
-
-            it('should return error trying to create duplicate cause for a event', function (done) {
-                supertest(url)
-                    .post('/api/events/' + event_.title + '/causes')
-                    .send(cause)
                     .end(function (err, res) {
                         if (err) {
                             throw err;
@@ -217,6 +185,8 @@ describe('APIs', function () {
                         res.should.have.status(201);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(lawsuit.title);
+                        res.body.cause.should.equal(lawsuit.cause);
+                        res.body.proceeding.should.equal(lawsuit.proceeding);
                         res.body.date.should.equal(lawsuit.date);
                         res.body.article.should.equal(lawsuit.article);
                         done();
@@ -298,10 +268,10 @@ describe('APIs', function () {
             });
         });
 
-        describe('Between Cause and Lawsuit', function () {
-            it('should add a lawsuit to a cause', function (done) {
+        describe('Between Event and Lawsuit', function () {
+            it('should add a lawsuit to a event', function (done) {
                 supertest(url)
-                    .post('/api/events/' + event_.title + '/causes/' + cause.title + '/lawsuits/' + lawsuit.title)
+                    .post('/api/events/' + event_.title + '/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
                         if (err) {
                             throw err;
@@ -312,10 +282,10 @@ describe('APIs', function () {
             });
         });
 
-        describe('Between Group and Cause', function () {
-            it('should add a cause to a group', function (done) {
+        describe('Between Group and Lawsuit', function () {
+            it('should add a lawsuit to a group', function (done) {
                 supertest(url)
-                    .post('/api/groups/' + group.title + '/causes/' + cause.title)
+                    .post('/api/groups/' + group.title + '/lawsuits/' + lawsuit.title)
                     .end(function (err, res) {
                         if (err) {
                             throw err;
@@ -339,24 +309,23 @@ describe('APIs', function () {
                     });
             });
         });
-
-        describe('Between Lawsuit and Proceeding', function () {
-            it('should add a proceeding to a lawsuit', function (done) {
-                supertest(url)
-                    .post('/api/lawsuits/' + lawsuit.title + '/proceedings/' + proceeding.title)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(201);
-                        done();
-                    });
-            });
-        });
     });
 
     describe('About Query', function () {
         describe('Category', function () {
+            it('should get a category', function (done) {
+                supertest(url)
+                    .get('/api/categories/' + category.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(category.title);
+                        done();
+                    });
+            });
+
             it('should list categories', function (done) {
                 supertest(url)
                     .get('/api/categories')
@@ -379,48 +348,6 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
-                        done();
-                    });
-            });
-        });
-
-        describe('Cause', function () {
-            it('should get a cause of a event', function (done) {
-                supertest(url)
-                    .get('/api/events/' + event_.title + '/causes/' + cause.title)
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.id.should.equal(1);
-                        res.body.title.should.equal(cause.title);
-                        done();
-                    });
-            });
-
-            it('should list causes of a event.', function (done) {
-                supertest(url)
-                    .get('/api/events/' + event_.title + '/causes')
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.should.have.length(1);
-                        done();
-                    });
-            });
-
-            it('should get cause of a lawsuit.', function (done) {
-                supertest(url)
-                    .get('/api/lawsuits/' + lawsuit.title + '/causes')
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.title.should.equal(cause.title);
                         done();
                     });
             });
@@ -574,8 +501,46 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(lawsuit.title);
+                        res.body.cause.should.equal(lawsuit.cause);
+                        res.body.proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body.article.should.equal(lawsuit.article);
+                        done();
+                    });
+            });
+
+            it('should list lawsuits of a event', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/lawsuits')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(lawsuit.title);
+                        res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
+                        //res.body.date.should.equal(lawsuit.date);
+                        res.body[0].article.should.equal(lawsuit.article);
+                        done();
+                    });
+            });
+
+            it('should list lawsuits of a group', function (done) {
+                supertest(url)
+                    .get('/api/groups/' + group.title + '/lawsuits')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(lawsuit.title);
+                        res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
+                        //res.body.date.should.equal(lawsuit.date);
+                        res.body[0].article.should.equal(lawsuit.article);
                         done();
                     });
             });
@@ -590,6 +555,8 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.should.have.length(1);
                         res.body[0].title.should.equal(lawsuit.title);
+                        res.body[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].proceeding.should.equal(lawsuit.proceeding);
                         //res.body.date.should.equal(lawsuit.date);
                         res.body[0].article.should.equal(lawsuit.article);
                         done();
@@ -607,20 +574,6 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
-                        done();
-                    });
-            });
-
-            it('should get proceeding of a lawsuit', function (done) {
-                supertest(url)
-                    .get('/api/lawsuits/' + lawsuit.title + '/proceedings')
-                    .end(function (err, res) {
-                        if (err) {
-                            throw err;
-                        }
-                        res.should.have.status(200);
-                        res.body.title.should.equal(proceeding.title);
-                        res.body.order.should.equal(proceeding.order);
                         done();
                     });
             });
