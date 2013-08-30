@@ -2,6 +2,21 @@ var async = require('async');
 var db = require('../../db.js');
 var utils = require('../../lib/utils.js');
 
+exports.listGroups = function (req, res) {
+    async.parallel({
+        groups: function (callback) {
+            db.Group.findAll()
+                .success(function (groups) {
+                    callback(null, groups);
+                });
+        }
+    }, function (err, results) {
+        res.statusCode = 200;
+        res.json(results.groups);
+        res.end();
+    });
+};
+
 exports.listGroupsOfEvent = function (req, res) {
     async.parallel({
         event_: function (callback) {

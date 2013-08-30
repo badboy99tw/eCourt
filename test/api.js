@@ -429,6 +429,23 @@ describe('APIs', function () {
                     });
             });
 
+            it('should list groups', function (done) {
+                supertest(url)
+                    .get('/api/groups')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].id.should.equal(1);
+                        res.body[0].title.should.equal(group.title);
+                        res.body[0].intro.should.equal(group.intro);
+                        res.body[0].url.should.equal(group.url);
+                        done();
+                    });
+            });
+
             it('should list groups of a category.', function (done) {
                 supertest(url)
                     .get('/api/categories/' + category.title + '/groups')
