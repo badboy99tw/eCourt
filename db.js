@@ -16,11 +16,6 @@ var Category = sequelize.define('categories', {
     title: Sequelize.STRING
 });
 
-var Cause = sequelize.define('causes', {
-    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-    title: Sequelize.STRING
-});
-
 var Event = sequelize.define('events', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
@@ -43,6 +38,7 @@ var Law = sequelize.define('laws', {
 var Lawsuit = sequelize.define('lawsuits', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
+    cause: Sequelize.STRING,
     date: Sequelize.DATE,
     article: Sequelize.TEXT,
 });
@@ -57,11 +53,6 @@ function syncAll (options, callback) {
     async.parallel([
         function (callback) {
             Category.sync(options).done(function () {
-                callback(null);
-            });
-        },
-        function (callback) {
-            Cause.sync(options).done(function () {
                 callback(null);
             });
         },
@@ -102,7 +93,6 @@ syncAll();
 // Associations
 
 // one-to-many
-Cause.hasMany(Lawsuit);
 Proceeding.hasMany(Lawsuit);
 
 // many-to-many
@@ -112,18 +102,14 @@ Event.hasMany(Category, {joinTableName: 'categories_events'});
 Event.hasMany(Group, {joinTableName: 'events_groups'});
 Group.hasMany(Event, {joinTableName: 'events_groups'});
 
-Event.hasMany(Cause, {joinTableName: 'events_causes'});
-Cause.hasMany(Event, {joinTableName: 'events_causes'});
-
-Group.hasMany(Cause, {joinTableName: 'groups_causes'});
-Cause.hasMany(Group, {joinTableName: 'groups_causes'});
+Event.hasMany(Lawsuit, {joinTableName: 'events_lawsuits'});
+Lawsuit.hasMany(Event, {joinTableName: 'events_lawsuits'});
 
 Lawsuit.hasMany(Law, {joinTableName: 'lawsuits_laws'});
 Law.hasMany(Lawsuit, {joinTableName: 'lawsuits_laws'});
 
 // exports
 exports.Category = Category;
-exports.Cause = Cause;
 exports.Event = Event;
 exports.Group = Group;
 exports.Law = Law;
