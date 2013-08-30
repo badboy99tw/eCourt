@@ -62,7 +62,7 @@ app.post('/api/laws', routes.api.laws.createLaw);
 app.post('/api/lawsuits/:lawsuitId/laws/:lawId', routes.api.laws.addLawToLawsuit);
 app.get('/api/laws/:lawId', routes.api.laws.getLaw);
 app.get('/api/categories/:categoryId/laws', routes.api.laws.listLawsOfCategory);
-app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.get);
+app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.listLawsOfLawsuit);
 
 // lawsuits
 app.post('/api/lawsuits', routes.api.lawsuits.createLawsuit);
