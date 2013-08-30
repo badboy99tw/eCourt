@@ -91,6 +91,15 @@ class TestDbCreator(object):
             api = '/api/proceedings'
             print self.robot.post(api, proceeding)
 
+    def associateCategoryEvent(self):
+        for i in xrange(20):
+            indexCategory = random.randint(0, len(self.categoryData)-1)
+            indexEvent = random.randint(0, len(self.eventData)-1)
+            api = u'/api/categories/' + self.categoryData[indexCategory] + \
+                u'/events/' + self.eventData[indexEvent]
+            api = api.encode('utf-8')
+            print api, self.robot.post(api, {})
+
     def run(self):
         self.createCategories()
         self.createEvents()
@@ -99,6 +108,9 @@ class TestDbCreator(object):
         self.createLaws()
         self.createLawsuits()
         self.createProceedings()
+
+        # build associations
+        self.associateCategoryEvent()
 
     def close(self):
         self.robot.close()
