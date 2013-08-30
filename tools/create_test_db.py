@@ -56,11 +56,17 @@ class TestDbCreator(object):
             group = {'title': title.encode('utf-8'), 'intro':(u'大家好我是' + title).encode('utf-8'), 'url': url}
             print self.robot.post('/api/groups', group)
 
+    def createLaws(self):
+        for num in [u'一', u'二', u'三', u'四', u'五', u'六', u'七', u'八', u'九', u'十']:
+            law = {'title': (u'環保法第' + num + u'條').encode('utf-8'), 'article':u'依法辦理，謝謝指教，我照法律執行難道臭了嗎？'.encode('utf-8')}
+            print self.robot.post('/api/laws', law) 
+
     def run(self):
         self.createCategories()
         self.createCauses()
         self.createEvents()
         self.createGroups()
+        self.createLaws()
 
     def close(self):
         self.robot.close()
