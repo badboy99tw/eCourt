@@ -1,6 +1,27 @@
 var async = require('async');
 var db = require('../../db.js');
 
+exports.listLawsuitsOfEvent = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Event.find({where: {title: req.params.eventId}})
+                .success(function (event_) {
+                    callback(null, event_);
+                });
+        },
+        function (event_, callback) {
+            event_.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        }
+    ], function (err, lawsuits) {
+        res.statusCode = 200;
+        res.json(lawsuits);
+        res.end();
+    });
+};
+
 exports.addLawsuitToGroup = function (req, res) {
     async.parallel({
         group: function (callback) {
