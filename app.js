@@ -1,12 +1,11 @@
-
-/**
- * Module dependencies.
- */
+/*jslint node: true */
+'use strict';
 
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+
+var routes = require('./routes');
 
 var app = express();
 
@@ -22,27 +21,62 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
     app.use(express.errorHandler());
 }
 
+// Views
 app.get('/', routes.home);
 app.get('/lawsuit/:lawsuit_id', routes.lawsuit);
 app.get('/category/:category_id/lawsuits', routes.category_lawsuits);
-app.get('/api/categories', routes.api.categories);
-app.get('/api/category/:category_id/lawsuits', routes.api.category_lawsuits);
-app.get('/api/category/:category_id/groups', routes.api.category_groups);
-app.get('/api/category/:category_id', routes.api.category);
-app.get('/api/groups', routes.api.groups);
-app.get('/api/group/:group_id/lawsuits', routes.api.group_lawsuits);
-app.get('/api/group/:group_id', routes.api.group.get);
-app.get('/api/lawsuits', routes.api.lawsuits);
-app.get('/api/lawsuit/:lawsuit_id', routes.api.lawsuit.get);
 
-app.post('/api/lawsuit', routes.api.lawsuit.post);
-app.post('/api/group', routes.api.group.post);
+// APIs
+// categories
+app.post('/api/categories', routes.api.categories.createCategory);
+app.get('/api/categories', routes.api.categories.listCategories);
+app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesOfEvent);
 
-http.createServer(app).listen(app.get('port'), function(){
+// causes
+app.post('/api/events/:eventId/causes', routes.api.causes.createCauseForEvent);
+app.post('/api/groups/:groupId/causes/:causeId', routes.api.causes.addCauseToGroup);
+app.get('/api/events/:eventId/causes/:causeId', routes.api.causes.getCauseOfEvent);
+app.get('/api/events/:eventId/causes', routes.api.causes.listCausesOfEvent);
+app.get('/api/lawsuits/:lawsuitId/causes', routes.api.causes.getCauseOfLawsuit);
+
+// events
+app.post('/api/events', routes.api.events.createEvent);
+app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
+app.get('/api/events/:eventId', routes.api.events.getEvent);
+app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
+app.get('/api/groups/:groupId/events', routes.api.events.listEventsOfGroup);
+
+// groups
+app.post('/api/groups', routes.api.groups.createGroup);
+app.post('/api/events/:eventId/groups/:groupId', routes.api.groups.addGroupToEvent);
+app.get('/api/groups/:groupId', routes.api.groups.getGroup);
+app.get('/api/categories/:categoryId/groups', routes.api.groups.listGroupsOfCategory);
+app.get('/api/events/:eventId/groups', routes.api.groups.listGroupsOfEvent);
+
+// laws
+app.post('/api/laws', routes.api.laws.createLaw);
+app.post('/api/lawsuits/:lawsuitId/laws/:lawId', routes.api.laws.addLawToLawsuit);
+app.get('/api/laws/:lawId', routes.api.laws.getLaw);
+app.get('/api/categories/:categoryId/laws', routes.api.laws.listLawsOfCategory);
+app.get('/api/lawsuits/:lawsuitId/laws', routes.api.laws.listLawsOfLawsuit);
+
+// lawsuits
+app.post('/api/lawsuits', routes.api.lawsuits.createLawsuit);
+app.post('/api/events/:eventId/causes/:causeId/lawsuits/:lawsuitId', routes.api.lawsuits.addLawsuitToCause);
+app.get('/api/lawsuits/:lawsuitId', routes.api.lawsuits.getLawsuit);
+app.get('/api/laws/:lawId/lawsuits', routes.api.lawsuits.listLawsuitsOfLaw);
+
+// proceedings
+app.post('/api/proceedings', routes.api.proceedings.createProceeding);
+app.post('/api/lawsuits/:lawsuitId/proceedings/:proceedingId', routes.api.proceedings.addProceedingToLawsuit);
+app.get('/api/proceedings', routes.api.proceedings.listProceedings);
+app.get('/api/lawsuits/:lawsuitId/proceedings', routes.api.proceedings.getProceedingOfLawsuit);
+
+http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
     console.log('Press Ctrl + C to stop.');
 });
