@@ -357,6 +357,19 @@ describe('APIs', function () {
 
     describe('About Query', function () {
         describe('Category', function () {
+            it('should get a category', function (done) {
+                supertest(url)
+                    .get('/api/categories/' + category.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(category.title);
+                        done();
+                    });
+            });
+
             it('should list categories', function (done) {
                 supertest(url)
                     .get('/api/categories')
