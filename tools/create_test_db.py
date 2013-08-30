@@ -53,15 +53,6 @@ class TestDbCreator(object):
             api = '/api/categories'
             print self.robot.post(api, category)
 
-    def createCauses(self):
-        self.createdCauses = []
-        for title in self.causeData:
-            cause = {'title': title.encode('utf-8')}
-            eventName = choice(self.eventData)
-            api = (u'/api/events/' + eventName + u'/causes').encode('utf-8')
-            self.createdCauses.append(api + u'/'.encode('utf-8') + cause['title'])
-            print self.robot.post(api, cause)
-
     def createEvents(self):
         wikiBase = 'http://zh.wikipedia.org/zh-tw/'
         for title in self.eventData:
@@ -110,16 +101,9 @@ class TestDbCreator(object):
             api = api.encode('utf-8')
             print api, self.robot.post(api, {})
 
-    def associateCauseLawsuit(self):
-        for lawsuit in self.createdLawsuits:
-            api = choice(self.createdCauses) + '/lawsuits/' + lawsuit
-            print api
-            self.robot.post(api, {})
-
     def run(self):
         self.createCategories()
         self.createEvents()
-        self.createCauses()
         self.createGroups()
         self.createLaws()
         self.createLawsuits()
@@ -128,7 +112,6 @@ class TestDbCreator(object):
         # build associations
         self.associateCategoryEvent()
         self.associateEventGroup()
-        self.associateCauseLawsuit()
 
     def close(self):
         self.robot.close()
