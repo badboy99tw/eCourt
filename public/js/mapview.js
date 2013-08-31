@@ -24,18 +24,19 @@ function init() {
 	});
 
     var host = 'http://localhost:5566';
-    var lawsuits = httpGet(host + '/api/lawsuits');
-    lawsuits = JSON.parse(lawsuits);
-
-    for (var i in lawsuits) {
-        var lawsuit = lawsuits[i];
+    var events = httpGet(host + '/api/events');
+    events = JSON.parse(events);
+    for (var i in events) {
+        var event_ = events[i];
         var lat = randint(2200, 2400);
         map.addMarker({
             lat: randint(2190, 2540) / 100.0,
             lng: randint(12000, 12200) / 100.0,
-            title: lawsuit.cause,
+            title: event_.title,
+            icon: 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|' + event_.title + '|C6EF8C|000000',
+            //icon: 'http://chart.apis.google.com/chart?chst=d_text_outline&chld=999999|16|h|000000|_|' + event_.title,
             infoWindow: {
-                content: '<p>' + lawsuit.title + '</p>'
+                content: '<a href="' + event_.url + '">' + event_.title + '</a>'
             }
         });
     }
