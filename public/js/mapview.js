@@ -13,31 +13,36 @@ function randint(min, max) {
 }
 
 function init() {
-    var map = new GMaps({
-        div: '#map',
-	    lat: 23.973875,
-	    lng: 120.982024,
-        zoom: 7,
-        markerClusterer: function(map) {
-            return new MarkerClusterer(map);
-        }
-	});
+
+    var map = L.mapbox.map('map', 'jinkuen.map-qddatgf9');
 
     var host = 'http://localhost:5566';
     var events = httpGet(host + '/api/events');
     events = JSON.parse(events);
+
+    var features = [];
     for (var i in events) {
         var event_ = events[i];
-        var lat = randint(2200, 2400);
-        map.addMarker({
-            lat: randint(2190, 2540) / 100.0,
-            lng: randint(12000, 12200) / 100.0,
-            title: event_.title,
-            icon: 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|' + event_.title + '|C6EF8C|000000',
-            //icon: 'http://chart.apis.google.com/chart?chst=d_text_outline&chld=999999|16|h|000000|_|' + event_.title,
-            infoWindow: {
-                content: '<a href="' + event_.url + '">' + event_.title + '</a>'
+
+        var feature = {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [randint(12000, 12200)/100.0, randint(2190, 2540)/100.0]
+            },
+            properties: {
+                title: event_.title,
+                description: event_.url,
+                'marker-size': 'large',
+                'marker-color': '#f0a'
             }
-        });
+        }
+
+        features.push(feature);
     }
+
+    L.mapbox.markerLayer({
+        type: 'FeatureCollection',
+        features: features
+    }).addTo(map);
 }
