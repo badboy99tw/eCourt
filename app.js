@@ -27,6 +27,7 @@ if ('development' === app.get('env')) {
 
 // Views
 app.get('/', routes.home);
+app.get('/mapview', routes.mapview);
 app.get('/lawsuit/:lawsuit_id', routes.lawsuit);
 app.get('/category/:category_id/lawsuits', routes.category_lawsuits);
 
