@@ -17,7 +17,10 @@ function init() {
         div: '#map',
 	    lat: 23.973875,
 	    lng: 120.982024,
-        zoom: 7
+        zoom: 7,
+        markerClusterer: function(map) {
+            return new MarkerClusterer(map);
+        }
 	});
 
     var host = 'http://localhost:5566';
