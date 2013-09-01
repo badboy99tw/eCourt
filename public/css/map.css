@@ -2,3 +2,13 @@
   width: 800px;
   height: 400px;
 }
+
+.event_count {
+    background-color: rgba(241, 128, 23, 0.6);
+    width: 40px;
+    height: 40px;
+
+    text-align: center;
+    border-radius: 40px;
+    font: 14px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}

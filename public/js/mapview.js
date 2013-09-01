@@ -51,6 +51,14 @@ function init() {
                 layer.bindPopup(popupContent);
             }
 
+            var center = d3.geo.centroid(feature);
+            var icon = L.divIcon({ className: 'event_count', html: '30' });
+            var marker = L.marker(new L.LatLng(center[1], center[0]), {
+                icon: icon,
+                title: feature.properties.name
+            });
+            jsonLayer.addLayer(marker);
+
             function highlightFeature(e) {
                 var layer = e.target;
 
