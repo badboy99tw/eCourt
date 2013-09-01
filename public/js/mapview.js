@@ -20,7 +20,7 @@ function init() {
     var events = httpGet(host + '/api/events');
     events = JSON.parse(events);
 
-    var markers = new L.MarkerClusterGroup();
+    var markerLayer = new L.MarkerClusterGroup();
 
     for (var i in events) {
         var event_ = events[i];
@@ -37,10 +37,10 @@ function init() {
         marker.bindPopup(popupContent);
 
         // add to layer
-        markers.addLayer(marker);
+        markerLayer.addLayer(marker);
     }
 
-    map.addLayer(markers);
+    map.addLayer(markerLayer);
 
     // add twgeojson layer
     var jsonLayer = L.geoJson(null, {
@@ -91,9 +91,9 @@ function init() {
             if (map.hasLayer(jsonLayer) === true) {
                 map.removeLayer(jsonLayer);
             }
-            // show markers
-            if (map.hasLayer(markers) === false) {
-                markers.addTo(map);
+            // show markerLayer
+            if (map.hasLayer(markerLayer) === false) {
+                markerLayer.addTo(map);
             }
         }
         // zoom out
@@ -102,9 +102,9 @@ function init() {
             if (map.hasLayer(jsonLayer) === false) {
                 jsonLayer.addTo(map);
             }
-            // hide markers
-            if (map.hasLayer(markers) === true) {
-                map.removeLayer(markers);
+            // hide markerLayer
+            if (map.hasLayer(markerLayer) === true) {
+                map.removeLayer(markerLayer);
             }
         }
     }
