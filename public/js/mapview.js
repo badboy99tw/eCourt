@@ -81,6 +81,38 @@ function init() {
         }
     }).addTo(map);
 
+    function setLayerVisibility(e) {
+        // TODO: should be optimized for better performance
+        //       see https://github.com/Leaflet/Leaflet/issues/4
+        var default_zoom = 7;
+        // zoom in
+        if (map.getZoom() > default_zoom){
+            // hide jsonLayer
+            if (map.hasLayer(jsonLayer) === true) {
+                map.removeLayer(jsonLayer);
+            }
+            // show markers
+            if (map.hasLayer(markers) === false) {
+                markers.addTo(map);
+            }
+        }
+        // zoom out
+        else {
+            // show jsonLayer
+            if (map.hasLayer(jsonLayer) === false) {
+                jsonLayer.addTo(map);
+            }
+            // hide markers
+            if (map.hasLayer(markers) === true) {
+                map.removeLayer(markers);
+            }
+        }
+    }
+    setLayerVisibility();
+    map.on({
+        'viewreset': setLayerVisibility
+    });
+
     
     d3.json('twCounty2010.topo.json', function(error, data) {
         var features = topojson.feature(data, data.objects['twCounty2010.geo']);
