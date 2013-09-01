@@ -50,6 +50,26 @@ function init() {
                 var popupContent = '<p>' + feature.properties.name + '</p>';
                 layer.bindPopup(popupContent);
             }
+
+            function highlightFeature(e) {
+                var layer = e.target;
+
+                layer.setStyle({
+                    weight: 5,
+                    color: '#900'
+                });
+            }
+            function resetHighlight(e) {
+                jsonLayer.resetStyle(e.target);
+            }
+            function zoomToFeature(e) {
+                map.fitBounds(e.target.getBounds());
+            }
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
         }
     }).addTo(map);
 
