@@ -20,29 +20,28 @@ function init() {
     var events = httpGet(host + '/api/events');
     events = JSON.parse(events);
 
-    var features = [];
+    var markers = new L.MarkerClusterGroup();
+
     for (var i in events) {
         var event_ = events[i];
 
-        var feature = {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [randint(12000, 12200)/100.0, randint(2190, 2540)/100.0]
-            },
-            properties: {
-                title: event_.title,
-                description: event_.url,
-                'marker-size': 'large',
-                'marker-color': '#f0a'
-            }
-        }
+        // create marker
+        var pos = [randint(2190, 2540)/100.0, randint(12000, 12200)/100.0]
+        var marker = L.marker(new L.LatLng(pos[0], pos[1]), {
+            icon: L.icon({
+                iconUrl: 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|' + event_.title + '|C6EF8C|000000',
+                popupAnchor: [0, 0]
+            }),
+            title: event_.title
+        });
 
-        features.push(feature);
+        // create popup window
+        var popupContent = '<a href="' + event_.url + '">' + event_.title + '</a>';
+        marker.bindPopup(popupContent);
+
+        // add to layer
+        markers.addLayer(marker);
     }
 
-    L.mapbox.markerLayer({
-        type: 'FeatureCollection',
-        features: features
-    }).addTo(map);
+    map.addLayer(markers);
 }
