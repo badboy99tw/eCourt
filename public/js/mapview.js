@@ -44,4 +44,13 @@ function init() {
     }
 
     map.addLayer(markers);
+
+    // add twgeojson layer
+    var jsonLayer = L.geoJson(null, { style: { color: '#333', weight: 1 }});
+    d3.json('twCounty2010.topo.json', function(error, data) {
+        var features = topojson.feature(data, data.objects['twCounty2010.geo']);
+        jsonLayer.addData(features);
+    })
+
+    map.addLayer(jsonLayer);
 }
