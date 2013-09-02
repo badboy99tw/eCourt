@@ -22,6 +22,9 @@ describe('APIs', function () {
 
     var event_ = {
         title: '美麗灣事件',
+        city: '花蓮縣',
+        lat: 23.59,
+        lng: 121.36,
         url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
     }
 
@@ -91,6 +94,9 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(event_.title);
+                        res.body.city.should.equal(event_.city);
+                        res.body.lat.should.equal(event_.lat);
+                        res.body.lng.should.equal(event_.lng);
                         res.body.url.should.equal(event_.url);
                         done();
                     });
@@ -376,6 +382,9 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(event_.title);
+                        res.body.city.should.equal(event_.city);
+                        res.body.lat.should.equal(event_.lat);
+                        res.body.lng.should.equal(event_.lng);
                         res.body.url.should.equal(event_.url);
                         done();
                     });
@@ -392,6 +401,9 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].id.should.equal(1);
                         res.body[0].title.should.equal(event_.title);
+                        res.body[0].city.should.equal(event_.city);
+                        res.body[0].lat.should.equal(event_.lat);
+                        res.body[0].lng.should.equal(event_.lng);
                         res.body[0].url.should.equal(event_.url);
                         done();
                     });
@@ -406,6 +418,12 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
+                        res.body[0].id.should.equal(1);
+                        res.body[0].title.should.equal(event_.title);
+                        res.body[0].city.should.equal(event_.city);
+                        res.body[0].lat.should.equal(event_.lat);
+                        res.body[0].lng.should.equal(event_.lng);
+                        res.body[0].url.should.equal(event_.url);
                         done();
                     });
             });
@@ -419,6 +437,12 @@ describe('APIs', function () {
                         }
                         res.should.have.status(200);
                         res.body.should.have.length(1);
+                        res.body[0].id.should.equal(1);
+                        res.body[0].title.should.equal(event_.title);
+                        res.body[0].city.should.equal(event_.city);
+                        res.body[0].lat.should.equal(event_.lat);
+                        res.body[0].lng.should.equal(event_.lng);
+                        res.body[0].url.should.equal(event_.url);
                         done();
                     });
             });

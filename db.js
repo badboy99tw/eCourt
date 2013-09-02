@@ -19,6 +19,9 @@ var Category = sequelize.define('categories', {
 var Event = sequelize.define('events', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
+    city: Sequelize.STRING,
+    lat: Sequelize.FLOAT,
+    lng: Sequelize.FLOAT,
     url: Sequelize.TEXT
 });
 
