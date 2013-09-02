@@ -45,6 +45,16 @@ exports.listEventsOfGroup = function (req, res) {
     });
 }
 
+exports.listEventsOfCity = function (req, res) {
+    db.City.find({ where: {title: req.params.cityId}}).success(function (city) {
+        city.getEvents().success(function (events) {
+            res.statusCode = 200;
+            res.json(events);
+            res.end();
+        });
+    });
+}
+
 exports.getEvent = function (req, res) {
     db.Event.find({where: {title: req.params.eventId}}).success(function (event_) {
         if (event_ === null){
@@ -93,7 +103,17 @@ exports.addEventToCategory = function (req, res) {
             res.end();
         });
     });
-}
+};
+
+exports.addEventToCity = function (req, res) {
+    db.Event.find({ where: {title: req.params.eventId}}).success(function (event_) {
+        db.City.find({ where: {title: req.params.cityId}}).success(function (city) {
+            city.addEvent(event_);
+            res.statusCode = 201;
+            res.end();
+        });
+    });
+};
 
 exports.listEventsOfCategory = function (req, res) {
     db.Category.find({ where: {title: req.params.categoryId}}).success(function (category) {
@@ -103,4 +123,4 @@ exports.listEventsOfCategory = function (req, res) {
             res.end();
         });
     });
-}
+};

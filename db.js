@@ -16,10 +16,14 @@ var Category = sequelize.define('categories', {
     title: Sequelize.STRING
 });
 
+var City = sequelize.define('cities', {
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+    title: Sequelize.STRING
+});
+
 var Event = sequelize.define('events', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.STRING,
-    city: Sequelize.STRING,
     lat: Sequelize.FLOAT,
     lng: Sequelize.FLOAT,
     url: Sequelize.TEXT
@@ -61,6 +65,11 @@ function syncAll (options, callback) {
             });
         },
         function (callback) {
+            City.sync(options).done(function () {
+                callback(null);
+            });
+        },
+        function (callback) {
             Event.sync(options).done(function () {
                 callback(null);
             });
@@ -96,6 +105,9 @@ syncAll();
 
 // Associations
 
+// one-to-many
+City.hasMany(Event);
+
 // many-to-many
 Category.hasMany(Event, {joinTableName: 'categories_events'});
 Event.hasMany(Category, {joinTableName: 'categories_events'});
@@ -114,6 +126,7 @@ Law.hasMany(Lawsuit, {joinTableName: 'lawsuits_laws'});
 
 // exports
 exports.Category = Category;
+exports.City = City;
 exports.Event = Event;
 exports.Group = Group;
 exports.Law = Law;

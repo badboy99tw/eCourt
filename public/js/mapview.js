@@ -33,7 +33,9 @@ function init() {
         });
 
         // create popup window
-        var popupContent = '<a href="' + event_.url + '">' + event_.title + '</a><p>' + event_.city + '</p>';
+        var city = httpGet(host + '/api/events/' + event_.title + '/cities');
+        city = JSON.parse(city);
+        var popupContent = '<a href="' + event_.url + '">' + event_.title + '</a><p>' + city.title + '</p>';
         marker.bindPopup(popupContent);
 
         // add to layer
