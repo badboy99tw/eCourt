@@ -21,6 +21,7 @@ function init() {
     events = JSON.parse(events);
 
     var markers = new L.MarkerClusterGroup();
+    //markers = new L.LayerGroup();
 
     for (var i in events) {
         var event_ = events[i];
