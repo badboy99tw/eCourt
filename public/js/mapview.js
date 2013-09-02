@@ -5,7 +5,9 @@ function httpGet(url){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", url, false );
     xmlHttp.send( null );
-    return xmlHttp.responseText;
+    var responseText = xmlHttp.responseText;
+    var json = JSON.parse(responseText);
+    return json;
 }
 
 function randint(min, max) {
@@ -18,7 +20,6 @@ function init() {
 
     var host = 'http://localhost:5566';
     var cities = httpGet(host + '/api/cities');
-    cities = JSON.parse(cities);
 
     var cityLayers = [];
     for (var i in cities) {
@@ -34,7 +35,6 @@ function init() {
         });
 
         var events = httpGet(host + '/api/cities/' + city.title + '/events');
-        events = JSON.parse(events);
         for (var j in events) {
             var event_ = events[j];
             var marker = L.marker(new L.LatLng(event_.lat, event_.lng), {
@@ -64,7 +64,6 @@ function init() {
 
             // TODO: get events of city twice !! 
             var events = httpGet(host + '/api/cities/' + feature.properties.name + '/events');
-            events = JSON.parse(events);
 
             var center = d3.geo.centroid(feature);
             var icon = L.divIcon({ className: 'event_count', html: events.length });
