@@ -37,6 +37,30 @@ causes = [i.encode('utf-8') for i in causes]
 events = [u'大埔事件', u'廢除死刑', u'核四公投', u'美麗灣度假村爭議', u'洪仲丘事件', u'美麗島事件', u'旺旺中時併購中嘉案', u'胖達人', u'統一布丁', u'2011年台灣塑化劑事件']
 events = [i.encode('utf-8') for i in events]
 
+cities = [(u'基隆巿', (25.08, 121.44)),
+          (u'臺北巿', (25.03, 121.30)),
+          (u'新北巿', (25.00, 121.29)),
+          (u'桃園縣', (24.59, 121.18)),
+          (u'新竹巿', (24.48, 120.58)),
+          (u'新竹縣', (24.46, 120.59)),
+          (u'苗栗縣', (24.33, 120.49)),
+          (u'臺中巿', (24.09, 120.40)),
+          (u'彰化縣', (24.04, 120.32)),
+          (u'雲林縣', (23.42, 120.32)),
+          (u'南投縣', (23.54, 120.41)),
+          (u'嘉義巿', (23.29, 120.27)),
+          (u'嘉義縣', (23.29, 120.27)),
+          (u'臺南巿', (23.00, 120.12)),
+          (u'高雄巿', (22.38, 120.17)),
+          (u'屏東縣', (22.39, 120.29)),
+          (u'宜蘭縣', (24.46, 121.45)),
+          (u'花蓮縣', (23.59, 121.36)),
+          (u'臺東縣', (22.45, 121.09)),
+          (u'澎湖縣', (23.34, 119.33)),
+          (u'連江縣', (26.12, 119.53)),
+          (u'金門縣', (24.30, 118.25))]
+cities = [(i.encode('utf-8'), p) for i, p in cities]
+
 groups = [(u'綠色公民行動聯盟', 'http://www.gcaa.org.tw/'),
              (u'傳播學生鬥陣', 'https://www.facebook.com/scstw1994'),
              (u'地球公民基金會', 'http://www.cet-taiwan.org/'),
@@ -80,7 +104,12 @@ class TestDbCreator(object):
     def createEvents(self):
         wikiBase = u'http://zh.wikipedia.org/zh-tw/'.encode('utf-8')
         for title in events:
-            event = {'title': title, 'url': (wikiBase + title)}
+            city = choice(cities);
+            event = {'title': title,
+                     'city': city[0],
+                     'lat': city[1][0] + randint(-200, 200)/10000.0,
+                     'lng': city[1][1] + randint(-100, 100)/10000.0,
+                     'url': (wikiBase + title)}
             api = '/api/events'
             print self.robot.post(api, event)
 

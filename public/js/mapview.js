@@ -26,14 +26,13 @@ function init() {
         var event_ = events[i];
 
         // create marker
-        var pos = [randint(2190, 2540)/100.0, randint(12000, 12200)/100.0]
-        var marker = L.marker(new L.LatLng(pos[0], pos[1]), {
+        var marker = L.marker(new L.LatLng(event_.lat, event_.lng), {
             icon: new L.Icon.Label.Default({ labelText: event_.title }),
             title: event_.title
         });
 
         // create popup window
-        var popupContent = '<a href="' + event_.url + '">' + event_.title + '</a>';
+        var popupContent = '<a href="' + event_.url + '">' + event_.title + '</a><p>' + event_.city + '</p>';
         marker.bindPopup(popupContent);
 
         // add to layer
