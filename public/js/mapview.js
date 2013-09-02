@@ -24,7 +24,10 @@ function init() {
     for (var i in cities) {
         var city = cities[i];
         //var cityLayer = new L.MarkerClusterGroup();
-        var cityLayer = new L.LayerGroup();
+        var cityLayer = new L.mapbox.markerLayer();
+        cityLayer.on('click', function(e) {
+            map.panTo(e.layer.getLatLng());
+        });
         cityLayers.push({
             title: city.title,
             layer: cityLayer
