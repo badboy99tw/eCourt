@@ -20,9 +20,12 @@ describe('APIs', function () {
         title: '宇宙正義'
     };
 
+    var city = {
+        title: '天龍國'
+    };
+
     var event_ = {
         title: '美麗灣事件',
-        city: '花蓮縣',
         lat: 23.59,
         lng: 121.36,
         url: 'http://zh.wikipedia.org/zh-tw/美麗灣度假村爭議'
@@ -82,6 +85,35 @@ describe('APIs', function () {
             });
         });
 
+        describe('City', function () {
+            it('should create a new city.', function (done) {
+                supertest(url)
+                    .post('/api/cities')
+                    .send(city)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(city.title);
+                        done();
+                    });
+            });
+
+            it('should return error trying to create duplicate city.', function (done) {
+                supertest(url)
+                    .post('/api/cities')
+                    .send(city)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+
         describe('Event', function () {
             it('should create a new event.', function (done) {
                 supertest(url)
@@ -94,7 +126,6 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(event_.title);
-                        res.body.city.should.equal(event_.city);
                         res.body.lat.should.equal(event_.lat);
                         res.body.lng.should.equal(event_.lng);
                         res.body.url.should.equal(event_.url);
@@ -260,6 +291,20 @@ describe('APIs', function () {
             });
         });
 
+        describe('Between City and Event', function () {
+            it('should add a event to a city.', function (done) {
+                supertest(url)
+                    .post('/api/cities/' + city.title + '/events/' + event_.title)
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(201);
+                        done();
+                    });
+            });
+        });
+
         describe('Between Event and Group', function () {
             it('should add a group to a event.', function (done) {
                 supertest(url)
@@ -371,6 +416,35 @@ describe('APIs', function () {
             });
         });
 
+        describe('City', function () {
+            it('should list cities.', function (done) {
+                supertest(url)
+                    .get('/api/cities')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(city.title);
+                        done();
+                    });
+            });
+
+            it('should get city of a event.', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/cities')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.title.should.equal(city.title);
+                        done();
+                    });
+            });
+        });
+
         describe('Event', function () {
             it('should get a event.', function (done) {
                 supertest(url)
@@ -382,7 +456,6 @@ describe('APIs', function () {
                         res.should.have.status(200);
                         res.body.id.should.equal(1);
                         res.body.title.should.equal(event_.title);
-                        res.body.city.should.equal(event_.city);
                         res.body.lat.should.equal(event_.lat);
                         res.body.lng.should.equal(event_.lng);
                         res.body.url.should.equal(event_.url);
@@ -401,7 +474,6 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].id.should.equal(1);
                         res.body[0].title.should.equal(event_.title);
-                        res.body[0].city.should.equal(event_.city);
                         res.body[0].lat.should.equal(event_.lat);
                         res.body[0].lng.should.equal(event_.lng);
                         res.body[0].url.should.equal(event_.url);
@@ -420,7 +492,24 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].id.should.equal(1);
                         res.body[0].title.should.equal(event_.title);
-                        res.body[0].city.should.equal(event_.city);
+                        res.body[0].lat.should.equal(event_.lat);
+                        res.body[0].lng.should.equal(event_.lng);
+                        res.body[0].url.should.equal(event_.url);
+                        done();
+                    });
+            });
+
+            it('should list events of a city.', function (done) {
+                supertest(url)
+                    .get('/api/cities/' + city.title + '/events')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].id.should.equal(1);
+                        res.body[0].title.should.equal(event_.title);
                         res.body[0].lat.should.equal(event_.lat);
                         res.body[0].lng.should.equal(event_.lng);
                         res.body[0].url.should.equal(event_.url);
@@ -439,7 +528,6 @@ describe('APIs', function () {
                         res.body.should.have.length(1);
                         res.body[0].id.should.equal(1);
                         res.body[0].title.should.equal(event_.title);
-                        res.body[0].city.should.equal(event_.city);
                         res.body[0].lat.should.equal(event_.lat);
                         res.body[0].lng.should.equal(event_.lng);
                         res.body[0].url.should.equal(event_.url);
