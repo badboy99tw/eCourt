@@ -88,6 +88,7 @@ function init() {
             function zoomToFeature(e) {
                 map.fitBounds(e.target.getBounds());
                 currentCity = e.target.feature.properties.name;
+                setLayerVisibility();
             }
             layer.on({
                 mouseover: highlightFeature,
@@ -96,6 +97,39 @@ function init() {
             });
         }
     }).addTo(map);
+
+    function showEventCount() {
+        if (map.hasLayer(countLayer) === false) {
+            countLayer.addTo(map);
+        }
+    }
+
+    function hideEventCount() {
+        if (map.hasLayer(countLayer) === true) {
+            map.removeLayer(countLayer);
+        }
+    }
+
+    function hideAllMarkers() {
+        for (var i in cityLayers) {
+            if (map.hasLayer(cityLayers[i].layer) === true) {
+                map.removeLayer(cityLayers[i].layer);
+            }
+        } 
+    }
+
+    function showOneMarker(title) {
+        for (var i in cityLayers) {
+            if (cityLayers[i].title === currentCity) {
+                cityLayers[i].layer.addTo(map);
+            }
+            else {
+                if (map.hasLayer(cityLayers[i].layer) === true) {
+                    map.removeLayer(cityLayers[i].layer);
+                }
+            }
+        }  
+    }
 
     function setLayerVisibility(e) {
         // TODO: should be optimized for better performance
@@ -107,33 +141,17 @@ function init() {
         }
 
         if (currentCity === null) {
-            // show jsonLayer
-            if (map.hasLayer(countLayer) === false) {
-                countLayer.addTo(map);
-            }
-            // hide cityLayers
-            for (var i in cityLayers) {
-                if (map.hasLayer(cityLayers[i].layer) === true) {
-                    map.removeLayer(cityLayers[i].layer);
-                }
-            } 
+            showEventCount();
+            hideAllMarkers();
         }
         else {
-            // hide jsonLayer
-            if (map.hasLayer(countLayer) === true) {
-                map.removeLayer(countLayer);
-            }
-            // show current city
-            for (var i in cityLayers) {
-                if (cityLayers[i].title === currentCity) {
-                    cityLayers[i].layer.addTo(map);
-                }
-            }  
+            hideEventCount();
+            showOneMarker(currentCity);
         }
     }
     setLayerVisibility();
     map.on({
-        'viewreset': setLayerVisibility
+        'zoomlevelschange': setLayerVisibility
     });
 
     
