@@ -58,11 +58,6 @@ function init() {
     var jsonLayer = L.geoJson(null, {
         style: { color: '#333', weight: 1 },
         onEachFeature: function (feature, layer) {
-            if (feature.properties) {
-                var popupContent = '<p>' + feature.properties.name + '</p>';
-                layer.bindPopup(popupContent);
-            }
-
             // TODO: get events of city twice !! 
             var events = httpGet(host + '/api/cities/' + feature.properties.name + '/events');
 
@@ -81,6 +76,12 @@ function init() {
                     weight: 5,
                     color: '#900'
                 });
+
+                var info = '<p><h3>' + feature.properties.name + '</h3></p>';
+                for (var i in events) {
+                    info += '<p>' + events[i].title + '</p>';
+                }
+                document.getElementById('info').innerHTML = info;
             }
             function resetHighlight(e) {
                 jsonLayer.resetStyle(e.target);
