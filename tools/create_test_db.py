@@ -106,17 +106,25 @@ class TestDbCreator(object):
             api = '/api/categories'
             print self.robot.post(api, category)
 
+    def createCities(self):
+        for title, latlng in cities:
+            city = {'title': title}
+            api = '/api/cities'
+            print self.robot.post(api, city)
+
     def createEvents(self):
         wikiBase = u'http://zh.wikipedia.org/zh-tw/'.encode('utf-8')
         for title in events:
             city = choice(cities);
             event = {'title': title,
-                     'city': city[0],
                      'lat': city[1][0] + randint(-30, 30)/100.0,
                      'lng': city[1][1] + randint(-15, 15)/100.0,
                      'url': (wikiBase + title)}
             api = '/api/events'
             print self.robot.post(api, event)
+
+            api = '/api/cities/' + city[0] + '/events/' + event['title']
+            print self.robot.post(api, {})
 
     def createGroups(self):
         for title, url in groups:
@@ -194,6 +202,7 @@ class TestDbCreator(object):
 
     def run(self):
         self.createCategories()
+        self.createCities()
         self.createEvents()
         self.createGroups()
         self.createLaws()
