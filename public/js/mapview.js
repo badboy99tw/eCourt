@@ -53,6 +53,7 @@ function init() {
     }
 
     var currentCity = null;
+    var countLayer = L.mapbox.markerLayer().addTo(map);
     // add twgeojson layer
     var jsonLayer = L.geoJson(null, {
         style: { color: '#333', weight: 1 },
@@ -71,7 +72,7 @@ function init() {
                 icon: icon,
                 title: feature.properties.name
             });
-            jsonLayer.addLayer(marker);
+            countLayer.addLayer(marker);
 
             function highlightFeature(e) {
                 var layer = e.target;
@@ -107,8 +108,8 @@ function init() {
 
         if (currentCity === null) {
             // show jsonLayer
-            if (map.hasLayer(jsonLayer) === false) {
-                jsonLayer.addTo(map);
+            if (map.hasLayer(countLayer) === false) {
+                countLayer.addTo(map);
             }
             // hide cityLayers
             for (var i in cityLayers) {
@@ -119,8 +120,8 @@ function init() {
         }
         else {
             // hide jsonLayer
-            if (map.hasLayer(jsonLayer) === true) {
-                map.removeLayer(jsonLayer);
+            if (map.hasLayer(countLayer) === true) {
+                map.removeLayer(countLayer);
             }
             // show current city
             for (var i in cityLayers) {
