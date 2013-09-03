@@ -11,7 +11,11 @@ html
   body
     div.row
       div.col-md-12
-        img(src='img/eCourt-logo.png')
+        div.row
+          div.col-md-2
+            img(src='/img/eCourt-logo.png')
+          div.col-md-10
+            block category-title
         div.row
           div.col-md-2
             div.nav.nav-pills.nav-stacked
@@ -23,4 +27,5 @@ html
               each support in ['團體', '法律', '判決', '行動']
                 li
                   a(href="", data-toggle="tab")= support
-            block content
+            div(style="margin:2%")
+              block content
