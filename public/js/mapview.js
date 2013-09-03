@@ -16,7 +16,9 @@ function randint(min, max) {
 
 function init() {
 
-    var map = L.mapbox.map('map', 'jinkuen.map-qddatgf9');
+    var map = L.mapbox.map('map', 'jinkuen.map-qddatgf9')
+        .setView([23.72, 120.8])
+        .setZoom(7);
 
     var host = 'http://localhost:5566';
     var cities = httpGet(host + '/api/cities');
@@ -89,7 +91,7 @@ function init() {
             function zoomToFeature(e) {
                 map.fitBounds(e.target.getBounds());
                 currentCity = e.target.feature.properties.name;
-                setLayerVisibility();
+                console.log('zoomToFeature ' + currentCity);
             }
             layer.on({
                 mouseover: highlightFeature,
@@ -100,18 +102,21 @@ function init() {
     }).addTo(map);
 
     function showEventCount() {
+        console.log('showEventCount');
         if (map.hasLayer(countLayer) === false) {
             countLayer.addTo(map);
         }
     }
 
     function hideEventCount() {
+        console.log('hideEventCount');
         if (map.hasLayer(countLayer) === true) {
             map.removeLayer(countLayer);
         }
     }
 
     function hideAllMarkers() {
+        console.log('hideAllMarkers');
         for (var i in cityLayers) {
             if (map.hasLayer(cityLayers[i].layer) === true) {
                 map.removeLayer(cityLayers[i].layer);
@@ -120,6 +125,7 @@ function init() {
     }
 
     function showOneMarker(title) {
+        console.log('showOneMarker');
         for (var i in cityLayers) {
             if (cityLayers[i].title === currentCity) {
                 cityLayers[i].layer.addTo(map);
@@ -133,26 +139,29 @@ function init() {
     }
 
     function setLayerVisibility(e) {
+        console.log('------------setLayerVisibility');
+        console.log(e);
         // TODO: should be optimized for better performance
         //       see https://github.com/Leaflet/Leaflet/issues/4
         var default_zoom = 7;
-        // zoom in
+        console.log('current zoom = ' + map.getZoom());
+        console.log('current city = ' + currentCity);
+        // zoom out
         if (map.getZoom() <= default_zoom){
-            currentCity = null;
-        }
-
-        if (currentCity === null) {
             showEventCount();
             hideAllMarkers();
         }
+        // zoom in
         else {
-            hideEventCount();
-            showOneMarker(currentCity);
+            if (currentCity != null) {
+                hideEventCount();
+                showOneMarker(currentCity);
+            }
         }
     }
     setLayerVisibility();
     map.on({
-        'zoomlevelschange': setLayerVisibility
+        'moveend': setLayerVisibility
     });
 
     
