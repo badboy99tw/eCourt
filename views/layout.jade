@@ -12,10 +12,14 @@ html
     div.row
       div.col-md-12
         div.row
-          div.col-md-2
-            img(src='/img/eCourt-logo.png')
-          div.col-md-10
+          div.col-md-2()
+            a(href="/")
+              img(src='/img/eCourt-logo.png')
+          div.col-md-4
             block category-title
+          div.col-md-3
+            form.search(method='get', action='/search', id='search', style='margin-top:23%')
+              input(name='q', type='text', size='40', placeholder='關鍵字搜尋社會議題')
         div.row
           div.col-md-2
             div.nav.nav-pills.nav-stacked

@@ -7,6 +7,36 @@
 	text-align: center;
 }
 
+/* From this line: code block below references to http://www.bloggermint.com/2011/06/css3-search-box-inspired-by-apple-com/; */
+.search {
+}
+
+.search input[type="text"] {
+    background: url(/img/search-dark.png) no-repeat 10px 6px #fcfcfc;
+    border: 2px solid #555555;
+    font: bold 16px Arial,Helvetica,Sans-serif;
+    color: #555555;
+    width: 200px;
+    padding: 6px 15px 6px 35px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
+    }
+
+.search input[type="text"]:focus {
+    width: 300px;
+    }
+/* To this line */
+
+/* Styles below are for individual category, may be move to $(category).css in the future */
 a.category-button#食品安全
 {
 	background-color: #35618a;
