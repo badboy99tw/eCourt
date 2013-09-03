@@ -12,14 +12,16 @@ html
     div.row
       div.col-md-12
         div.row
-          div.col-md-2()
+          div.col-md-2
             a(href="/")
               img(src='/img/eCourt-logo.png')
-          div.col-md-4
+          div.col-md-6
             block category-title
-          div.col-md-3
-            form.search(method='get', action='/search', id='search', style='margin-top:23%')
+          div.col-md-2
+            form.search(method='get', action='/search', id='search', style='margin-top:26%')
               input(name='q', type='text', size='40', placeholder='關鍵字搜尋社會議題')
+          div.col-md-2
+            button.btn.btn-primary.btn-lg(style='margin-top:23%') 地圖模式
         div.row
           div.col-md-2
             div.nav.nav-pills.nav-stacked
@@ -30,6 +32,6 @@ html
             ul.nav.nav-tabs
               each support in ['團體', '法律', '判決', '行動']
                 li
-                  a(href="", data-toggle="tab")= support
+                  a(href="", data-toggle="tab", style='font-size:2em')= support
             div(style="margin:2%")
               block content
