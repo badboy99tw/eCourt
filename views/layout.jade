@@ -7,6 +7,8 @@ html
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/eCourt.default.css')
     link(rel='stylesheet', href='/css/body.css')
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    script(src='/js/list-query-handle.js')
 
   body
     div.row
@@ -27,11 +29,12 @@ html
             div.nav.nav-pills.nav-stacked
               each category in categories
                 li
-                  a.category-button(id=category.title, href="/categories/"+category.title+"/lawsuits")= category.title
+                  button.btn.category-button(id=category.title, onclick='test("'+category.title+'")')= category.title
           div.col-md-10
             ul.nav.nav-tabs
               each support in ['團體', '法律', '判決', '行動']
                 li
-                  a(href="", data-toggle="tab", style='font-size:2em')= support
+                  //a(href="", data-toggle="tab", style='font-size:2em', onclick='test()')= support
+                  button.btn.btn-default(style='color:darkblue;border:none;font-size:2em;', onclick='test("'+support+'")')= support
             div(style="margin:2%")
-              block content
+              div#list-content

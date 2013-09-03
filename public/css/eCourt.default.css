@@ -1,12 +1,3 @@
-.category-button
-{
-	color: white;
-	background-color: black;
-	padding: 5% 15% 5% 15%;
-	margin: 5% 15% 5% 15%;
-	text-align: center;
-}
-
 /* From this line: code block below references to http://www.bloggermint.com/2011/06/css3-search-box-inspired-by-apple-com/; */
 .search {
 }
@@ -36,53 +27,62 @@
     }
 /* To this line */
 
+.category-button
+{
+	color: white;
+	background-color: black;
+	padding: 5% 15% 5% 15%;
+	margin: 5% 15% 5% 15%;
+	text-align: center;
+}
+
 /* Styles below are for individual category, may be move to $(category).css in the future */
-a.category-button#食品安全
+button.category-button#食品安全
 {
 	background-color: #35618a;
 }
 
-a.category-button#自然災害
+button.category-button#自然災害
 {
 	background-color: #438d99;
 }
 
-a.category-button#環境污染
+button.category-button#環境污染
 {
 	background-color: #888b42;
 }
 
-a.category-button#生態公害
+button.category-button#生態公害
 {
 	background-color: #779a49;
 }
 
-a.category-button#司法改革
+button.category-button#司法改革
 {
 	background-color: #88898d;
 }
 
-a.category-button#再生能源
+button.category-button#再生能源
 {
 	background-color: #76696d;
 }
 
-a.category-button#基本人權
+button.category-button#基本人權
 {
 	background-color: #84647d;
 }
 
-a.category-button#文化保護
+button.category-button#文化保護
 {
 	background-color: #936c98;
 }
 
-a.category-button#勞資爭議
+button.category-button#勞資爭議
 {
 	background-color: #54386b;
 }
 
-a.category-button#土地正義
+button.category-button#土地正義
 {
 	background-color: #564e4d;
 }
