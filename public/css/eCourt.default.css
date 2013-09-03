@@ -1,0 +1,58 @@
+.category-button
+{
+	color: white;
+	background-color: black;
+	padding: 5% 15% 5% 15%;
+	margin: 5% 15% 5% 15%;
+	text-align: center;
+}
+
+a.category-button#食品安全
+{
+	background-color: #35618a;
+}
+
+a.category-button#自然災害
+{
+	background-color: #438d99;
+}
+
+a.category-button#環境污染
+{
+	background-color: #888b42;
+}
+
+a.category-button#生態公害
+{
+	background-color: #779a49;
+}
+
+a.category-button#司法改革
+{
+	background-color: #88898d;
+}
+
+a.category-button#再生能源
+{
+	background-color: #76696d;
+}
+
+a.category-button#基本人權
+{
+	background-color: #84647d;
+}
+
+a.category-button#文化保護
+{
+	background-color: #936c98;
+}
+
+a.category-button#勞資爭議
+{
+	background-color: #54386b;
+}
+
+a.category-button#土地正義
+{
+	background-color: #564e4d;
+}

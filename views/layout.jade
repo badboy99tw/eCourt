@@ -1,0 +1,26 @@
+doctype 5
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width', initial-scale=1.0)
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/eCourt.default.css')
+    link(rel='stylesheet', href='/css/body.css')
+
+  body
+    div.row
+      div.col-md-12
+        img(src='img/eCourt-logo.png')
+        div.row
+          div.col-md-2
+            div.nav.nav-pills.nav-stacked
+              each category in categories
+                li
+                  a.category-button(id=category.title, href="/categories/"+category.title+"/lawsuits")= category.title
+          div.col-md-10
+            ul.nav.nav-tabs
+              each support in ['團體', '法律', '判決', '行動']
+                li
+                  a(href="", data-toggle="tab")= support
+            block content
