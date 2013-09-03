@@ -1,0 +1,32 @@
+!!! 5
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width', initial-scale=1.0)
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/body.css')
+
+  body
+    div.container
+      nav.navbar.navbar-fixed-top(role="navigation")
+        h1.navbar-text 土地正義
+        h2.navbar-text 美麗灣事件
+
+      div.row
+        div.col-md-2
+          div.nav.nav-pills.nav-stacked
+            each category in categories
+              li
+                a(href="/categories/"+category.title+"/lawsuits")= category.title
+                  span.badge 23
+
+        div.col-md-10
+          ul.nav.nav-tabs
+            each support in ['團體', '法律', '判決', '行動']
+              li
+                a(href="", data-toggle="tab")= support
+          block content
+
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/js/bootstrap.min.js')

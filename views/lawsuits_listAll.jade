@@ -1,8 +1,10 @@
 extends layout
 
-block content
+block category-title
   div.page-header
     h1= category.title
+
+block content
   #lawsuits.panel-group
   each lawsuit in lawsuits
     p
