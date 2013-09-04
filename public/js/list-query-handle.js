@@ -16,7 +16,6 @@ function translateSubject(subject_name)
     {
       return subject_cht_array[_index];
     };
-
   }
 }
 
@@ -35,6 +34,10 @@ function renderResult(json_data)
 
   // Clear content of list div
   $('#list-content').empty();
+
+  // Check if there is html template
+  var hasTemplate = subject_templates.hasOwnProperty(current_query.subject) && subject_templates[current_query.subject].template;
+  
   if (DEBUG)
   {// Show some debug info
     var query_prompt = '<h3>Your query is:</h3><p>';
@@ -54,19 +57,30 @@ function renderResult(json_data)
     }
     result_prompt += '<br/></p>';
 
+    var developer_prompt = '<h3>For developers</h3>';
+    developer_prompt += '<p>Widgets below are all cloned from template "public/html/'
+                        + subject_templates[current_query.subject].filename
+                        + '.'
+                        + subject_templates[current_query.subject].filetype
+                        + '"<br/>'
+                        + 'You can edit this file as you like'
+                        + '</p>';
+    developer_prompt += '<p>Assign "$filename-$data_field_name" to the id of an element in template html, ex:&lt;p id="lawsuits-brief-title"&gt;'
+                        + '<br/>then the content of that element will be replaced with field value of each queried data</p>';
+
     var result_context = '<h3>Raw json data:</h3><p>';
     result_context += JSON.stringify(json_data);
     result_context += '</p>';
 
   	$('#list-content').html(
-      query_prompt + result_prompt
+      query_prompt + result_prompt + developer_prompt
       );
   }
 
   $.each(json_data, function(obj_array, obj)
     {
       var newContext;
-      if (subject_templates.hasOwnProperty(current_query.subject) && subject_templates[current_query.subject].template)
+      if (hasTemplate)
       {
         var template = subject_templates[current_query.subject].template;
         var search_id_prefix = subject_templates[current_query.subject].filename;
@@ -157,7 +171,8 @@ var DEBUG = true;
 var current_query = new QueryObject();
 var subject_templates = {
   groups:{template:undefined, filename:'groups-brief', filetype:'html'},
-  lawsuits:{template:undefined, filename:'lawsuits-brief', filetype:'html'}
+  lawsuits:{template:undefined, filename:'lawsuits-brief', filetype:'html'},
+  laws:{template:undefined, filename:'laws-brief', filetype:'html'}
 }
 
 // Initialize when html is loaded
