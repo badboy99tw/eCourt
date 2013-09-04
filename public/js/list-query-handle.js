@@ -156,7 +156,8 @@ function init()
 var DEBUG = true;
 var current_query = new QueryObject();
 var subject_templates = {
-  groups:{template:undefined, filename:'groups-brief', filetype:'html'}
+  groups:{template:undefined, filename:'groups-brief', filetype:'html'},
+  lawsuits:{template:undefined, filename:'lawsuits-brief', filetype:'html'}
 }
 
 // Initialize when html is loaded
