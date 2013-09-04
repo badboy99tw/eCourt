@@ -123,6 +123,9 @@ function queryHandle(query_url, query_data)
 
 function queryCategory(category)
 {
+  // Same query, ignore
+  if (category == current_query.category)return;
+
 	current_query.category = category;
 	var query_url = '/api/categories/';
 	query_url += current_query.category + '/';
@@ -133,6 +136,9 @@ function queryCategory(category)
 function querySubject(subject)
 {
   subject = translateSubject(subject);
+  // Same query, ignore
+  if (subject == current_query.subject)return;
+
 	current_query.subject = subject;
   var query_url = '/api/categories/';
   query_url += current_query.category + '/';
