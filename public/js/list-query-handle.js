@@ -30,23 +30,39 @@ function QueryObject()
 
 function renderResult(json_data)
 {
-  var query_prompt = '<h3>Your query is:</h3><p>';
-  query_prompt += 'Category = ' + current_query.category + ', ';
-  query_prompt += 'Subject = ' + current_query.subject;
-  query_prompt += '<br/></p>';
+  // Change header as category name
+  $('#category-header').html(current_query.category);
 
-  var result_prompt = '<h3>Result:</h3><p>';
-  result_prompt += 'Data count = ' + json_data.length;
-  result_prompt += '<br/></p>';
+  // Clear content of list div
+  $('#list-content').empty();
+  if (DEBUG)
+  {// Show some debug info
+    var query_prompt = '<h3>Your query is:</h3><p>';
+    query_prompt += 'Category = ' + current_query.category + ', ';
+    query_prompt += 'Subject = ' + current_query.subject;
+    query_prompt += '<br/></p>';
 
-  var result_context = '<h3>Raw json data:</h3><p>';
-  result_context += JSON.stringify(json_data);
-  result_context += '</p>';
+    var result_prompt = '<h3>Result:</h3><p>';
+    result_prompt += 'Data count = ' + json_data.length +'<br/>';
+    if (json_data.length > 0)
+    {
+      result_prompt += 'Data fields are: '
+      for (field_name in json_data[0])
+      {
+        result_prompt += field_name + ', ';
+      }
+    }
+    result_prompt += '<br/></p>';
 
-	$('#category-header').html(current_query.category);
-	$('#list-content').html(
-    query_prompt + result_prompt
-    );
+    var result_context = '<h3>Raw json data:</h3><p>';
+    result_context += JSON.stringify(json_data);
+    result_context += '</p>';
+
+  	$('#list-content').html(
+      query_prompt + result_prompt
+      );
+  }
+
   $.each(json_data, function(obj_array, obj)
     {
       var newContext;
@@ -76,18 +92,6 @@ function renderResult(json_data)
       var cell_container = $('<div class="list-cell-container"/>');
       cell_container.append(newContext);
       $('#list-content').append(cell_container);
-      // var newDiv = $('<div/>', {className:'container'});
-      // //newDiv.append($('<p>' + val.title + '</p>'));
-      // newDiv.load('/html/groups-brief.html',
-      //   function(response, status, xhr)
-      //   {
-      //     if (status=='error')
-      //       {
-      //         alert(xhr.status + '\n' + xhr.statusText);
-      //         return;
-      //       };
-      //     $('#list-content').append(newDiv);
-      //   });
     });
 }
 
@@ -149,6 +153,7 @@ function init()
 }
 
 // Global variables
+var DEBUG = true;
 var current_query = new QueryObject();
 var subject_templates = {
   groups:{template:undefined, filename:'groups-brief', filetype:'html'}
