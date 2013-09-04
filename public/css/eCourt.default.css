@@ -36,6 +36,12 @@
 	text-align: center;
 }
 
+.list-cell-container
+{
+	border:none;
+	margin:5% 2%;
+}
+
 /* Styles below are for individual category, may be move to $(category).css in the future */
 button.category-button#食品安全
 {

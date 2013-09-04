@@ -21,13 +21,12 @@ function translateSubject(subject_name)
 }
 
 function QueryObject()
+// Define Prototype/Class QueryObject
 {
 	this.category = '土地正義';
 	this.subject = translateSubject('判決');
 	return this;
 }
-
-var current_query = new QueryObject();
 
 function renderResult(json_data)
 {
@@ -36,14 +35,60 @@ function renderResult(json_data)
   query_prompt += 'Subject = ' + current_query.subject;
   query_prompt += '<br/></p>';
 
+  var result_prompt = '<h3>Result:</h3><p>';
+  result_prompt += 'Data count = ' + json_data.length;
+  result_prompt += '<br/></p>';
+
   var result_context = '<h3>Raw json data:</h3><p>';
   result_context += JSON.stringify(json_data);
   result_context += '</p>';
 
 	$('#category-header').html(current_query.category);
 	$('#list-content').html(
-    query_prompt + result_context
+    query_prompt + result_prompt
     );
+  $.each(json_data, function(obj_array, obj)
+    {
+      var newContext;
+      if (subject_templates.hasOwnProperty(current_query.subject) && subject_templates[current_query.subject].template)
+      {
+        var template = subject_templates[current_query.subject].template;
+        var search_id_prefix = subject_templates[current_query.subject].filename;
+        newContext = template.clone();
+        for (key in obj)
+        {
+          var search_id = '#' + search_id_prefix + '-' + key;
+          var match_element = newContext.find(search_id);
+          if (match_element)
+          {
+            match_element.html(obj[key]);
+          }
+          else
+          {
+            alert('Can not match ' + key + ' in ' + groups_div_template_filename);         
+          }
+        }        
+      }
+      else
+      {
+        newContext = $('<div><h2>Can not load html template for <i>' + current_query.subject + '</i></h2></div>');
+      }
+      var cell_container = $('<div class="list-cell-container"/>');
+      cell_container.append(newContext);
+      $('#list-content').append(cell_container);
+      // var newDiv = $('<div/>', {className:'container'});
+      // //newDiv.append($('<p>' + val.title + '</p>'));
+      // newDiv.load('/html/groups-brief.html',
+      //   function(response, status, xhr)
+      //   {
+      //     if (status=='error')
+      //       {
+      //         alert(xhr.status + '\n' + xhr.statusText);
+      //         return;
+      //       };
+      //     $('#list-content').append(newDiv);
+      //   });
+    });
 }
 
 function queryHandle(query_url, query_data)
@@ -77,3 +122,37 @@ function querySubject(subject)
   queryHandle(query_url, null);
 
 }
+
+function onLoadedHtml(response, status, xhr)
+{
+  if (status=='error')
+  {
+    alert(xhr.status + '\n' + xhr.statusText);
+    return;
+  }; 
+}
+
+function init()
+// This function will excute on $(document).ready
+{
+  // Pre-load external htmls
+  for (subject in subject_templates)
+  {
+    if (subject_templates.hasOwnProperty(subject)) {
+      var data = subject_templates[subject];
+      var template_path = '/html/' + data.filename + '.' + data.filetype;
+      subject_templates[subject].template = $('<div/>');
+      subject_templates[subject].template.load(template_path, onLoadedHtml);
+    }
+  }
+  //groups_div_template.load('/html/groups-brief.html', onLoadHtml);
+}
+
+// Global variables
+var current_query = new QueryObject();
+var subject_templates = {
+  groups:{template:undefined, filename:'groups-brief', filetype:'html'}
+}
+
+// Initialize when html is loaded
+$(document).ready(init);
