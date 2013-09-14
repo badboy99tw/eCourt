@@ -16,16 +16,23 @@ module.exports = function(req, res){
             utils.url2json(url, function(events){
                 callback(null, events);
             });
+        },
+        groups: function(callback){
+            var url = host + '/api/categories/' + req.params.categoryId + '/groups';
+            utils.url2json(url, function(groups){
+                callback(null, groups);
+            });
         }
     },
     function(err, results){
-        console.log(results.categories);
+        console.log(results.groups);
         res.render('categories', { 
             title: 'eCourt', 
             currentCategory: req.params.categoryId,
             categories: results.categories,
             currentEvent: '[請選擇事件]',
-            events: results.events
+            events: results.events,
+            groups: results.groups
         });
     });
 };

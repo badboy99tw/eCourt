@@ -36,3 +36,18 @@ html
 
     #map
     script init()
+
+    h2#groups 相關團體
+    - for (var i = 0; i < groups.length; i=i+3) {
+      div.row
+        - for (var j = i; j < i+3; j++) {
+          if j < groups.length
+            div.col-lg-4
+              div.panel.panel-default
+                div.panel-heading
+                  h3= groups[j].title
+                div.panel-body
+                  p= groups[j].intro
+                  a.btn.btn-primary(href='#') View details
+        - }
+    - }
