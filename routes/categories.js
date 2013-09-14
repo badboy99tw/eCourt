@@ -22,16 +22,22 @@ module.exports = function(req, res){
             utils.url2json(url, function(groups){
                 callback(null, groups);
             });
+        },
+        laws: function(callback){
+            var url = host + '/api/categories/' + req.params.categoryId + '/laws';
+            utils.url2json(url, function(laws){
+                callback(null, laws);
+            });
         }
     },
     function(err, results){
-        console.log(results.groups);
         res.render('categories', { 
             title: 'eCourt', 
             currentCategory: req.params.categoryId,
             categories: results.categories,
             currentEvent: '[請選擇事件]',
             events: results.events,
+            laws: results.laws,
             groups: results.groups
         });
     });

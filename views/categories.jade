@@ -37,6 +37,13 @@ html
     #map
     script init()
 
+    h2#laws 相關法律
+    ul
+    each law in laws
+      li 
+        a
+          h3= law.title
+
     h2#groups 相關團體
     - for (var i = 0; i < groups.length; i=i+3) {
       div.row
