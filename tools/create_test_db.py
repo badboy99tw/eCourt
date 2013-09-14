@@ -42,25 +42,25 @@ events = [u'大埔事件', u'廢除死刑', u'核四公投', u'美麗灣度假�
           u'反湖山水庫運動', u'反蘇花高運動', u'阿朗壹古道', u'國光石化開發案', u'樂生療養院', u'女權火照夜路大遊行', u'台灣同志大遊行']
 events = [i.encode('utf-8') for i in events]
 
-cities = [(u'基隆巿', (25.08, 121.44)),
-          (u'臺北巿', (25.03, 121.30)),
-          (u'新北巿', (25.00, 121.29)),
+cities = [(u'基隆市', (25.08, 121.44)),
+          (u'台北市', (25.03, 121.30)),
+          (u'新北市', (25.00, 121.29)),
           (u'桃園縣', (24.59, 121.18)),
-          (u'新竹巿', (24.48, 120.58)),
+          (u'新竹市', (24.48, 120.58)),
           (u'新竹縣', (24.46, 120.59)),
           (u'苗栗縣', (24.33, 120.49)),
-          (u'臺中巿', (24.09, 120.40)),
+          (u'台中市', (24.09, 120.40)),
           (u'彰化縣', (24.04, 120.32)),
           (u'雲林縣', (23.42, 120.32)),
           (u'南投縣', (23.54, 120.41)),
-          (u'嘉義巿', (23.29, 120.27)),
+          (u'嘉義市', (23.29, 120.27)),
           (u'嘉義縣', (23.29, 120.27)),
-          (u'臺南巿', (23.00, 120.12)),
-          (u'高雄巿', (22.38, 120.17)),
+          (u'台南市', (23.00, 120.12)),
+          (u'高雄市', (22.38, 120.17)),
           (u'屏東縣', (22.39, 120.29)),
           (u'宜蘭縣', (24.46, 121.45)),
           (u'花蓮縣', (23.59, 121.36)),
-          (u'臺東縣', (22.45, 121.09)),
+          (u'台東縣', (22.45, 121.09)),
           (u'澎湖縣', (23.34, 119.33)),
           (u'連江縣', (26.12, 119.53)),
           (u'金門縣', (24.30, 118.25))]
@@ -106,17 +106,25 @@ class TestDbCreator(object):
             api = '/api/categories'
             print self.robot.post(api, category)
 
+    def createCities(self):
+        for title, latlng in cities:
+            city = {'title': title}
+            api = '/api/cities'
+            print self.robot.post(api, city)
+
     def createEvents(self):
         wikiBase = u'http://zh.wikipedia.org/zh-tw/'.encode('utf-8')
         for title in events:
             city = choice(cities);
             event = {'title': title,
-                     'city': city[0],
                      'lat': city[1][0] + randint(-30, 30)/100.0,
                      'lng': city[1][1] + randint(-15, 15)/100.0,
                      'url': (wikiBase + title)}
             api = '/api/events'
             print self.robot.post(api, event)
+
+            api = '/api/cities/' + city[0] + '/events/' + event['title']
+            print self.robot.post(api, {})
 
     def createGroups(self):
         for title, url in groups:
@@ -194,6 +202,7 @@ class TestDbCreator(object):
 
     def run(self):
         self.createCategories()
+        self.createCities()
         self.createEvents()
         self.createGroups()
         self.createLaws()

@@ -38,13 +38,20 @@ app.get('/api/categories', routes.api.categories.listCategories);
 app.get('/api/categories/:categoryId', routes.api.categories.getCategory);
 app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesOfEvent);
 
+// cities
+app.post('/api/cities', routes.api.cities.createCity);
+app.get('/api/cities', routes.api.cities.listCities);
+app.get('/api/events/:eventId/cities', routes.api.cities.getCityOfEvent);
+
 // events
 app.post('/api/events', routes.api.events.createEvent);
 app.post('/api/categories/:categoryId/events/:eventId', routes.api.events.addEventToCategory);
+app.post('/api/cities/:cityId/events/:eventId', routes.api.events.addEventToCity);
 app.post('/api/groups/:groupId/events/:eventId', routes.api.events.addEventToGroup);
 app.get('/api/events', routes.api.events.listEvents);
 app.get('/api/events/:eventId', routes.api.events.getEvent);
 app.get('/api/categories/:categoryId/events', routes.api.events.listEventsOfCategory);
+app.get('/api/cities/:cityId/events', routes.api.events.listEventsOfCity);
 app.get('/api/groups/:groupId/events', routes.api.events.listEventsOfGroup);
 
 // groups
