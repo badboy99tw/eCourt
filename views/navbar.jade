@@ -35,6 +35,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
 
     // support
     ui.nav.navbar-nav.navbar-right
-      each support in ['團體', '法律', '判決', '行動']
-        li
-          a= support
+      li
+        a(href='#groups') 團體
+      li
+        a(href='#laws') 法律
+      li
+        a(href='#lawsuits') 判決
+      li
+        a(href='#actions') 行動
