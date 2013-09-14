@@ -16,26 +16,26 @@ function randint(min, max) {
 
 function init() {
 
-    var map = L.mapbox.map('map', 'jinkuen.map-qddatgf9')
-        .setView([23.72, 120.8])
-        .setZoom(7);
-
+    // init map
+    var map = L.map('map')
+        .setView([23.6, 121.2])
+        .setZoom(8);
+    var googleLayer = new L.Google('ROADMAP');
+    map.addLayer(googleLayer);
+    
+    // init event
     var host = 'http://localhost:5566';
     var cities = httpGet(host + '/api/cities');
 
     var cityLayers = [];
     for (var i in cities) {
         var city = cities[i];
-        //var cityLayer = new L.MarkerClusterGroup();
-        var cityLayer = new L.mapbox.markerLayer();
+        var cityLayer = new L.FeatureGroup();
         cityLayer.on('click', function(e) {
             map.panTo(e.layer.getLatLng());
         });
-        cityLayers.push({
-            title: city.title,
-            layer: cityLayer
-        });
 
+        // create marker of event
         var events = httpGet(host + '/api/cities/' + city.title + '/events');
         for (var j in events) {
             var event_ = events[j];
@@ -48,25 +48,26 @@ function init() {
 
             cityLayer.addLayer(marker);
         }
+
+        cityLayers.push({
+            title: city.title,
+            layer: cityLayer
+        });
     }
 
-    for (var i in cityLayers){
-        map.addLayer(cityLayers[i].layer);
-    }
-
+    // init city region
     var currentCity = null;
-    var countLayer = L.mapbox.markerLayer().addTo(map);
+    var countLayer = new L.FeatureGroup().addTo(map);
     // add twgeojson layer
-    var jsonLayer = L.geoJson(null, {
+    var jsonLayer = new L.geoJson(null, {
         style: { color: '#333', weight: 1 },
         onEachFeature: function (feature, layer) {
             // TODO: get events of city twice !! 
             var events = httpGet(host + '/api/cities/' + feature.properties.name + '/events');
 
             var center = d3.geo.centroid(feature);
-            var icon = L.divIcon({ className: 'event_count', html: events.length });
             var marker = L.marker(new L.LatLng(center[1], center[0]), {
-                icon: icon,
+                icon: new L.Icon.Label.Default({ labelText: feature.properties.name + ': ' + events.length }),
                 title: feature.properties.name
             });
             countLayer.addLayer(marker);
@@ -78,12 +79,6 @@ function init() {
                     weight: 5,
                     color: '#900'
                 });
-
-                var info = '<p><h3>' + feature.properties.name + '</h3></p>';
-                for (var i in events) {
-                    info += '<p>' + events[i].title + '</p>';
-                }
-                document.getElementById('info').innerHTML = info;
             }
             function resetHighlight(e) {
                 jsonLayer.resetStyle(e.target);
@@ -101,6 +96,12 @@ function init() {
         }
     }).addTo(map);
 
+    d3.json('twCounty2010.topo.json', function(error, data) {
+        var features = topojson.feature(data, data.objects['twCounty2010.geo']);
+        jsonLayer.addData(features);
+    })
+
+    // init visibility events
     function showEventCount() {
         console.log('showEventCount');
         if (map.hasLayer(countLayer) === false) {
@@ -143,7 +144,7 @@ function init() {
         console.log(e);
         // TODO: should be optimized for better performance
         //       see https://github.com/Leaflet/Leaflet/issues/4
-        var default_zoom = 7;
+        var default_zoom = 8;
         console.log('current zoom = ' + map.getZoom());
         console.log('current city = ' + currentCity);
         // zoom out
@@ -159,14 +160,9 @@ function init() {
             }
         }
     }
+
     setLayerVisibility();
     map.on({
         'moveend': setLayerVisibility
-    });
-
-    
-    d3.json('twCounty2010.topo.json', function(error, data) {
-        var features = topojson.feature(data, data.objects['twCounty2010.geo']);
-        jsonLayer.addData(features);
-    })
+    });   
 }
