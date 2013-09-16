@@ -15,7 +15,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
         ul.dropdown-menu(role='menu')
           each category in categories
             li
-              a(href='#')= category.title
+              a(href='/categories/' + category.title + '/')= category.title
       li
         p.navbar-text /
 
@@ -25,7 +25,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
         ul.dropdown-menu(role='menu')
           each event in events
             li
-              a(href='#')= event.title
+              a(href='/categories/' + currentCategory + '/events/' + event.title + '/')= event.title
 
     // search bar
     form.navbar-form.navbar-right(role='search')
