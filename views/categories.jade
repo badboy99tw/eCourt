@@ -58,7 +58,18 @@ html
                       div.col-md-10
                         div.btn-group
                         each lawsuit in cause.lawsuits
-                          button.btn.btn-default(type='button')= lawsuit.proceeding
+                          button.btn.btn-default(type='button', data-toggle='modal', href='#'+lawsuit.id, )= lawsuit.proceeding
+
+                          // modal for lawsuit
+                          div.modal.fade(id=lawsuit.id, tabindex='-1', role='dialog', aria-labelledby='#'+lawsuit.id+'Header', aria-hidden='true')
+                            div.modal-dialog
+                              div.modal-content
+                                div.modal-header
+                                  button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+                                  h4.modal-title(id=lawsuit.id+'Header')= lawsuit.title
+                                div.modal-body!= lawsuit.article
+                                div.modal-footer
+                                  button.btn.btn-default(type='button', data-dismiss='modal') Close
 
     #laws.container
       h2 相關法律
