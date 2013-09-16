@@ -40,20 +40,25 @@ html
 
     #lawsuits.container
       h2 相關判決
-      each event in events
-        div.panel.panel-default
-          div.panel-heading
-            h3= event.title
-          ul.list-group
-          each cause in event.causes
-            li.list-group-item
-              div.row
-                div.col-md-4
-                  h4= cause.title
-                div.col-md-8
-                  div.btn-group
-                  each lawsuit in cause.lawsuits
-                    button.btn.btn-default(type='button')= lawsuit.proceeding
+      #lawsuitsPanelGroup.panel-group
+        each event in events
+          div.panel.panel-default
+            div.panel-heading
+              h4.panel-title
+                a.accordion-toggle(data-toggle='collapse', data-parent='#lawsuitsPanelGroup', href='#'+event.title)= event.title
+
+            div(id=event.title, class='panel-collapse collapse')
+              div.panel-body
+                ul.list-group
+                each cause in event.causes
+                  li.list-group-item
+                    div.row
+                      div.col-md-2
+                        h5= cause.title
+                      div.col-md-10
+                        div.btn-group
+                        each lawsuit in cause.lawsuits
+                          button.btn.btn-default(type='button')= lawsuit.proceeding
 
     #laws.container
       h2 相關法律
