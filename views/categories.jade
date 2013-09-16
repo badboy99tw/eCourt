@@ -34,43 +34,47 @@ html
   body(style='padding-top:70px')
     include navbar
 
-    #map
-    script init()
+    div.container
+      #map
+      script init()
 
-    h2#lawsuits 相關判決
-    each event in events
-      div.panel.panel-default
-        div.panel-heading
-          h3= event.title
-        ul.list-group
-        each cause in event.causes
-          li.list-group-item
-            div.row
-              div.col-md-4
-                h4= cause.title
-              div.col-md-8
-                div.btn-group
-                each lawsuit in cause.lawsuits
-                  button.btn.btn-default(type='button')= lawsuit.proceeding
+    #lawsuits.container
+      h2 相關判決
+      each event in events
+        div.panel.panel-default
+          div.panel-heading
+            h3= event.title
+          ul.list-group
+          each cause in event.causes
+            li.list-group-item
+              div.row
+                div.col-md-4
+                  h4= cause.title
+                div.col-md-8
+                  div.btn-group
+                  each lawsuit in cause.lawsuits
+                    button.btn.btn-default(type='button')= lawsuit.proceeding
 
-    h2#laws 相關法律
-    ul
-    each law in laws
-      li 
-        a
-          h3= law.title
+    #laws.container
+      h2 相關法律
+      ul
+      each law in laws
+        li 
+          a
+            h3= law.title
 
-    h2#groups 相關團體
-    - for (var i = 0; i < groups.length; i=i+3) {
-      div.row
-        - for (var j = i; j < i+3; j++) {
-          if j < groups.length
-            div.col-lg-4
-              div.panel.panel-default
-                div.panel-heading
-                  h3= groups[j].title
-                div.panel-body
-                  p= groups[j].intro
-                  a.btn.btn-primary(href='#') View details
-        - }
-    - }
+    #groups.container
+      h2 相關團體
+      - for (var i = 0; i < groups.length; i=i+3) {
+        div.row
+          - for (var j = i; j < i+3; j++) {
+            if j < groups.length
+              div.col-lg-4
+                div.panel.panel-default
+                  div.panel-heading
+                    h3= groups[j].title
+                  div.panel-body
+                    p= groups[j].intro
+                    a.btn.btn-primary(href='#') View details
+          - }
+      - }
