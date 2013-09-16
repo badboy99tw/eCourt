@@ -12,9 +12,18 @@ module.exports = function(req, res){
             });
         },
         events: function(callback){
-            var url = host + '/api/categories/' + req.params.categoryId + '/events';
-            utils.url2json(url, function(events){
-                callback(null, events);
+            var urlGetEvents = host + '/api/categories/' + req.params.categoryId + '/events';
+            utils.url2json(urlGetEvents, function(events){
+                    // for each event, get causes
+                    async.each(events, function (event_, callback) {
+                        var urlGetCauses = host + '/api/events/' + event_.title + '/causes';
+                        utils.url2json(urlGetCauses, function (causes) {
+                            event_.causes = causes;
+                            callback(null); // callback of async.each(events)
+                        });
+                    }, function (err) {
+                        callback(null, events);
+                    });
             });
         },
         groups: function(callback){

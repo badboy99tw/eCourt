@@ -37,6 +37,22 @@ html
     #map
     script init()
 
+    h2#lawsuits 相關判決
+    each event in events
+      div.panel.panel-default
+        div.panel-heading
+          h3= event.title
+        ul.list-group
+        each cause in event.causes
+          li.list-group-item
+            div.row
+              div.col-md-4
+                h4= cause.title
+              div.col-md-8
+                div.btn-group
+                each lawsuit in cause.lawsuits
+                  button.btn.btn-default(type='button')= lawsuit.proceeding
+
     h2#laws 相關法律
     ul
     each law in laws
