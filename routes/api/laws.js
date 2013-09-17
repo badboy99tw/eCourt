@@ -38,6 +38,39 @@ exports.listLawsOfLawsuit = function (req, res) {
     });
 };
 
+exports.listLawsOfEvent = function (req, res) {
+    async.waterfall([
+        function (callback) {
+            db.Event.find({where: {title: req.params.eventId}})
+                .success(function (event_) {
+                    callback(null, event_);
+                });
+        },
+        function (event_, callback) {
+            event_.getLawsuits()
+                .success(function (lawsuits) {
+                    callback(null, lawsuits);
+                });
+        },
+        function (lawsuits, callback) {
+            var lawsAll = [];
+            async.each(lawsuits, function (lawsuit, callback) {
+                lawsuit.getLaws()
+                    .success(function (laws) {
+                        lawsAll = utils.union(lawsAll, laws);
+                        callback(null);
+                    });
+            }, function (err) {
+                callback(null, lawsAll);
+            });
+        }
+    ], function (err, laws) {
+        res.statusCode = 200;
+        res.json(laws);
+        res.end();
+    });
+};
+
 exports.listLawsOfCategory = function (req, res) {
     async.waterfall([
         function (callback) {
