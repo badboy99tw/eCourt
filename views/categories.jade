@@ -35,11 +35,15 @@ html
     include navbar
 
     div.container
+      div.page-header
+        h2= currentCategory + '相關事件'
       #map
       script init()
 
     #lawsuits.container
-      h2 相關判決
+      div.page-header
+        h2= currentCategory + '相關判決 '
+          small 以事件為集合
       #lawsuitsPanelGroup.panel-group
         each event in events
           div.panel.panel-default
@@ -58,10 +62,22 @@ html
                       div.col-md-10
                         div.btn-group
                         each lawsuit in cause.lawsuits
-                          button.btn.btn-default(type='button')= lawsuit.proceeding
+                          button.btn.btn-default(type='button', data-toggle='modal', href='#'+lawsuit.id, )= lawsuit.proceeding
+
+                          // modal for lawsuit
+                          div.modal.fade(id=lawsuit.id, tabindex='-1', role='dialog', aria-labelledby='#'+lawsuit.id+'Header', aria-hidden='true')
+                            div.modal-dialog
+                              div.modal-content
+                                div.modal-header
+                                  button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+                                  h4.modal-title(id=lawsuit.id+'Header')= lawsuit.title
+                                div.modal-body!= lawsuit.article
+                                div.modal-footer
+                                  button.btn.btn-default(type='button', data-dismiss='modal') Close
 
     #laws.container
-      h2 相關法律
+      div.page-header
+        h2= currentCategory + '相關法律'
       ul
       each law in laws
         li 
@@ -69,7 +85,8 @@ html
             h3= law.title
 
     #groups.container
-      h2 相關團體
+      div.page-header
+        h2= currentCategory + '相關團體'
       - for (var i = 0; i < groups.length; i=i+3) {
         div.row
           - for (var j = i; j < i+3; j++) {

@@ -15,7 +15,10 @@ module.exports = function(req, res){
     function(err, results){
         res.render('home', { 
             title: 'eCourt', 
-            categories: results.categories
+            currentEvent: '[請先選擇類別]',
+            currentCategory: '[請選擇類別]',
+            categories: results.categories,
+            events: [],
         });
     });
 };
