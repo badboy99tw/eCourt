@@ -96,7 +96,7 @@ function init() {
         }
     }).addTo(map);
 
-    d3.json('twCounty2010.topo.json', function(error, data) {
+    d3.json('/twCounty2010.topo.json', function(error, data) {
         var features = topojson.feature(data, data.objects['twCounty2010.geo']);
         jsonLayer.addData(features);
     })

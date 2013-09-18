@@ -1,0 +1,85 @@
+doctype 5
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width', initial-scale=1.0)
+
+    // init bootstrap
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css')
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
+
+    // init leaflet
+    link(href='//cdn.leafletjs.com/leaflet-0.6.4/leaflet.css', rel='stylesheet')
+    script(src='//cdn.leafletjs.com/leaflet-0.6.4/leaflet.js')
+
+    // init google maps with leaflet
+    script(src='//maps.google.com/maps/api/js?sensor=true')
+    script(src='//matchingnotes.com/javascripts/leaflet-google.js')
+
+    // init leaflet label
+    link(href='/css/Icon.Label.css', rel='stylesheet')
+    script(src='/js/Icon.Label.js')
+    script(src='/js/Icon.Label.Default.js')
+
+    // init d3
+    script(src='http://d3js.org/d3.v3.min.js')
+    script(src='http://d3js.org/topojson.v1.min.js')
+
+    // init custom settinga
+    link(href='/css/mapview.css', rel='stylesheet')
+    script(src='/js/mapview.js')
+
+  body(style='padding-top:70px')
+    include navbar
+
+    div.container
+      #map
+      script init()
+
+    #lawsuits.container
+      h2 相關判決
+      #lawsuitsPanelGroup.panel-group
+        each event in events
+          div.panel.panel-default
+            div.panel-heading
+              h4.panel-title
+                a.accordion-toggle(data-toggle='collapse', data-parent='#lawsuitsPanelGroup', href='#'+event.title)= event.title
+
+            div(id=event.title, class='panel-collapse collapse')
+              div.panel-body
+                ul.list-group
+                each cause in event.causes
+                  li.list-group-item
+                    div.row
+                      div.col-md-2
+                        h5= cause.title
+                      div.col-md-10
+                        div.btn-group
+                        each lawsuit in cause.lawsuits
+                          button.btn.btn-default(type='button')= lawsuit.proceeding
+
+    #laws.container
+      h2 相關法律
+      ul
+      each law in laws
+        li 
+          a
+            h3= law.title
+
+    #groups.container
+      h2 相關團體
+      - for (var i = 0; i < groups.length; i=i+3) {
+        div.row
+          - for (var j = i; j < i+3; j++) {
+            if j < groups.length
+              div.col-lg-4
+                div.panel.panel-default
+                  div.panel-heading
+                    h3= groups[j].title
+                  div.panel-body
+                    p= groups[j].intro
+                    a.btn.btn-primary(href='#') View details
+          - }
+      - }

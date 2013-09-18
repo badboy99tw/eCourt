@@ -27,6 +27,7 @@ if ('development' === app.get('env')) {
 
 // Views
 app.get('/', routes.home);
+app.get('/categories/:categoryId/', routes.categories);
 app.get('/mapview', routes.mapview);
 app.get('/lawsuits/:lawsuitId', routes.lawsuits.showOne);
 app.get('/categories/:categoryId/lawsuits', routes.lawsuits.listAll);
@@ -37,6 +38,9 @@ app.post('/api/categories', routes.api.categories.createCategory);
 app.get('/api/categories', routes.api.categories.listCategories);
 app.get('/api/categories/:categoryId', routes.api.categories.getCategory);
 app.get('/api/events/:eventId/categories', routes.api.categories.listCategoriesOfEvent);
+
+// causes
+app.get('/api/events/:eventId/causes', routes.api.causes.listCausesOfEvent);
 
 // cities
 app.post('/api/cities', routes.api.cities.createCity);

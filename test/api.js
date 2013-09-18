@@ -416,6 +416,27 @@ describe('APIs', function () {
             });
         });
 
+        describe('Cause', function () {
+            it('should list causes of a event.', function (done) {
+                supertest(url)
+                    .get('/api/events/' + event_.title + '/causes')
+                    .end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.should.have.status(200);
+                        res.body.should.have.length(1);
+                        res.body[0].title.should.equal(lawsuit.cause);
+                        res.body[0].lawsuits.should.have.length(1);
+                        res.body[0].lawsuits[0].title.should.equal(lawsuit.title);
+                        res.body[0].lawsuits[0].cause.should.equal(lawsuit.cause);
+                        res.body[0].lawsuits[0].proceeding.should.equal(lawsuit.proceeding);
+                        res.body[0].lawsuits[0].article.should.equal(lawsuit.article);
+                        done();
+                    });
+            });
+        });
+
         describe('City', function () {
             it('should list cities.', function (done) {
                 supertest(url)
